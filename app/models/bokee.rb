@@ -1,0 +1,2 @@
+class Bokee < ApplicationRecord
+end
