@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get 'places/index'
+  get 'places/show'
+  get 'places/new'
+  get 'places/create'
+  get 'places/edit'
+  get 'places/update'
+  get 'places/destroy'
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
