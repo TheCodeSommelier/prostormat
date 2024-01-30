@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :places, only: %i[index show new create update destroy] do
     resources :venues, only: %i[show] do
-      # For tax purposes "update" will "destroy/cancell" the order. Even if an order is cancelled it still needs to be in DB
+      # For tax purposes "update" will "cancel" the order. Even if an order is cancelled it still needs to be in DB
       resources :orders, only: %i[new create update]
     end
   end
