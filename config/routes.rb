@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'venues/show'
+  get 'venues/edit'
+  get 'venues/update'
+  get 'venues/destroy'
   get 'places/index'
   get 'places/show'
   get 'places/new'
@@ -16,8 +20,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root 'pages#landing_page', as: :landing_page
 
-  resources :places, only: %i[index show new create edit update destroy] do
-    resources :venues, only: %i[show] do
+  resources :places do
+    resources :venues, only: %i[show edit update destroy] do
       # For tax purposes "update" will "cancel" the order. Even if an order is cancelled it still needs to be in DB
       resources :orders, only: %i[new create update]
     end
