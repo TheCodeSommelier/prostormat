@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'stripe/new_checkout_session'
+  get 'stripe/webhooks'
   get 'orders/new'
   get 'orders/create'
   get 'orders/update'
