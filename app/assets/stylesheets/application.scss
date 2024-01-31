@@ -12,8 +12,9 @@
  *= require_self
  */
 
+ @import 'bootstrap';
 
- // !Config files need to be imported first!
+ // !Config files need to be imported before pages and components!
  @import 'config/fonts';
  @import 'config/colors';
 
