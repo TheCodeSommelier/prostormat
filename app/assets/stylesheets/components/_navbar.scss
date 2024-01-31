@@ -1,0 +1,12 @@
+.navbar-space-mi {
+  justify-content: space-between;
+  background: white;
+}
+
+.navbar-space-mi .navbar-collapse {
+  flex-grow: 0;
+}
+
+.navbar-space-mi .navbar-brand img {
+  width: 40px;
+}
