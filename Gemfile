@@ -76,3 +76,9 @@ gem 'devise'
 
 # Authorization gem
 gem 'pundit'
+
+# Allows to use SCSS
+gem 'sassc-rails'
+
+# Allows to use bootstrap
+gem 'bootstrap-sass'
