@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Base controller with Devise authentication and Pundit authorization.
 # - Authenticates user before every action (Devise).
 # - Enforces authorization checks on all actions except index and landing_page (Pundit).
