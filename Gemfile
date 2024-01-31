@@ -73,3 +73,6 @@ end
 
 # Allows for user authentication
 gem 'devise'
+
+# Authorization gem
+gem 'pundit'

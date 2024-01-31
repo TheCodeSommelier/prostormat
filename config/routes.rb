@@ -36,5 +36,5 @@ Rails.application.routes.draw do
   get 'stripe/checkout', to: 'stripe#new_checkout_session', as: :new_checkout_session
 
   # Stripe Webhook route for handling events
-  post 'stripe/webhooks', to: 'stripe#webhooks', as: :stripe_webhooks
+  post 'stripe/webhooks', to: 'stripe#webhooks'
 end
