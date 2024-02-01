@@ -8,13 +8,26 @@
   .text-column {
     height: 100px;
   }
-}
 
+  // Smallest device
+  @media (max-width: 400px) {
+    .spaces-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Medium devices (tablets, 768px and up)
+  @media (max-width: 768px) {
+    .spaces-cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}
 
 .section-sample-spaces {
   .spaces-cards {
     display: grid;
-    gap: 16px;
+    gap: 70px;
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 
@@ -25,7 +38,36 @@
   }
 
   .space-card {
-    height: 230px;
-    width: 200px;
+    height: 400px;
+    width: 250px;
+    border: 2px solid black;
+
+    .vanues-color {
+      color: $light-grey;
+      font-style: italic;
+      font-size: 12px;
+    }
+
+    .space-card-title {
+      font-size: 17px;
+    }
+
+    .title-container {
+      height: 50px;
+    }
+  }
+
+  // Smallest device
+  @media (max-width: 400px) {
+    .spaces-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Medium devices (tablets, 768px and up)
+  @media (max-width: 768px) {
+    .spaces-cards {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 }
