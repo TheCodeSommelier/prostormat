@@ -1,3 +1,16 @@
+.section-how-it-works {
+  .icon-grid {
+    display: grid;
+    gap: 60px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .text-column {
+    height: 100px;
+  }
+}
+
+
 .section-sample-spaces {
   .spaces-cards {
     display: grid;
