@@ -2,6 +2,7 @@
   <section class="banner">
 
   </section>
+
   <section class="d-flex flex-column align-items-center section-how-it-works">
     <h2>Jak to funguje?</h2>
     <div class="icon-grid">
@@ -25,14 +26,16 @@
       </div>
     </div>
   </section>
+
   <section class="d-flex flex-column align-items-center text-center section-sample-spaces">
     <h2>Naše prostory</h2>
     <div class="spaces-cards my-5">
       <% @random_places.each do |place| %>
         <div class="d-flex flex-column align-items-center">
           <div class="space-card">
+            <div class="image-placeholder"></div>
             <%= place.place_name %>
-            <%= place.address %>
+            <%= place.address.truncate(15) %>
             <%= place.venues.count %>
           </div>
           <%= link_to 'Zobrazit', place_path(place), class: "btn btn-primary" %>
@@ -41,4 +44,5 @@
     </div>
     <%= link_to 'Všechny prostory', places_index_path, class: "btn btn-primary w-50" %>
   </section>
+
 </div>

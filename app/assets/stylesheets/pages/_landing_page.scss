@@ -1,7 +1,7 @@
 .section-how-it-works {
   .icon-grid {
     display: grid;
-    gap: 60px;
+    gap: 70px;
     grid-template-columns: 1fr 1fr 1fr;
   }
 
@@ -16,5 +16,16 @@
     display: grid;
     gap: 16px;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .image-placeholder {
+    height: 140px;
+    width: 100%;
+    background-color: grey;
+  }
+
+  .space-card {
+    height: 230px;
+    width: 200px;
   }
 }
