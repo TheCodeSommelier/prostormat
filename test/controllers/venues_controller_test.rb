@@ -1,22 +1,22 @@
-require "test_helper"
+require 'test_helper'
 
 class VenuesControllerTest < ActionDispatch::IntegrationTest
-  test "should get show" do
+  test 'should get show' do
     get venues_show_url
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get venues_edit_url
     assert_response :success
   end
 
-  test "should get update" do
+  test 'should get update' do
     get venues_update_url
     assert_response :success
   end
 
-  test "should get destroy" do
+  test 'should get destroy' do
     get venues_destroy_url
     assert_response :success
   end

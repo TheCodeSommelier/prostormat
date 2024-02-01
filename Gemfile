@@ -82,6 +82,3 @@ gem 'bootstrap'
 
 # Allows to use SCSS
 gem 'sassc-rails'
-
-# Allows to create valid fake data
-gem 'faker'
