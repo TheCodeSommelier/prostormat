@@ -27,18 +27,25 @@
     </div>
   </section>
 
-  <section class="d-flex flex-column align-items-center text-center section-sample-spaces">
+  <section class="d-flex flex-column align-items-center section-sample-spaces">
     <h2>Naše prostory</h2>
     <div class="spaces-cards my-5">
       <% @random_places.each do |place| %>
         <div class="d-flex flex-column align-items-center">
-          <div class="space-card">
-            <div class="image-placeholder"></div>
-            <%= place.place_name %>
-            <%= place.address.truncate(15) %>
-            <%= place.venues.count %>
+          <div class="space-card p-2">
+            <div class="text-left">
+              <div class="image-placeholder"></div>
+              <p class="vanues-color">Prostrů k pronájmu: <%= place.venues.count %></p>
+              <div class="title-container py-3">
+                <h4 class="space-card-title"><%= place.place_name %></h4>
+              </div>
+              <p class="my-3"><%= place.address.truncate(15) %></p>
+              <hr>
+              <div>
+                <%= link_to 'Zobrazit', place_path(place), class: "btn btn-primary w-100" %>
+              </div>
+            </div>
           </div>
-          <%= link_to 'Zobrazit', place_path(place), class: "btn btn-primary" %>
         </div>
       <% end %>
     </div>

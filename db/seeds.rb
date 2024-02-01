@@ -18,7 +18,17 @@ Bokee.destroy_all
 puts 'Creating places...'
 
 20.times do
-  Place.create(place_name: Faker::Company.name, address: Faker::Address.full_address, user: User.first)
+  place = Place.new(place_name: Faker::Company.name, address: Faker::Address.full_address, user: User.first)
+
+  rand(1..3).times do
+    Venue.create(
+      venue_name: Faker::Company.name,
+      description: 'This is a room inside of a place...',
+      capacity: rand(20..100),
+      place: place
+    )
+  end
+  place.save
 end
 
 puts 'Done ✅'
