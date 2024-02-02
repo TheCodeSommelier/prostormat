@@ -1,6 +1,11 @@
 .spaces-cards {
   display: grid;
   gap: 30px;
+  grid-template-columns: 1fr 1fr 1fr;
+
+}
+
+.spaces-cards-landing-page {
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
