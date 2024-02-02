@@ -7,6 +7,6 @@ class PagesController < ApplicationController
   # The landing_page action renders the application's landing page, which is used to explain
   # how it works, sample places/venues and a footer
   def landing_page
-    @random_places = Place.all.sample(8)
+    @random_places = Place.all.sample(4)
   end
 end

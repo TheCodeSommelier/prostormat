@@ -1,10 +1,18 @@
-<div>
-  <section class="banner">
+<section class="banner" id="banner">
+  <div class="banner-background-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= image_path('moonclub-interier') %>)">
+    <div class="container banner-size">
+      <h1 class="banner-title-position">Najděte prostor svých snů</h1>
+      <%= render 'shared/search_bar' %>
+    </div>
+    <%= link_to "#section-sample-spaces" do %>
+      <%= image_tag('arrow-down-banner', class: "arrow-down-position mb-3") %>
+    <% end %>
+  </div>
+</section>
 
-  </section>
-
-  <section class="d-flex flex-column align-items-center section-how-it-works">
-    <h2>Jak to funguje?</h2>
+<section class="section-how-it-works" id="section-how-it-works">
+  <div class="container d-flex flex-column align-items-center ">
+    <h2 class="mt-4">Jak to funguje?</h2>
     <div class="icon-grid">
       <div class="icon-card text-center p-4 d-flex align-items-center justify-content-center flex-column">
         <%= image_tag('calendar-day-solid', height: 90, class: 'how-it-works-icon my-3') %>
@@ -25,10 +33,12 @@
         </div>
       </div>
     </div>
+    </div>
   </section>
 
-  <section class="d-flex flex-column align-items-center section-sample-spaces">
-    <h2>Naše prostory</h2>
+<section class="section-sample-spaces" id="section-sample-spaces">
+  <div class="container d-flex flex-column align-items-center ">
+    <h2 class="mt-4">Naše prostory</h2>
     <div class="spaces-cards my-5">
       <% @random_places.each do |place| %>
         <div class="d-flex flex-column align-items-center">
@@ -42,14 +52,13 @@
               <p class="my-3"><%= place.address.truncate(15) %></p>
               <hr>
               <div>
-                <%= link_to 'Zobrazit', place_path(place), class: "btn btn-primary w-100" %>
+                <%= link_to 'Zobrazit', place_path(place), class: "btn btn-dark w-100" %>
               </div>
             </div>
           </div>
         </div>
       <% end %>
     </div>
-    <%= link_to 'Všechny prostory', places_index_path, class: "btn btn-primary w-50" %>
-  </section>
-
-</div>
+    <%= link_to 'Všechny prostory', places_index_path, class: "btn btn-dark w-50" %>
+  </div>
+</section>
