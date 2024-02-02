@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 20_240_202_162_513) do
+ActiveRecord::Schema[7.1].define(version: 20_240_202_181_616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -18,6 +18,12 @@ ActiveRecord::Schema[7.1].define(version: 20_240_202_162_513) do
     t.string 'phone_number'
     t.string 'email'
     t.string 'full_name'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'filters', force: :cascade do |t|
+    t.string 'name'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
   end
@@ -33,13 +39,21 @@ ActiveRecord::Schema[7.1].define(version: 20_240_202_162_513) do
     t.index ['venue_id'], name: 'index_orders_on_venue_id'
   end
 
+  create_table 'place_filters', force: :cascade do |t|
+    t.bigint 'place_id', null: false
+    t.bigint 'filter_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['filter_id'], name: 'index_place_filters_on_filter_id'
+    t.index ['place_id'], name: 'index_place_filters_on_place_id'
+  end
+
   create_table 'places', force: :cascade do |t|
     t.bigint 'user_id', null: false
     t.string 'place_name'
     t.string 'address'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.string 'tags', default: [], array: true
     t.string 'city'
     t.index ['user_id'], name: 'index_places_on_user_id'
   end
@@ -96,6 +110,8 @@ ActiveRecord::Schema[7.1].define(version: 20_240_202_162_513) do
 
   add_foreign_key 'orders', 'bokees'
   add_foreign_key 'orders', 'venues'
+  add_foreign_key 'place_filters', 'filters'
+  add_foreign_key 'place_filters', 'places'
   add_foreign_key 'places', 'users'
   add_foreign_key 'subscriptions', 'subscription_plans'
   add_foreign_key 'subscriptions', 'users'

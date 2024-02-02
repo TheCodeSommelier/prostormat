@@ -7,6 +7,16 @@
     <%= render 'shared/search_bar' %>
   </div>
 
+  <div>
+    <%= form_with url: places_path, method: :get, class: "d-flex search-bar-landing-page-position " do %>
+      <% @tags.each do |tag| %>
+        <%= label_tag tag %>
+        <%= check_box_tag 'tags[]', tag %>
+      <% end %>
+      <%= submit_tag "Aplikovat filtry", name: "", class: "btn btn-dark search-bar-button-border-radius" %>
+    <% end %>
+  </div>
+
   <div class="spaces-cards">
     <% @places.each do |place| %>
       <div class="card">

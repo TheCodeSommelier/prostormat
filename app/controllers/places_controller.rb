@@ -10,7 +10,9 @@ class PlacesController < ApplicationController
   def index
     authorized_places = policy_scope(Place)
 
-    @places = params[:tags].nil? ? authorized_places : authorized_places.filter_by_tag(params[:tags])
+    @places = authorized_places
+    @places = authorized_places.filter_by_tags(params[:tags]) if params[:query].present?
+    @places = authorized_places.search_by_query(params[:query]) if params[:query].present?
   end
 
   # Shows details for a single place identified by id.

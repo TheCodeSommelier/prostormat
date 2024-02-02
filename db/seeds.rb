@@ -22,165 +22,55 @@ PLACES = {
     place_name: 'FU Club Prague',
     capacity: 140,
     address: 'Praha 1',
-    city: 'Praha',
-    tags: [
-      'PARTY',
-      'MEETING',
-      'POPUP',
-      'BAR',
-      'ART&CULTURE',
-      'COMMUNITY',
-      'OFFSITE',
-      'BRAINSTORMING',
-      'TEAMBUILDING',
-      'INDOOR'
-    ]
+    city: 'Praha'
+
   },
   place_2: {
     place_name: 'The Original Beer Experience Prague',
     capacity: 350,
     address: 'Praha 1',
-    city: 'Praha',
-    tags: [
-      'KONFERENCE',
-      'MEETING',
-      'PARTY',
-      'POPUP',
-      'INDOOR',
-      'BAR',
-      'HISTORICAL',
-      'ART&CULTURE',
-      'SVATBA',
-      'COMMUNITY',
-      'HOBBY',
-      'WORKSHOP',
-      'BRAINSTORMING',
-      'TEAMBUILDING',
-      'OFFSITE'
-    ]
+    city: 'Praha'
+
   },
   place_3: {
     place_name: 'Občanská plovárna',
     capacity: 2000,
     address: 'Praha 1 – Malá Strana',
-    tags: [
-      'PARTY',
-      'ART&CULTURE',
-      'KONFERENCE',
-      'SVATBA',
-      'KONGRES',
-      'EXCLUSIVE',
-      'STYLISH',
-      'HISTORICAL',
-      'TRADITIONAL',
-      'WORKSHOP',
-      'RESTAURANT',
-      'INDOOR',
-      'OUTDOOR',
-      'BUSINESS'
-    ]
+    city: 'Praha'
+
   },
   place_4: {
     place_name: 'MOONCLUB',
     capacity: 500,
     address: 'Praha 1 - Staré Město',
-    city: 'Praha',
-    tags: [
-      'PARTY',
-      'BAR',
-      'RESTAURANT',
-      'POPUP',
-      'STYLISH',
-      'INDOOR',
-      'ART&CULTURE',
-      'MEETING',
-      'INDUSTRIAL',
-      'COMMUNITY',
-      'OFFSITE'
-    ]
+    city: 'Praha'
+
   },
   place_5: {
     place_name: 'Cargo Gallery',
     capacity: 400,
-    address: 'Praha 5 - Smíchov',
-    tags: [
-      'ALTERNATIVE',
-      'INDOOR',
-      'BAR',
-      'STYLISH',
-      'ART&CULTURE',
-      'MEETING',
-      'PARTY',
-      'KONFERENCE',
-      'POPUP',
-      'OUTDOOR',
-      'INDUSTRIAL',
-      'COMMUNITY',
-      'OFFSITE',
-      'HOBBY',
-      'PRODUCTION'
-    ]
+    address: 'Olomouc 5 - Smíchov',
+    city: 'Olomouc'
+
   },
   place_6: {
     place_name: 'Restaurace U Prince',
     capacity: 100,
-    address: 'Praha 1 - Staré město',
-    city: 'Olomouc',
-    tags: %w[
-      INDOOR
-      MEETING
-      DIPLOMATIC
-      RESTAURANT
-      HOTEL
-      OUTDOOR
-      STYLISH
-      BAR
-      TRADITIONAL
-      HISTORICAL
-      SVATBA
-      BUSINESS
-      TEAMBUILDING
-      FAMILY
-      EXCLUSIVE
-    ]
+    address: 'Olomouc 1 - Staré město',
+    city: 'Olomouc'
   },
   place_7: {
     place_name: 'Terasa Smíchov',
     capacity: 400,
-    address: 'Praha 5 - Smíchov',
-    city: 'Olomouc',
-    tags: [
-      'PARTY',
-      'MEETING',
-      'KONFERENCE',
-      'POPUP',
-      'OUTDOOR',
-      'BAR',
-      'TRAINING',
-      'YOGA',
-      'COMMUNITY',
-      'ART&CULTURE'
-    ]
+    address: 'Olomouc 5 - Smíchov',
+    city: 'Olomouc'
   }
 }.freeze
 
 VNITROBLOCK = {
   place_name: 'VNITROBLOCK',
-  address: 'Praha 7 - Holešovice',
+  address: 'Ostrava 7 - Holešovice',
   city: 'Ostrava',
-  tags: [
-    'ALTERNATIVE',
-    'MEETING',
-    'INDOOR',
-    'INDUSTRIAL',
-    'ART&CULTURE',
-    'POPUP',
-    'STYLISH',
-    'BAR',
-    'COMMUNITY',
-    'WORKSHOP',
-    'PARTY'
-  ],
   number_of_venues: {
     venue_1: {
       name: 'Hlavní prostor',
@@ -213,12 +103,24 @@ VNITROBLOCK = {
   }
 }.freeze
 
+FILTER_NAMES = [
+  [
+    'alternative', 'meeting', 'indoor', 'industrial', 'art&culture', 'popup', 'stylish', 'bar', 'community', 'workshop',
+    'party', 'diplomatic', 'restaurant', 'hotel', 'outdoor', 'traditional', 'historical', 'svatba', 'business',
+    'teambuilding', 'family', 'exclusive', 'konference', 'training', 'yoga', 'offsite', 'hobby', 'production',
+    'brainstorming', 'kongres'
+  ]
+].freeze
+
+FILTER_NAMES[0].each do |filter|
+  Filter.create(name: filter)
+end
+
 PLACES.each do |_key, value|
   place = Place.new(
     place_name: value[:place_name],
     address: value[:address],
     city: value[:city],
-    tags: value[:tags],
     user: User.first
   )
 
@@ -235,7 +137,6 @@ vnitroblock = Place.new(
   place_name: VNITROBLOCK[:place_name],
   address: VNITROBLOCK[:address],
   city: VNITROBLOCK[:city],
-  tags: VNITROBLOCK[:tags],
   user: User.first
 )
 
@@ -249,5 +150,15 @@ VNITROBLOCK[:number_of_venues].each do |_key, value|
 end
 
 vnitroblock.save
+
+puts 'Give places filters...'
+
+places = Place.all
+
+filters = Filter.all
+
+places.length.times do
+  PlaceFilter.create(place: places.sample, filter: filters.sample)
+end
 
 puts 'Done ✅'
