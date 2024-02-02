@@ -1,4 +1,45 @@
+#banner {
+  .banner-title-position {
+    position: relative;
+    top: 280px;
+    color: white;
+  }
+
+  .banner-background-image {
+    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(app/assets/images/moonclub-interier.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .banner-size {
+    height: 700px;
+  }
+
+  .search-bar-landing-page-position {
+    position: relative;
+    top: 300px;
+  }
+
+  .search-bar-landing-page-border-radius {
+    width: 50%;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .search-bar-landing-page-button-border-radius {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .arrow-down-position {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 .section-how-it-works {
+  background-color: grey;
   .icon-grid {
     display: grid;
     gap: 70px;

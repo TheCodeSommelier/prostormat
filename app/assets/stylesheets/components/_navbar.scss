@@ -1,7 +1,8 @@
 .navbar-space-mi {
   justify-content: space-between;
-  background-color: grey;
-  position: sticky;
+  background-color: rgba(155, 155, 155, 0.5);
+  position: fixed;
+  width: 100%;
 }
 
 .navbar-space-mi .navbar-collapse {
