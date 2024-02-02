@@ -22,6 +22,7 @@ PLACES = {
     place_name: 'FU Club Prague',
     capacity: 140,
     address: 'Praha 1',
+    city: 'Praha',
     tags: [
       'PARTY',
       'MEETING',
@@ -39,6 +40,7 @@ PLACES = {
     place_name: 'The Original Beer Experience Prague',
     capacity: 350,
     address: 'Praha 1',
+    city: 'Praha',
     tags: [
       'KONFERENCE',
       'MEETING',
@@ -82,6 +84,7 @@ PLACES = {
     place_name: 'MOONCLUB',
     capacity: 500,
     address: 'Praha 1 - Staré Město',
+    city: 'Praha',
     tags: [
       'PARTY',
       'BAR',
@@ -122,6 +125,7 @@ PLACES = {
     place_name: 'Restaurace U Prince',
     capacity: 100,
     address: 'Praha 1 - Staré město',
+    city: 'Olomouc',
     tags: %w[
       INDOOR
       MEETING
@@ -144,6 +148,7 @@ PLACES = {
     place_name: 'Terasa Smíchov',
     capacity: 400,
     address: 'Praha 5 - Smíchov',
+    city: 'Olomouc',
     tags: [
       'PARTY',
       'MEETING',
@@ -162,6 +167,7 @@ PLACES = {
 VNITROBLOCK = {
   place_name: 'VNITROBLOCK',
   address: 'Praha 7 - Holešovice',
+  city: 'Ostrava',
   tags: [
     'ALTERNATIVE',
     'MEETING',
@@ -211,6 +217,7 @@ PLACES.each do |_key, value|
   place = Place.new(
     place_name: value[:place_name],
     address: value[:address],
+    city: value[:city],
     tags: value[:tags],
     user: User.first
   )
@@ -219,7 +226,7 @@ PLACES.each do |_key, value|
     venue_name: value[:place_name],
     description: 'Terasa Glo Lounge je součástí hlavního prostoru a samostatně se hodí na komorní akce nebo volnější schůzky a meetingy. Do místnosti lze zajistit občerstvení, PA, promítačku a plátno. Pojme do cca 30 lidí, podle náročnosti akce. Ideální pro workshopy, tiskové konference, eventy, Pop upy, přednášky, prezentace, oslavy, meetingy, atd',
     capacity: value[:capacity],
-    place: place
+    place:
   )
   place.save
 end
@@ -227,6 +234,7 @@ end
 vnitroblock = Place.new(
   place_name: VNITROBLOCK[:place_name],
   address: VNITROBLOCK[:address],
+  city: VNITROBLOCK[:city],
   tags: VNITROBLOCK[:tags],
   user: User.first
 )

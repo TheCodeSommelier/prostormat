@@ -8,7 +8,9 @@ class PlacesController < ApplicationController
 
   # Lists all places.
   def index
-    @places = policy_scope(Place)
+    authorized_places = policy_scope(Place)
+
+    @places = params[:tags].nil? ? authorized_places : authorized_places.filter_by_tag(params[:tags])
   end
 
   # Shows details for a single place identified by id.
