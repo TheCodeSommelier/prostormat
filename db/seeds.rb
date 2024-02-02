@@ -207,24 +207,39 @@ VNITROBLOCK = {
   }
 }.freeze
 
-PLACES.each do |key, _value|
-  # p place_name: PLACES[key][:place_name]
-  # p address: PLACES[key][:address]
-  # p tags: PLACES[key][:tags]
+PLACES.each do |_key, value|
   place = Place.new(
-    place_name: PLACES[key][:place_name],
-    address: PLACES[key][:address],
-    tags: PLACES[key][:tags],
+    place_name: value[:place_name],
+    address: value[:address],
+    tags: value[:tags],
     user: User.first
   )
 
   Venue.create(
-    venue_name: PLACES[key][:place_name],
+    venue_name: value[:place_name],
     description: 'Terasa Glo Lounge je součástí hlavního prostoru a samostatně se hodí na komorní akce nebo volnější schůzky a meetingy. Do místnosti lze zajistit občerstvení, PA, promítačku a plátno. Pojme do cca 30 lidí, podle náročnosti akce. Ideální pro workshopy, tiskové konference, eventy, Pop upy, přednášky, prezentace, oslavy, meetingy, atd',
-    capacity: PLACES[key][:capacity],
+    capacity: value[:capacity],
     place: place
   )
   place.save
 end
+
+vnitroblock = Place.new(
+  place_name: VNITROBLOCK[:place_name],
+  address: VNITROBLOCK[:address],
+  tags: VNITROBLOCK[:tags],
+  user: User.first
+)
+
+VNITROBLOCK[:number_of_venues].each do |_key, value|
+  Venue.create(
+    venue_name: value[:name],
+    description: 'Terasa Glo Lounge je součástí hlavního prostoru a samostatně se hodí na komorní akce nebo volnější schůzky a meetingy. Do místnosti lze zajistit občerstvení, PA, promítačku a plátno. Pojme do cca 30 lidí, podle náročnosti akce. Ideální pro workshopy, tiskové konference, eventy, Pop upy, přednášky, prezentace, oslavy, meetingy, atd',
+    capacity: value[:capacity],
+    place: vnitroblock
+  )
+end
+
+vnitroblock.save
 
 puts 'Done ✅'

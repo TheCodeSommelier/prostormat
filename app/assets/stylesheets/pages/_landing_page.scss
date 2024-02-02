@@ -50,27 +50,11 @@
     height: 100px;
   }
 
-  // Smallest device
-  @media (max-width: 400px) {
-    .spaces-cards {
-      grid-template-columns: 1fr;
-    }
-  }
 
-  // Medium devices (tablets, 768px and up)
-  @media (max-width: 768px) {
-    .spaces-cards {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
 }
 
 .section-sample-spaces {
-  .spaces-cards {
-    display: grid;
-    gap: 70px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-  }
+
 
   .image-placeholder {
     height: 140px;
@@ -95,20 +79,6 @@
 
     .title-container {
       height: 50px;
-    }
-  }
-
-  // Smallest device
-  @media (max-width: 400px) {
-    .spaces-cards {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  // Medium devices (tablets, 768px and up)
-  @media (max-width: 768px) {
-    .spaces-cards {
-      grid-template-columns: 1fr 1fr;
     }
   }
 }
