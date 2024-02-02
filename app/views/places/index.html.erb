@@ -1,5 +1,5 @@
 <div class="container index-places-container">
-  <h1>Nejlepší prostory pro váš event!</h1>
+  <h1 class="my-4">Nejlepší prostory pro váš event!</h1>
   <!-- TODO: Search and filters -->
   <!-- Index cards and style them -->
   <!-- Pagination by 20 -->
@@ -7,6 +7,7 @@
   <div class="spaces-cards">
     <% @places.each do |place| %>
       <div class="card">
+        <div class="image-placeholder"></div>
         <div class="d-flex justify-content-between">
           <p><%= place.address %></p>
           <div class="d-flex align-items-center">
