@@ -1,0 +1,38 @@
+.spaces-cards {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: 1fr 1fr 1fr;
+
+}
+
+.spaces-cards-landing-page {
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+// Smallest device
+@media (max-width: 400px) {
+  .spaces-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (max-width: 768px) {
+  .spaces-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+// Smallest device
+@media (max-width: 400px) {
+  .spaces-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (max-width: 768px) {
+  .spaces-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}

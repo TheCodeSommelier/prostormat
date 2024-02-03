@@ -6,4 +6,14 @@
 class Place < ApplicationRecord
   belongs_to :user
   has_many :venues, dependent: :destroy
+  has_many :place_filters, dependent: :destroy
+  has_many :filters, through: :place_filters
+
+  def largest_venue_capacity
+    venues.order(capacity: :desc).first.capacity
+  end
+
+  def smallest_venue_capacity
+    venues.order(capacity: :asc).first.capacity
+  end
 end

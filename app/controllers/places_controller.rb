@@ -4,8 +4,21 @@
 # showing details for a single place, creating new places, editing existing places, and
 # deleting places. It responds to routes defined in config/routes.rb for the Place model.
 class PlacesController < ApplicationController
-  # Lists all place resources.
-  def index; end
+  skip_before_action :authenticate_user!, only: %i[index show] # Skip authentication for index
+
+  # Lists all places.
+  def index
+    @places = policy_scope(Place)
+    @filters = Filter.all
+
+    return unless params[:filters].present?
+
+    filter_ids = params[:filters].reject(&:empty?).map(&:to_i)
+
+    return unless filter_ids.any?
+
+    @places = @places.joins(:place_filters).where(place_filters: { filter_id: filter_ids }).distinct
+  end
 
   # Shows details for a single place identified by id.
   def show; end

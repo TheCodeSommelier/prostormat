@@ -14,6 +14,7 @@ puts 'Cleaning DB...'
 
 Place.destroy_all
 Bokee.destroy_all
+Filter.destroy_all
 
 puts 'Creating places...'
 
@@ -22,159 +23,55 @@ PLACES = {
     place_name: 'FU Club Prague',
     capacity: 140,
     address: 'Praha 1',
-    tags: [
-      'PARTY',
-      'MEETING',
-      'POPUP',
-      'BAR',
-      'ART&CULTURE',
-      'COMMUNITY',
-      'OFFSITE',
-      'BRAINSTORMING',
-      'TEAMBUILDING',
-      'INDOOR'
-    ]
+    city: 'Praha'
+
   },
   place_2: {
     place_name: 'The Original Beer Experience Prague',
     capacity: 350,
     address: 'Praha 1',
-    tags: [
-      'KONFERENCE',
-      'MEETING',
-      'PARTY',
-      'POPUP',
-      'INDOOR',
-      'BAR',
-      'HISTORICAL',
-      'ART&CULTURE',
-      'SVATBA',
-      'COMMUNITY',
-      'HOBBY',
-      'WORKSHOP',
-      'BRAINSTORMING',
-      'TEAMBUILDING',
-      'OFFSITE'
-    ]
+    city: 'Praha'
+
   },
   place_3: {
     place_name: 'Občanská plovárna',
     capacity: 2000,
     address: 'Praha 1 – Malá Strana',
-    tags: [
-      'PARTY',
-      'ART&CULTURE',
-      'KONFERENCE',
-      'SVATBA',
-      'KONGRES',
-      'EXCLUSIVE',
-      'STYLISH',
-      'HISTORICAL',
-      'TRADITIONAL',
-      'WORKSHOP',
-      'RESTAURANT',
-      'INDOOR',
-      'OUTDOOR',
-      'BUSINESS'
-    ]
+    city: 'Praha'
+
   },
   place_4: {
     place_name: 'MOONCLUB',
     capacity: 500,
     address: 'Praha 1 - Staré Město',
-    tags: [
-      'PARTY',
-      'BAR',
-      'RESTAURANT',
-      'POPUP',
-      'STYLISH',
-      'INDOOR',
-      'ART&CULTURE',
-      'MEETING',
-      'INDUSTRIAL',
-      'COMMUNITY',
-      'OFFSITE'
-    ]
+    city: 'Praha'
+
   },
   place_5: {
     place_name: 'Cargo Gallery',
     capacity: 400,
-    address: 'Praha 5 - Smíchov',
-    tags: [
-      'ALTERNATIVE',
-      'INDOOR',
-      'BAR',
-      'STYLISH',
-      'ART&CULTURE',
-      'MEETING',
-      'PARTY',
-      'KONFERENCE',
-      'POPUP',
-      'OUTDOOR',
-      'INDUSTRIAL',
-      'COMMUNITY',
-      'OFFSITE',
-      'HOBBY',
-      'PRODUCTION'
-    ]
+    address: 'Olomouc 5 - Smíchov',
+    city: 'Olomouc'
+
   },
   place_6: {
     place_name: 'Restaurace U Prince',
     capacity: 100,
-    address: 'Praha 1 - Staré město',
-    tags: %w[
-      INDOOR
-      MEETING
-      DIPLOMATIC
-      RESTAURANT
-      HOTEL
-      OUTDOOR
-      STYLISH
-      BAR
-      TRADITIONAL
-      HISTORICAL
-      SVATBA
-      BUSINESS
-      TEAMBUILDING
-      FAMILY
-      EXCLUSIVE
-    ]
+    address: 'Olomouc 1 - Staré město',
+    city: 'Olomouc'
   },
   place_7: {
     place_name: 'Terasa Smíchov',
     capacity: 400,
-    address: 'Praha 5 - Smíchov',
-    tags: [
-      'PARTY',
-      'MEETING',
-      'KONFERENCE',
-      'POPUP',
-      'OUTDOOR',
-      'BAR',
-      'TRAINING',
-      'YOGA',
-      'COMMUNITY',
-      'ART&CULTURE'
-    ]
+    address: 'Olomouc 5 - Smíchov',
+    city: 'Olomouc'
   }
 }.freeze
 
 VNITROBLOCK = {
   place_name: 'VNITROBLOCK',
-  address: 'Praha 7 - Holešovice',
-  tags: [
-    'ALTERNATIVE',
-    'MEETING',
-    'INDOOR',
-    'INDUSTRIAL',
-    'ART&CULTURE',
-    'POPUP',
-    'STYLISH',
-    'BAR',
-    'COMMUNITY',
-    'WORKSHOP',
-    'PARTY'
-  ],
+  address: 'Ostrava 7 - Holešovice',
+  city: 'Ostrava',
   number_of_venues: {
     venue_1: {
       name: 'Hlavní prostor',
@@ -207,24 +104,64 @@ VNITROBLOCK = {
   }
 }.freeze
 
-PLACES.each do |key, _value|
-  # p place_name: PLACES[key][:place_name]
-  # p address: PLACES[key][:address]
-  # p tags: PLACES[key][:tags]
+FILTER_NAMES = [
+  [
+    'alternative', 'meeting', 'indoor', 'industrial', 'art&culture', 'popup', 'stylish', 'bar', 'community', 'workshop',
+    'party', 'diplomatic', 'restaurant', 'hotel', 'outdoor', 'traditional', 'historical', 'svatba', 'business',
+    'teambuilding', 'family', 'exclusive', 'konference', 'training', 'yoga', 'offsite', 'hobby', 'production',
+    'brainstorming', 'kongres'
+  ]
+].freeze
+
+FILTER_NAMES[0].each do |filter|
+  Filter.create(name: filter)
+end
+
+PLACES.each do |_key, value|
   place = Place.new(
-    place_name: PLACES[key][:place_name],
-    address: PLACES[key][:address],
-    tags: PLACES[key][:tags],
+    place_name: value[:place_name],
+    address: value[:address],
+    city: value[:city],
     user: User.first
   )
 
   Venue.create(
-    venue_name: PLACES[key][:place_name],
+    venue_name: value[:place_name],
     description: 'Terasa Glo Lounge je součástí hlavního prostoru a samostatně se hodí na komorní akce nebo volnější schůzky a meetingy. Do místnosti lze zajistit občerstvení, PA, promítačku a plátno. Pojme do cca 30 lidí, podle náročnosti akce. Ideální pro workshopy, tiskové konference, eventy, Pop upy, přednášky, prezentace, oslavy, meetingy, atd',
-    capacity: PLACES[key][:capacity],
-    place: place
+    capacity: value[:capacity],
+    place:
   )
   place.save
+end
+
+vnitroblock = Place.new(
+  place_name: VNITROBLOCK[:place_name],
+  address: VNITROBLOCK[:address],
+  city: VNITROBLOCK[:city],
+  user: User.first
+)
+
+VNITROBLOCK[:number_of_venues].each do |_key, value|
+  Venue.create(
+    venue_name: value[:name],
+    description: 'Terasa Glo Lounge je součástí hlavního prostoru a samostatně se hodí na komorní akce nebo volnější schůzky a meetingy. Do místnosti lze zajistit občerstvení, PA, promítačku a plátno. Pojme do cca 30 lidí, podle náročnosti akce. Ideální pro workshopy, tiskové konference, eventy, Pop upy, přednášky, prezentace, oslavy, meetingy, atd',
+    capacity: value[:capacity],
+    place: vnitroblock
+  )
+end
+
+vnitroblock.save
+
+puts 'Give places filters...'
+
+places = Place.all
+
+filters = Filter.all
+
+places.length.times do
+  rand(2..6).times do
+    PlaceFilter.create(place: places.sample, filter: filters.sample)
+  end
 end
 
 puts 'Done ✅'
