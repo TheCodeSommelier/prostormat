@@ -14,6 +14,7 @@ puts 'Cleaning DB...'
 
 Place.destroy_all
 Bokee.destroy_all
+Filter.destroy_all
 
 puts 'Creating places...'
 
@@ -158,7 +159,9 @@ places = Place.all
 filters = Filter.all
 
 places.length.times do
-  PlaceFilter.create(place: places.sample, filter: filters.sample)
+  rand(2..6).times do
+    PlaceFilter.create(place: places.sample, filter: filters.sample)
+  end
 end
 
 puts 'Done ✅'

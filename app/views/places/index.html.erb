@@ -7,13 +7,13 @@
     <%= render 'shared/search_bar' %>
   </div>
 
-  <div>
-    <%= form_with url: places_path, method: :get, class: "d-flex search-bar-landing-page-position " do %>
-      <% @tags.each do |tag| %>
-        <%= label_tag tag %>
-        <%= check_box_tag 'tags[]', tag %>
+  <div class="filters d-flex">
+    <%= form_with url: places_path, method: :get do |form| %>
+      <% @filters.each do |filter| %>
+        <%= label_tag "filters[#{filter.id}]", filter.name %>
+        <%= check_box_tag "filters[]", filter.id, false, id: "filters_#{filter.id}" %>
       <% end %>
-      <%= submit_tag "Aplikovat filtry", name: "", class: "btn btn-dark search-bar-button-border-radius" %>
+      <%= form.submit 'Použít filtry' %>
     <% end %>
   </div>
 

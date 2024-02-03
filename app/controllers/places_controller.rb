@@ -8,11 +8,16 @@ class PlacesController < ApplicationController
 
   # Lists all places.
   def index
-    authorized_places = policy_scope(Place)
+    @places = policy_scope(Place)
+    @filters = Filter.all
 
-    @places = authorized_places
-    @places = authorized_places.filter_by_tags(params[:tags]) if params[:query].present?
-    @places = authorized_places.search_by_query(params[:query]) if params[:query].present?
+    return unless params[:filters].present?
+
+    filter_ids = params[:filters].reject(&:empty?).map(&:to_i)
+
+    return unless filter_ids.any?
+
+    @places = @places.joins(:place_filters).where(place_filters: { filter_id: filter_ids }).distinct
   end
 
   # Shows details for a single place identified by id.
