@@ -21,7 +21,10 @@ class PlacesController < ApplicationController
   end
 
   # Shows details for a single place identified by id.
-  def show; end
+  def show
+    @place = Place.find(params[:id])
+    authorize @place
+  end
 
   # Renders a form for creating a new place.
   def new; end

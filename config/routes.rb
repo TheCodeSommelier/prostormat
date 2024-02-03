@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   get 'up' => 'rails/health#show', as: :rails_health_check
 
   # Defines the root path route ("/")
-  root 'pages#landing_page', as: :landing_page
+  root 'pages#landing_page'
 
   resources :places do
     resources :venues, only: %i[show edit update destroy] do
