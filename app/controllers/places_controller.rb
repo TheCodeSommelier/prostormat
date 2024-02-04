@@ -11,19 +11,26 @@ class PlacesController < ApplicationController
     @places = policy_scope(Place)
     @filters = Filter.all
 
-    return unless params[:filters].present?
+    if params[:filters].present?
+      filter_ids = params[:filters].reject(&:empty?).map(&:to_i)
+      if filter_ids.any?
+        @places = @places.joins(:place_filters).where(place_filters: { filter_id: filter_ids }).distinct
+      end
+    end
 
-    filter_ids = params[:filters].reject(&:empty?).map(&:to_i)
-
-    return unless filter_ids.any?
-
-    @places = @places.joins(:place_filters).where(place_filters: { filter_id: filter_ids }).distinct
+    @places = @places.search_by_query(params[:query]) if params[:query].present?
   end
 
   # Shows details for a single place identified by id.
   def show
     @place = Place.find(params[:id])
     authorize @place
+
+    @filters = @place.filters
+
+    @venues = Venue.where(place: @place)
+
+    @order = Order.new
   end
 
   # Renders a form for creating a new place.
