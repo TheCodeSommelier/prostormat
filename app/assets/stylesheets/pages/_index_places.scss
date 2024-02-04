@@ -10,4 +10,23 @@
     width: 100%;
     height: 200px;
   }
+
+  .filters {
+    width: 20%;
+
+    .filters-labels {
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+      border: solid 1px rgb(200, 200, 200);
+    }
+
+    .filter-checkbox-size {
+      width: 17px;
+    }
+
+    .filters-checkboxes {
+      border: 1px solid rgb(200, 200, 200);
+      border-top: none;
+    }
+  }
 }
