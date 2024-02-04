@@ -2,10 +2,9 @@
   display: grid;
   gap: 30px;
   grid-template-columns: 1fr 1fr 1fr;
-
 }
 
-.spaces-cards-landing-page {
+.spaces-cards-landing-page, .place-show-spaces-cards {
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
