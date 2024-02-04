@@ -6,6 +6,8 @@
 class PlacesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show] # Skip authentication for index
 
+  # TODO: Date, capacity, notes, event type, email, phone
+
   # Lists all places.
   def index
     @places = policy_scope(Place)
