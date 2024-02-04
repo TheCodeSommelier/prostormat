@@ -7,34 +7,44 @@
     <%= render 'shared/search_bar' %>
   </div>
 
-  <div class="filters d-flex">
-    <%= form_with url: places_path, method: :get do |form| %>
-      <% @filters.each do |filter| %>
-        <%= label_tag "filters[#{filter.id}]", filter.name %>
-        <%= check_box_tag "filters[]", filter.id, false, id: "filters_#{filter.id}" %>
+  <div class="d-flex">
+    <div class="filters me-3">
+      <div class="filters-labels p-2">
+        <h4>Filtry</h4>
+      </div>
+      <%= form_with url: places_path, method: :get, class: "d-flex flex-column filters-checkboxes p-2" do |form| %>
+        <% @filters.each do |filter| %>
+          <div class="d-flex justify-content-between">
+            <div>
+              <%= check_box_tag "filters[]", filter.id, false, id: "filters_#{filter.id}", class: 'filter-checkbox-size me-2' %>
+              <%= label_tag "filters[#{filter.id}]", filter.name.capitalize %>
+            </div>
+            <%= PlaceFilter.where(filter_id: filter.id).count %>
+          </div>
+        <% end %>
+        <%= form.submit 'Použít filtry' %>
       <% end %>
-      <%= form.submit 'Použít filtry' %>
-    <% end %>
-  </div>
+    </div>
 
-  <div class="spaces-cards">
-    <% @places.each do |place| %>
-      <div class="card">
-        <div class="image-placeholder"></div>
-        <div class="d-flex justify-content-between">
-          <p><%= place.address %></p>
-          <div class="d-flex align-items-center">
-            <%= image_tag('person-grey', width: 10, class: "person-icon-margin-right") %>
-            <p><%= place.largest_venue_capacity == place.smallest_venue_capacity ? "#{place.largest_venue_capacity}" : "#{place.smallest_venue_capacity} - #{place.largest_venue_capacity}" %></p>
+    <div class="spaces-cards">
+      <% @places.each do |place| %>
+        <div class="card">
+          <div class="image-placeholder"></div>
+          <div class="d-flex justify-content-between">
+            <p><%= place.address %></p>
+            <div class="d-flex align-items-center">
+              <%= image_tag('person-grey', width: 10, class: "person-icon-margin-right") %>
+              <p><%= place.largest_venue_capacity == place.smallest_venue_capacity ? "#{place.largest_venue_capacity}" : "#{place.smallest_venue_capacity} - #{place.largest_venue_capacity}" %></p>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-between">
+            <h3 class="m-0"><%= place.place_name.truncate(15) %></h3>
+            <%= link_to place_path(place) do %>
+              <%= image_tag('arrow_right', width: 30) %>
+            <% end %>
           </div>
         </div>
-        <div class="d-flex align-items-center justify-content-between">
-          <h3 class="m-0"><%= place.place_name.truncate(15) %></h3>
-          <%= link_to place_path(place) do %>
-            <%= image_tag('arrow_right', width: 30) %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
