@@ -21,6 +21,11 @@ class PlacesController < ApplicationController
     end
 
     @places = @places.search_by_query(params[:query]) if params[:query].present?
+
+    respond_to do |format|
+      format.html # For regular HTML requests
+      format.json { render json: { html: render_to_string(partial: 'shared/places_card_grid', locals: { places: @places }, formats: [:html]) } }
+    end
   end
 
   # Shows details for a single place identified by id.
