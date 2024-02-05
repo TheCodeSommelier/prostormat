@@ -1,5 +1,5 @@
 <% @places.each do |place| %>
-  <div class="card">
+  <div class="card d-flex flex-column justify-content-between">
     <div class="image-placeholder"></div>
     <div class="d-flex justify-content-between">
       <p><%= place.address %></p>
@@ -9,9 +9,9 @@
       </div>
     </div>
     <div class="d-flex align-items-center justify-content-between">
-      <h3 class="m-0"><%= place.place_name.truncate(15) %></h3>
+      <h5 class="m-0 card-title-width"><%= place.place_name.truncate(22) %></h5>
       <%= link_to place_path(place) do %>
-        <%= image_tag('arrow_right', width: 30) %>
+        <%= image_tag('arrow_right', width: 25) %>
       <% end %>
     </div>
   </div>

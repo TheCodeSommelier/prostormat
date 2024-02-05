@@ -1,4 +1,4 @@
-<!-- TODO: Search and filters -->
+<!-- TODO: Filter by capacity -->
 <!-- TODO: Index cards and style them -->
 <!-- TODO: Pagination by 20 -->
 <div class="container index-places-container">
@@ -19,7 +19,9 @@
               <%= check_box_tag "filters[]", filter.id, params[:filters]&.include?(filter.id.to_s), id: "filters_#{filter.id}", onchange: "this.form.requestSubmit();", class: 'filter-checkbox-size me-2' %>
               <%= label_tag "filters[#{filter.id}]", filter.name.capitalize %>
             </div>
-            <%= PlaceFilter.where(filter_id: filter.id).count %>
+            <div class="count-results-center d-flex justify-content-center">
+              <%= PlaceFilter.where(filter_id: filter.id).count %>
+            </div>
           </div>
         <% end %>
       <% end %>
