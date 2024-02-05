@@ -3,4 +3,9 @@
   border-radius: 10px;
   height: 300px;
   background-color: $light-blue;
+  width: 310px;
+
+  .card-title-width {
+    width: 75%;
+  }
 }
