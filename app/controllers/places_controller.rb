@@ -4,7 +4,7 @@
 # showing details for a single place, creating new places, editing existing places, and
 # deleting places. It responds to routes defined in config/routes.rb for the Place model.
 class PlacesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show] # Skip authentication for index
+  skip_before_action :authenticate_user!, only: %i[index show new] # Skip authentication for index
 
   # TODO: Date, capacity, notes, event type, email, phone
 
@@ -41,10 +41,30 @@ class PlacesController < ApplicationController
   end
 
   # Renders a form for creating a new place.
-  def new; end
+  def new
+    @place = Place.new
+    @venue = Venue.new
+    authorize @place
+  end
 
   # Creates a new place record from the submitted form data.
-  def create; end
+  def create
+    @place = Place.new(place_params)
+
+    if @place.save
+      respond_to do |format|
+        format.json {
+          if resource.persisted?
+            render json: { redirect_url: new_place_venue(@place) }
+          else
+            render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
+          end
+        }
+      end
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
 
   # Renders a form for editing an existing place identified by id.
   def edit; end
@@ -54,4 +74,14 @@ class PlacesController < ApplicationController
 
   # Deletes the place record identified by id.
   def destroy; end
+
+  private
+
+  def set_place
+    @place = Place.find(params[:id])
+  end
+
+  def place_params
+    params.require(:place).permit(:place_name, :address, :city, :max_capacity, :place_description)
+  end
 end

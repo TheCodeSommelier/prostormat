@@ -1,2 +1,44 @@
-<h1>Places#new</h1>
-<p>Find me in app/views/places/new.html.erb</p>
+<div id="new-place-form">
+  <h1>Create a New Place</h1>
+
+  <%= form_for @place, html: { id: 'place-form' }, data: { controller: 'multi-step-form', action: 'submit->multi-step-form#showVenue' } do |f| %>
+
+    <div class="place-input">
+      <%= f.label :place_name %>
+      <%= f.text_field :place_name, placeholder: 'The Ritz' %>
+    </div>
+
+    <div class="place-input">
+      <%= f.label :address %>
+      <%= f.text_field :address, placeholder: 'Pařížská 32' %>
+    </div>
+
+    <div class="place-input">
+      <%= f.label :city %>
+      <%= f.text_field :city, placeholder: 'Praha' %>
+    </div>
+
+    <div class="place-input">
+      <%= f.label :max_capacity %>
+      <%= f.number_field :max_capacity, min: 10, step: 10, placeholder: 1300 %>
+    </div>
+
+    <div class="place-input">
+      <%= f.label :place_description %>
+      <%= f.text_area :place_description, placeholder: 'Proč váš prostor ten nej...' %>
+    </div>
+
+    <div class="place-input">
+      <%= label_tag 'Kolik máte prostorů?' %>
+      <%= number_field_tag :number_of_venues, min: 1, step: 1, placeholder: 3 %>
+    </div>
+
+    <%= button_tag 'Next', data: { action: 'click->multi-step-form#showVenue' } %>
+
+    <%= fields_for :venues do |venues_fields| %>
+
+    <% end %>
+
+    <%= f.submit "Create Place", class: 'd-none' %>
+  <% end %>
+</div>

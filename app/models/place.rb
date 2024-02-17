@@ -9,6 +9,8 @@ class Place < ApplicationRecord
   has_many :place_filters, dependent: :destroy
   has_many :filters, through: :place_filters
 
+  accepts_nested_attributes_for :venues
+
   def largest_venue_capacity
     venues.order(capacity: :desc).first.capacity
   end

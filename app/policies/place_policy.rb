@@ -3,6 +3,10 @@ class PlacePolicy < ApplicationPolicy
     true
   end
 
+  def new?
+    true
+  end
+
   class Scope < Scope
     def resolve
       scope.all

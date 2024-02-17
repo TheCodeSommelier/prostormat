@@ -82,3 +82,6 @@ gem 'bootstrap'
 
 # Allows to use SCSS
 gem 'sassc-rails'
+
+# Allows for multi step forms
+gem 'view_component'

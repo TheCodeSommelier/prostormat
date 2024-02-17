@@ -8,6 +8,11 @@ class VenuesController < ApplicationController
   # Displays the details of a specific venue.
   def show; end
 
+  def new
+    @venue = Venue.new
+    authorize @venue
+  end
+
   # Renders a form for editing the details of a specific venue.
   def edit; end
 
