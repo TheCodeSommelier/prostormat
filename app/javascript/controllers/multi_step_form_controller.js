@@ -5,7 +5,6 @@ export default class extends Controller {
   connect() {
     console.log("Multi step form controller here!");
     this.formCouter = 0;
-    this.venuesId = 1;
   }
 
   nextStep(event) {
@@ -29,62 +28,80 @@ export default class extends Controller {
 
   showVenue(event) {
     event.preventDefault();
-    const nextButton = document.querySelector("button");
-    const placeInputs = Array.from(document.querySelectorAll(".place-input"));
-
-    this.cleanPreviousVenue();
-
-    const venueForm = `
-    <div>
-    <label for="place_venues_attributes_${this.venuesId}_name">Name:</label>
-    <input type="text" name="venues${this.venuesId}[name]" class="venue${this.venuesId}" id="place_venues_attributes_${this.venuesId}_name">
-    </div>
-    <div>
-    <label for="place_venues_attributes_${this.venuesId}_capacity">Capacity:</label>
-    <input type="number" name="venues${this.venuesId}[capacity]" class="venue${this.venuesId}" id="place_venues_attributes_${this.venuesId}_capacity">
-    </div>
-    <div>
-    <label for="place_venues_attributes_${this.venuesId}_description">Description:</label>
-    <textarea type="text" name="venues${this.venuesId}[description]" class="venue${this.venuesId}" id="place_venues_attributes_${this.venuesId}_description"></textarea>
-    </div>
-    `;
-    this.cleanPlacesInputs(placeInputs);
-
-    nextButton.insertAdjacentHTML("beforebegin", venueForm);
-    this.venuesId++;
-    this.venueFormCounter(nextButton);
-
-    // When button next is clicked d-none is applied to current form
-    // Forms for two venues are built out infront of the customer
-    // This porcess repeats until there are no more venues to fill a form out for
-    // the submit button appears and upon click send everything to the backend
+    this.moveOutCurrentForm();
   }
 
-  cleanPlacesInputs(placeInputs) {
-    placeInputs.forEach((input) => {
-      input.classList.add("d-none");
-    });
-  }
+  moveOutCurrentForm() {
+    const placeLabels = document.querySelectorAll(".place-label");
+    const placeInputs = document.querySelectorAll(".place-input");
+    const nextButton = this.element.querySelector("button");
 
-  cleanPreviousVenue() {
-    const previousVenueInputs = document.querySelectorAll(
-      `.venue${this.venuesId - 1}`
+    placeLabels.forEach((label) =>
+      label.classList.add("label-exit-left", "active")
     );
-    previousVenueInputs.forEach((input) => {
-      input.parentNode.classList.add('d-none');
-    });
+    placeInputs.forEach((input) =>
+      input.classList.add("input-exit-right", "active")
+    );
+    nextButton.classList.add("hidden-next");
+
+    setTimeout(() => {
+      this.appendVenueForm();
+      nextButton.style.display = 'none';
+    }, 1000);
   }
 
-  venueFormCounter(nextButton) {
-    const number_of_venues = parseInt(
+  appendVenueForm() {
+    const numberOfVenues = parseInt(
       document.querySelector("#number_of_venues").value
     );
-    const submitButton = document.querySelector('input[type="submit"]');
-    this.formCouter++;
+    const placeInputsContainers = document.querySelectorAll(".input-container");
 
-    if (number_of_venues === this.formCouter) {
-      submitButton.classList.remove("d-none");
-      nextButton.classList.add("d-none", "disable");
-    }
+    placeInputsContainers.forEach((container) => {
+      container.style.display = "none";
+    });
+
+    requestAnimationFrame(() => {
+      for (let i = 0; i < numberOfVenues; i++) {
+        this.createAndInsertVenueForm(i + 1);
+      }
+    });
+  }
+
+  createAndInsertVenueForm(index) {
+    const nextButton = this.element.querySelector("button");
+    const venueFormHtml = this.venueFormTemplate(index);
+
+    nextButton.insertAdjacentHTML("beforebegin", venueFormHtml);
+
+    requestAnimationFrame(() => {
+      document.querySelectorAll(".venue-title").forEach((title) => {
+        title.classList.add("show-title");
+      });
+      document.querySelectorAll(`.venue${index}-label`).forEach((label) => {
+        label.classList.add("label-enter-left", "label-enter-active");
+      });
+      document.querySelectorAll(`.venue${index}-input`).forEach((input) => {
+        input.classList.add("input-enter-right", "input-enter-active");
+      });
+      document.querySelector('input[type="submit"]').classList.add("show-submit");
+    });
+  }
+
+  venueFormTemplate(index) {
+    return `
+    <h3 class="venue-title hidden-title">Venue number ${index}</h3>
+    <div class="input-container">
+      <label for="place_venues_attributes_${index}_name" class="venue${index}-label label-start-position">Name:</label>
+      <input type="text" name="venues${index}[name]" class="venue${index}-input input-start-position" id="place_venues_attributes_${index}_name">
+    </div>
+    <div class="input-container">
+      <label for="place_venues_attributes_${index}_capacity" class="venue${index}-label label-start-position">Capacity:</label>
+      <input type="number" name="venues${index}[capacity]" class="venue${index}-input input-start-position" id="place_venues_attributes_${index}_capacity">
+    </div>
+    <div class="input-container">
+      <label for="place_venues_attributes_${index}_description" class="venue${index}-label label-start-position">Description:</label>
+      <textarea type="text" name="venues${index}[description]" class="venue${index}-input input-start-position" id="place_venues_attributes_${index}_description"></textarea>
+    </div>
+    `;
   }
 }

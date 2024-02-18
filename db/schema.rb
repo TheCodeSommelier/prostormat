@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_03_183051) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_18_100729) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -53,10 +53,14 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_03_183051) do
   create_table "places", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "place_name"
-    t.string "address"
+    t.string "street"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "city"
+    t.integer "max_capacity"
+    t.text "place_description"
+    t.string "house_number"
+    t.string "postal_code"
     t.index ["user_id"], name: "index_places_on_user_id"
   end
 
@@ -96,6 +100,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_03_183051) do
     t.string "company_address"
     t.string "ico"
     t.string "dic"
+    t.string "first_name"
+    t.string "last_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
