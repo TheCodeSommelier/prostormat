@@ -1,34 +1,77 @@
 #new-place-form {
   padding: 3rem;
 
-  .label-exit-left, .input-exit-right {
-    opacity: 1;
-    transition: opacity 1s ease-out, transform 1s ease-out;
+  // Animation for labels coming in
+  @keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
 
-  .label-exit-left.active, .input-exit-right.active {
-    opacity: 0;
-    transform: translateX(-100%);
+  // Animation for inputs coming in
+  @keyframes slideInFromRight {
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  // Animation for labels leaving
+  @keyframes slideOutFromLeft {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+  }
+
+  // Animation for inputs leaving
+  @keyframes slideOutFromRight {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+
+  .label-enter-active, .input-enter-active, .label-exit-left, .input-exit-right {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+  }
+
+  .label-enter-active {
+    animation-name: slideInFromLeft;
+  }
+
+  .input-enter-active {
+    animation-name: slideInFromRight;
+  }
+
+  .label-exit-left.active {
+    animation-name: slideOutFromLeft;
   }
 
   .input-exit-right.active {
-    transform: translateX(100%);
+    animation-name: slideOutFromRight;
   }
 
-  .label-start-position, .input-start-position {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-
-  .input-start-position {
-    transform: translateX(100%);
-  }
-
-  .label-enter-active, .input-enter-active {
-    transition: transform 1s ease-in, opacity 1s ease-in;
-    transform: translateX(0);
-    opacity: 1;
-  }
+  // KEEP THIS CODE FOR NOW!!
 
   .hidden-title, .hidden-submit {
     opacity: 0;
@@ -43,4 +86,35 @@
     transition: transform 1s ease-in, opacity 1s ease-in;
     opacity: 0;
   }
+
+  // AND THIS ONE TOO ONCE ABOVE WORKS DELETE
+  // .label-exit-left, .input-exit-right {
+  //   opacity: 1;
+  //   transition: opacity 1s ease-out, transform 1s ease-out;
+  // }
+
+  // .label-exit-left.active, .input-exit-right.active {
+  //   opacity: 0;
+  //   transform: translateX(-100%);
+  // }
+
+  // .input-exit-right.active {
+  //   transform: translateX(100%);
+  // }
+
+  // .label-start-position, .input-start-position {
+  //   opacity: 0;
+  //   transform: translateX(-100%);
+  // }
+
+  // .input-start-position {
+  //   transform: translateX(100%);
+  // }
+
+  // .label-enter-active, .input-enter-active {
+  //   transition: transform 1s ease-in, opacity 1s ease-in;
+  //   transform: translateX(0);
+  //   opacity: 1;
+  // }
+
 }

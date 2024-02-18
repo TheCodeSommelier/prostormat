@@ -54,7 +54,7 @@
               <div class="title-container py-3">
                 <h4 class="space-card-title"><%= place.place_name %></h4>
               </div>
-              <p class="my-3"><%= place.address.truncate(15) %></p>
+              <p class="my-3"><%= place.street.truncate(15) %></p>
               <hr>
               <div>
                 <%= link_to 'Zobrazit', place_path(place), class: "btn btn-dark w-100" %>

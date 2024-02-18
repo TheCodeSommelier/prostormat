@@ -7,7 +7,7 @@
   <h1><%= @place.place_name %></h1>
 
   <section id="basic-info">
-    <p><%= @place.address %></p>
+    <p><%= @place.street %></p>
     <div class="d-flex">
       <% @filters.each do |filter| %>
         <p class="mx-2"><%= filter.name %></p>

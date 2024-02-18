@@ -10,10 +10,8 @@ Rails.application.routes.draw do
   root 'pages#landing_page'
 
   resources :places do
-    resources :venues, only: %i[show new edit update destroy] do
-      # For tax purposes "update" will "cancel" the order. Even if an order is cancelled it still needs to be in DB
-      resources :orders, only: %i[new create update]
-    end
+    # For tax purposes "update" will "cancel" the order. Even if an order is cancelled it still needs to be in DB
+    resources :orders, only: %i[new create update]
   end
 
   # Stripe Checkout route for creating a new subscription

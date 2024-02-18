@@ -50,17 +50,21 @@ class PlacesController < ApplicationController
   # Creates a new place record from the submitted form data.
   def create
     @place = Place.new(place_params)
+    authorize @place
+
+    @place.user = current_user
 
     if @place.save
-      respond_to do |format|
-        format.json {
-          if resource.persisted?
-            render json: { redirect_url: new_place_venue(@place) }
-          else
-            render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
-          end
-        }
-      end
+      # respond_to do |format|
+      #   format.json {
+      #     if resource.persisted?
+      #       render json: { redirect_url: new_place_venue(@place) }
+      #     else
+      #       render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
+      #     end
+      #   }
+      # end
+      redirect_to place_path(@place)
     else
       render :new, status: :unprocessable_entity
     end
@@ -82,6 +86,10 @@ class PlacesController < ApplicationController
   end
 
   def place_params
-    params.require(:place).permit(:place_name, :address, :city, :max_capacity, :place_description)
+    params.require(:place).permit(:place_name, :street, :house_number, :postal_code, :city, :max_capacity, :place_description, :number_of_venues)
+  end
+
+  def create_venues
+    @venue = Venue.new
   end
 end
