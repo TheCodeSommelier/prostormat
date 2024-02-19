@@ -40,11 +40,8 @@
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <p><%= venue.venue_name %></p>
-                <%= link_to place_venue_path(venue) do %>
-                  <%= image_tag('arrow_right', width: 20) %>
-                <% end %>
               </div>
-              <%= link_to 'Book now!', new_place_venue_order_path(venue.place, venue), class: "btn btn-dark" %>
+              <%= link_to 'Book now!', new_place_order_path(venue.place), class: "btn btn-dark" %>
             </div>
           </div>
         </div>

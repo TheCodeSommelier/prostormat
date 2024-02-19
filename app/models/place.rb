@@ -19,7 +19,7 @@ class Place < ApplicationRecord
     venues.order(capacity: :asc).first.capacity
   end
 
-  scope :search_by_query, ->(query) {
-    where("LOWER(city) LIKE LOWER(?) OR LOWER(address) LIKE LOWER(?)", "%#{query}%", "%#{query}%")
+  scope :search_by_query, lambda { |query|
+    where('LOWER(city) LIKE LOWER(?) OR LOWER(address) LIKE LOWER(?)', "%#{query}%", "%#{query}%")
   }
 end

@@ -103,16 +103,16 @@ export default class extends Controller {
     <div class="input-container d-flex">
       <div class="input-container col-6">
         <label for="place_venues_attributes_${index}_name" class="venue${index}-label label-start-position">Name:</label>
-        <input type="text" name="place[venues${index}][][name]" class="venue${index}-input input-start-position form-control" placeholder="Ballet room" id="place_venues_attributes_${index}_name">
+        <input type="text" name="place[venues_attributes][][venue_name]" class="venue${index}-input input-start-position form-control" placeholder="Ballet room" id="place_venues_attributes_${index}_name">
       </div>
       <div class="input-container col-6">
         <label for="place_venues_attributes_${index}_capacity" class="venue${index}-label label-start-position">Capacity:</label>
-        <input type="number" name="place[venues${index}][][capacity]" class="venue${index}-input input-start-position form-control" placeholder="20" id="place_venues_attributes_${index}_capacity">
+        <input type="number" name="place[venues_attributes][][capacity]" class="venue${index}-input input-start-position form-control" placeholder="20" id="place_venues_attributes_${index}_capacity">
       </div>
     </div>
     <div class="input-container">
       <label for="place_venues_attributes_${index}_description" class="venue${index}-label label-start-position">Description:</label>
-      <textarea type="text" name="place[venues${index}][][description]" class="venue${index}-input input-start-position form-control" placeholder="Povězte nám víc..." id="place_venues_attributes_${index}_description"></textarea>
+      <textarea type="text" name="place[venues_attributes][][description]" class="venue${index}-input input-start-position form-control" placeholder="Povězte nám víc..." id="place_venues_attributes_${index}_description"></textarea>
     </div>
     `;
   }

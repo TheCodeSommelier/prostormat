@@ -55,7 +55,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :phone_number, :email, :company_name, :company_address, :ico, :password, :password_confirmation])
+    devise_parameter_sanitizer.permit(:sign_up,
+                                      keys: %i[first_name last_name phone_number email company_name company_address ico
+                                               password password_confirmation])
   end
 
   # If you have extra params to permit, append them to the sanitizer.
@@ -64,7 +66,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up.
-  def after_sign_up_path_for(resource)
+  def after_sign_up_path_for(_resource)
     # super(resource)
     new_place_path
   end
