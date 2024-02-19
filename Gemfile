@@ -87,7 +87,7 @@ gem 'sassc-rails'
 gem 'view_component'
 
 # Image cloud hosting
-gem "cloudinary"
+gem 'cloudinary'
 
 # Allows to set environment variables
-gem "dotenv-rails"
+gem 'dotenv-rails'

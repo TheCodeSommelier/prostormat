@@ -6,8 +6,6 @@
 class PlacesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show new] # Skip authentication for index
 
-  # TODO: Date, capacity, notes, event type, email, phone
-
   # Lists all places.
   def index
     @places = policy_scope(Place)
@@ -62,7 +60,7 @@ class PlacesController < ApplicationController
 
     if @place.save
       params_for_venues.each do |params_venue|
-        @place.venues.create(params_venue)
+        @place.venues.create(params_venue.last)
       end
       redirect_to place_path(@place)
     else
@@ -86,7 +84,8 @@ class PlacesController < ApplicationController
   end
 
   def place_params
-    params.require(:place).permit(:place_name, :street, :house_number, :postal_code, :city, :max_capacity, :place_description, :number_of_venues,
-                                  venues_attributes: %i[venue_name capacity description])
+    params.require(:place).permit(:place_name, :street, :house_number, :postal_code, :city, :max_capacity,
+                                  :place_description, :number_of_venues, photos: [],
+                                  venues_attributes: %i[venue_name capacity description photo])
   end
 end

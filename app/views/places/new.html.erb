@@ -46,6 +46,11 @@
     </div>
 
     <div class="input-container">
+      <%= f.label :photos, 'Fotky', class: 'place-label label-enter-active' %>
+      <%= f.file_field :photos, as: :files, multiple: true, class: 'place-input form-control input-enter-active' %>
+    </div>
+
+    <div class="input-container">
       <%= f.label :place_description, class: 'place-label label-enter-active' %>
       <%= f.text_area :place_description, placeholder: 'Proč váš prostor ten nej...', class: 'place-input form-control input-enter-active' %>
     </div>

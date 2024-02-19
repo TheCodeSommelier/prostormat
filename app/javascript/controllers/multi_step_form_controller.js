@@ -72,7 +72,7 @@ export default class extends Controller {
 
     requestAnimationFrame(() => {
       for (let i = 0; i < numberOfVenues; i++) {
-        this.createAndInsertVenueForm(i + 1);
+        this.createAndInsertVenueForm(i);
       }
     });
   }
@@ -101,20 +101,24 @@ export default class extends Controller {
 
   venueFormTemplate(index) {
     return `
-    <h3 class="venue-title hidden-title">Venue number ${index}</h3>
+    <h3 class="venue-title hidden-title">Venue number ${index + 1}</h3>
     <div class="input-container d-flex">
       <div class="input-container col-6">
         <label for="place_venues_attributes_${index}_name" class="venue${index}-label label-start-position d-none">Name:</label>
-        <input type="text" name="place[venues_attributes][][venue_name]" class="venue${index}-input input-start-position form-control d-none" placeholder="Ballet room" id="place_venues_attributes_${index}_name">
+        <input type="text" name="place[venues_attributes][${index}][venue_name]" class="venue${index}-input input-start-position form-control d-none" placeholder="Ballet room" id="place_venues_attributes_${index}_name">
       </div>
       <div class="input-container col-6">
         <label for="place_venues_attributes_${index}_capacity" class="venue${index}-label label-start-position d-none">Capacity:</label>
-        <input type="number" name="place[venues_attributes][][capacity]" class="venue${index}-input input-start-position form-control d-none" placeholder="20" id="place_venues_attributes_${index}_capacity">
+        <input type="number" name="place[venues_attributes][${index}][capacity]" class="venue${index}-input input-start-position form-control d-none" placeholder="20" id="place_venues_attributes_${index}_capacity">
       </div>
     </div>
-    <div class="input-container d-none">
+    <div class="input-container col-12">
+      <label for="place_venues_attributes_${index}_photo" class="venue${index}-label label-start-position d-none">Photo:</label>
+      <input type="file" name="place[venues_attributes][${index}][photo]" id="place_venues_attributes_${index}_photo" class="venue${index}-input input-start-position form-control d-none">
+    </div>
+    <div class="input-container">
       <label for="place_venues_attributes_${index}_description" class="venue${index}-label label-start-position d-none">Description:</label>
-      <textarea type="text" name="place[venues_attributes][][description]" class="venue${index}-input input-start-position form-control d-none" placeholder="Povězte nám víc..." id="place_venues_attributes_${index}_description"></textarea>
+      <textarea type="text" name="place[venues_attributes][${index}][description]" class="venue${index}-input input-start-position form-control d-none" placeholder="Povězte nám víc..." id="place_venues_attributes_${index}_description"></textarea>
     </div>
     `;
   }

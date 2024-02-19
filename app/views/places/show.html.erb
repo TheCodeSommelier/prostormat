@@ -1,3 +1,5 @@
+<!-- TODO: Order form, email to user and martin upon submission of the order -->
+
 <div class="container show-places-container">
   <div class="show-banner">
     <%= link_to :back do %>
@@ -31,7 +33,7 @@
     <div class="spaces-cards place-show-spaces-cards">
       <% @venues.each do |venue| %>
         <div class="card">
-          <div class="image-placeholder"></div>
+          <%= cl_image_tag venue.photo.key, height: 200, crop: :fill %>
           <div class="d-flex align-items-center">
             <div class="d-flex flex-column w-100">
               <div class="d-flex align-items-center my-2">
@@ -41,7 +43,7 @@
               <div class="d-flex align-items-center justify-content-between">
                 <p><%= venue.venue_name %></p>
               </div>
-              <%= link_to 'Book now!', new_place_order_path(venue.place), class: "btn btn-dark" %>
+              <%= link_to 'Book now!', new_place_order_path(venue), class: "btn btn-dark" %>
             </div>
           </div>
         </div>
@@ -52,9 +54,9 @@
   <section id="gallery">
     <h2 class="my-3">Galerie</h2>
     <div class="image-gallery-grid">
-      <% 10.times do %>
+      <% @place.photos.each do |photo| %>
         <div class="image-card p-1">
-          <div class="image-placeholder"></div>
+          <%= cl_image_tag photo.key, height: 200, crop: :fill %>
         </div>
       <% end %>
     </div>
