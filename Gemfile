@@ -85,3 +85,9 @@ gem 'sassc-rails'
 
 # Allows for multi step forms
 gem 'view_component'
+
+# Image cloud hosting
+gem "cloudinary"
+
+# Allows to set environment variables
+gem "dotenv-rails"
