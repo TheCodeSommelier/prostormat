@@ -88,9 +88,11 @@ export default class extends Controller {
         title.classList.add("show-title");
       });
       document.querySelectorAll(`.venue${index}-label`).forEach((label) => {
+        label.classList.remove("d-none");
         label.classList.add("label-enter-left", "label-enter-active");
       });
       document.querySelectorAll(`.venue${index}-input`).forEach((input) => {
+        input.classList.remove("d-none");
         input.classList.add("input-enter-right", "input-enter-active");
       });
       document.querySelector('input[type="submit"]').classList.add("show-submit");
@@ -102,17 +104,17 @@ export default class extends Controller {
     <h3 class="venue-title hidden-title">Venue number ${index}</h3>
     <div class="input-container d-flex">
       <div class="input-container col-6">
-        <label for="place_venues_attributes_${index}_name" class="venue${index}-label label-start-position">Name:</label>
-        <input type="text" name="place[venues_attributes][][venue_name]" class="venue${index}-input input-start-position form-control" placeholder="Ballet room" id="place_venues_attributes_${index}_name">
+        <label for="place_venues_attributes_${index}_name" class="venue${index}-label label-start-position d-none">Name:</label>
+        <input type="text" name="place[venues_attributes][][venue_name]" class="venue${index}-input input-start-position form-control d-none" placeholder="Ballet room" id="place_venues_attributes_${index}_name">
       </div>
       <div class="input-container col-6">
-        <label for="place_venues_attributes_${index}_capacity" class="venue${index}-label label-start-position">Capacity:</label>
-        <input type="number" name="place[venues_attributes][][capacity]" class="venue${index}-input input-start-position form-control" placeholder="20" id="place_venues_attributes_${index}_capacity">
+        <label for="place_venues_attributes_${index}_capacity" class="venue${index}-label label-start-position d-none">Capacity:</label>
+        <input type="number" name="place[venues_attributes][][capacity]" class="venue${index}-input input-start-position form-control d-none" placeholder="20" id="place_venues_attributes_${index}_capacity">
       </div>
     </div>
-    <div class="input-container">
-      <label for="place_venues_attributes_${index}_description" class="venue${index}-label label-start-position">Description:</label>
-      <textarea type="text" name="place[venues_attributes][][description]" class="venue${index}-input input-start-position form-control" placeholder="Povězte nám víc..." id="place_venues_attributes_${index}_description"></textarea>
+    <div class="input-container d-none">
+      <label for="place_venues_attributes_${index}_description" class="venue${index}-label label-start-position d-none">Description:</label>
+      <textarea type="text" name="place[venues_attributes][][description]" class="venue${index}-input input-start-position form-control d-none" placeholder="Povězte nám víc..." id="place_venues_attributes_${index}_description"></textarea>
     </div>
     `;
   }
