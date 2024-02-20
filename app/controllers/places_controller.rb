@@ -8,7 +8,7 @@ class PlacesController < ApplicationController
 
   # Lists all places.
   def index
-    @places = policy_scope(Place)
+    @places  = policy_scope(Place)
     @filters = Filter.all
 
     if params[:filters].present?
@@ -35,23 +35,24 @@ class PlacesController < ApplicationController
     authorize @place
 
     @filters = @place.filters
-
-    @venues = Venue.where(place: @place)
-
-    @order = Order.new
+    @venues  = Venue.where(place: @place)
+    @order   = Order.new
   end
 
   # Renders a form for creating a new place.
   def new
-    @place = Place.new
-    @venue = Venue.new
+    @place   = Place.new
+    @venue   = Venue.new
+    @filters = Filter.all
     authorize @place
   end
 
   # Creates a new place record from the submitted form data.
   def create
-    params_for_place = place_params.except(:venues_attributes)
+    params_for_place  = place_params.except(:venues_attributes)
     params_for_venues = place_params[:venues_attributes]
+    filter_ids        = place_params[:filter_ids].each(&:to_i)
+    filters           = Filter.where(id: filter_ids).distinct
 
     @place = Place.new(params_for_place)
     authorize @place
@@ -59,6 +60,7 @@ class PlacesController < ApplicationController
     @place.user = current_user
 
     if @place.save
+      filters.each { |filter| PlaceFilter.create(place: @place, filter: filter) }
       params_for_venues.each do |params_venue|
         @place.venues.create(params_venue.last)
       end
@@ -85,7 +87,7 @@ class PlacesController < ApplicationController
 
   def place_params
     params.require(:place).permit(:place_name, :street, :house_number, :postal_code, :city, :max_capacity,
-                                  :place_description, :number_of_venues, photos: [],
+                                  :place_description, :number_of_venues, photos: [], filter_ids: [],
                                   venues_attributes: %i[venue_name capacity description photo])
   end
 end

@@ -45,6 +45,18 @@
       </div>
     </div>
 
+    <div class="input-container d-flex flex-column mt-2">
+      <%= label_tag nil, 'Vyberte filtry, podle nich vás zákazníci najdou', class: 'form-label' %>
+      <div class="form-filters input-container">
+        <% @filters.each do |filter| %>
+          <div class="filter d-flex align-items-center">
+            <%= f.check_box :filter_ids, { multiple: true, id: "filter_#{filter.id}", class: 'form-input form-check-input m-0 me-2' }, filter.id, nil %>
+            <%= label_tag "filter_#{filter.id}", filter.name, class: 'form-label form-check-label m-0' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
     <div class="input-container">
       <%= f.label :photos, 'Přidejte fotky', class: 'form-label label-enter-active' %>
       <%= f.file_field :photos, as: :files, multiple: true, class: 'form-input form-control input-enter-active' %>

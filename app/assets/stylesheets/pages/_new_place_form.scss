@@ -94,4 +94,14 @@
   .venue-title {
     margin-top: 1rem;
   }
+
+  .form-filters {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
+
+  .filter {
+
+  }
 }
