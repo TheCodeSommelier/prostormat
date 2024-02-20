@@ -4,62 +4,62 @@
   <%= form_for @place, html: { id: 'place-form' }, data: { controller: 'multi-step-form' } do |f| %>
 
     <div class="input-container">
-      <%= f.label :place_name, class: 'place-label label-enter-active' %>
-      <%= f.text_field :place_name, placeholder: 'The Ritz', class: 'place-input form-control input-enter-active' %>
+      <%= f.label :place_name, 'Jak se jmenuje místo kde máte porstory?', class: 'form-label label-enter-active' %>
+      <%= f.text_field :place_name, placeholder: 'The Ritz...', class: 'form-input form-control input-enter-active' %>
     </div>
 
     <div class="d-flex input-container">
       <div class="input-container col-6">
-        <%= f.label :street, class: 'place-label label-enter-active' %>
-        <%= f.text_field :street, placeholder: 'Pařížská', class: 'place-input form-control input-enter-active' %>
+        <%= f.label :street, 'Ulice', class: 'form-label label-enter-active' %>
+        <%= f.text_field :street, placeholder: 'Pařížská', class: 'form-input form-control input-enter-active' %>
       </div>
 
 
       <div class="input-container col-6">
-        <%= f.label :house_number, class: 'place-label label-enter-active' %>
-        <%= f.text_field :house_number, placeholder: '345/23', class: 'place-input form-control input-enter-active' %>
-      </div>
-    </div>
-
-    <div class="d-flex input-container">
-      <div class="input-container col-6">
-        <%= f.label :postal_code, class: 'place-label label-enter-active' %>
-        <%= f.text_field :postal_code, placeholder: '130 00', class: 'place-input form-control input-enter-active' %>
-      </div>
-
-      <div class="input-container col-6">
-        <%= f.label :city, class: 'place-label label-enter-active' %>
-        <%= f.text_field :city, placeholder: 'Praha', class: 'place-input form-control input-enter-active' %>
+        <%= f.label :house_number, 'Číslo popisné', class: 'form-label label-enter-active' %>
+        <%= f.text_field :house_number, placeholder: '345/23', class: 'form-input form-control input-enter-active' %>
       </div>
     </div>
 
     <div class="d-flex input-container">
       <div class="input-container col-6">
-        <%= f.label :max_capacity, class: 'place-label label-enter-active' %>
-        <%= f.number_field :max_capacity, min: 10, step: 10, placeholder: 1300, class: 'place-input form-control input-enter-active' %>
+        <%= f.label :postal_code, 'ZIP', class: 'form-label label-enter-active' %>
+        <%= f.text_field :postal_code, placeholder: '130 00', class: 'form-input form-control input-enter-active' %>
       </div>
 
       <div class="input-container col-6">
-        <%= label_tag 'number_of_venues', 'Kolik máte prostorů?', class: 'place-label label-enter-active' %>
-        <%= number_field_tag :number_of_venues, nil, min: 1, step: 1, placeholder: '3', class: 'place-input form-control input-enter-active' %>
+        <%= f.label :city, 'Město', class: 'form-label label-enter-active' %>
+        <%= f.text_field :city, placeholder: 'Praha', class: 'form-input form-control input-enter-active' %>
+      </div>
+    </div>
+
+    <div class="d-flex input-container">
+      <div class="input-container col-6">
+        <%= f.label :max_capacity, 'Maximální kapacita', class: 'form-label label-enter-active' %>
+        <%= f.number_field :max_capacity, min: 10, step: 10, placeholder: 1300, class: 'form-input form-control input-enter-active' %>
+      </div>
+
+      <div class="input-container col-6">
+        <%= label_tag 'number_of_venues', 'Kolik máte prostorů?', class: 'form-label label-enter-active' %>
+        <%= number_field_tag :number_of_venues, nil, min: 1, step: 1, placeholder: '3', class: 'form-input form-control input-enter-active' %>
       </div>
     </div>
 
     <div class="input-container">
-      <%= f.label :photos, 'Fotky', class: 'place-label label-enter-active' %>
-      <%= f.file_field :photos, as: :files, multiple: true, class: 'place-input form-control input-enter-active' %>
+      <%= f.label :photos, 'Přidejte fotky', class: 'form-label label-enter-active' %>
+      <%= f.file_field :photos, as: :files, multiple: true, class: 'form-input form-control input-enter-active' %>
     </div>
 
     <div class="input-container">
-      <%= f.label :place_description, class: 'place-label label-enter-active' %>
-      <%= f.text_area :place_description, placeholder: 'Proč váš prostor ten nej...', class: 'place-input form-control input-enter-active' %>
+      <%= f.label :place_description, 'Popište nám váš prostor, stačí krátce.', class: 'form-label label-enter-active' %>
+      <%= f.text_area :place_description, placeholder: 'Je moderní, minimalistický... A teď vy...', class: 'form-input form-control input-enter-active' %>
     </div>
 
-    <%= button_tag 'Next', class: 'btn btn-dark', data: { action: 'click->multi-step-form#showVenue' } %>
+    <%= button_tag 'Next', class: 'button-primary my-3 w-100', data: { action: 'click->multi-step-form#showVenue' } %>
 
     <%= fields_for :venues do |venues_fields| %>
     <% end %>
 
-    <%= f.submit "Create Place", class: 'hidden-submit btn btn-dark' %>
+    <%= f.submit "Create Place", class: 'hidden-submit button-primary my-3 w-100' %>
   <% end %>
 </div>

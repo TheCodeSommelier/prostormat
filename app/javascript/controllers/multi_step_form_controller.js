@@ -5,16 +5,15 @@ export default class extends Controller {
   connect() {
     console.log("Multi step form controller here!");
     this.formCouter = 0;
-    this.animatePlaceInputs()
+    this.animateFormInputs();
   }
 
-  animatePlaceInputs() {
-    const placeLabels = document.querySelectorAll(".place-label");
-    const placeInputs = document.querySelectorAll(".place-input");
+  animateFormInputs() {
+    const labels = document.querySelectorAll(".form-label");
+    const inputs = document.querySelectorAll(".form-input");
 
-    placeLabels.forEach(label => label.classList.add("label-enter-active"));
-    placeInputs.forEach(input => input.classList.add("input-enter-active"));
-
+    labels.forEach((label) => label.classList.add("label-enter-active"));
+    inputs.forEach((input) => input.classList.add("input-enter-active"));
   }
 
   nextStep(event) {
@@ -42,8 +41,8 @@ export default class extends Controller {
   }
 
   moveOutCurrentForm() {
-    const placeLabels = document.querySelectorAll(".place-label");
-    const placeInputs = document.querySelectorAll(".place-input");
+    const placeLabels = document.querySelectorAll(".form-label");
+    const placeInputs = document.querySelectorAll(".form-input");
     const nextButton = this.element.querySelector("button");
 
     placeLabels.forEach((label) =>
@@ -56,7 +55,7 @@ export default class extends Controller {
 
     setTimeout(() => {
       this.appendVenueForm();
-      nextButton.style.display = 'none';
+      nextButton.style.display = "none";
     }, 1000);
   }
 
@@ -95,30 +94,32 @@ export default class extends Controller {
         input.classList.remove("d-none");
         input.classList.add("input-enter-right", "input-enter-active");
       });
-      document.querySelector('input[type="submit"]').classList.add("show-submit");
+      document
+        .querySelector('input[type="submit"]')
+        .classList.add("show-submit");
     });
   }
 
   venueFormTemplate(index) {
     return `
-    <h3 class="venue-title hidden-title">Venue number ${index + 1}</h3>
+    <h3 class="venue-title hidden-title">Prostor číslo ${index + 1}</h3>
     <div class="input-container d-flex">
       <div class="input-container col-6">
-        <label for="place_venues_attributes_${index}_name" class="venue${index}-label label-start-position d-none">Name:</label>
-        <input type="text" name="place[venues_attributes][${index}][venue_name]" class="venue${index}-input input-start-position form-control d-none" placeholder="Ballet room" id="place_venues_attributes_${index}_name">
+        <label for="place_venues_attributes_${index}_name" class="form-label venue${index}-label label-start-position d-none">Jméno prostoru</label>
+        <input type="text" name="place[venues_attributes][${index}][venue_name]" class="venue-input venue${index}-input input-start-position form-control d-none" placeholder="Ballet room" id="place_venues_attributes_${index}_name">
       </div>
       <div class="input-container col-6">
-        <label for="place_venues_attributes_${index}_capacity" class="venue${index}-label label-start-position d-none">Capacity:</label>
-        <input type="number" name="place[venues_attributes][${index}][capacity]" class="venue${index}-input input-start-position form-control d-none" placeholder="20" id="place_venues_attributes_${index}_capacity">
+        <label for="place_venues_attributes_${index}_capacity" class="form-label venue${index}-label label-start-position d-none">Kapacita</label>
+        <input type="number" name="place[venues_attributes][${index}][capacity]" class="venue-input venue${index}-input input-start-position form-control d-none" placeholder="20" id="place_venues_attributes_${index}_capacity">
       </div>
     </div>
     <div class="input-container col-12">
-      <label for="place_venues_attributes_${index}_photo" class="venue${index}-label label-start-position d-none">Photo:</label>
-      <input type="file" name="place[venues_attributes][${index}][photo]" id="place_venues_attributes_${index}_photo" class="venue${index}-input input-start-position form-control d-none">
+      <label for="place_venues_attributes_${index}_photo" class="form-label venue${index}-label label-start-position d-none">Přidejte fotku</label>
+      <input type="file" name="place[venues_attributes][${index}][photo]" id="place_venues_attributes_${index}_photo" class="venue-input venue${index}-input input-start-position form-control d-none">
     </div>
     <div class="input-container">
-      <label for="place_venues_attributes_${index}_description" class="venue${index}-label label-start-position d-none">Description:</label>
-      <textarea type="text" name="place[venues_attributes][${index}][description]" class="venue${index}-input input-start-position form-control d-none" placeholder="Povězte nám víc..." id="place_venues_attributes_${index}_description"></textarea>
+      <label for="place_venues_attributes_${index}_description" class="form-label venue${index}-label label-start-position d-none">Popište váš prostor</label>
+      <textarea type="text" name="place[venues_attributes][${index}][description]" class="venue-input venue${index}-input input-start-position form-control d-none" placeholder="Povězte nám víc..." id="place_venues_attributes_${index}_description"></textarea>
     </div>
     `;
   }
