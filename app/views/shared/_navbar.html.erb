@@ -1,7 +1,8 @@
 <div class="navbar navbar-expand-sm navbar-space-mi">
   <div class="container-fluid d-flex justify-content-between">
-    <%= link_to "Logo", class: "navbar-brand" %>
-
+    <%= link_to root_path do  %>
+      <%= image_tag('PROSTORMAT_logo 1', width: 130, class: 'ps-3') %>
+    <% end %>
     <div>
       <div class="navbar-nav d-flex align-items-center me-auto">
         <% if user_signed_in? %>
