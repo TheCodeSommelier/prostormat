@@ -5,7 +5,6 @@ export default class extends Controller {
   static targets = ['searchTextField']
 
   connect() {
-    console.log('Hi')
   }
 
   startSearch(event) {

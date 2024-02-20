@@ -1,21 +1,5 @@
 Rails.application.routes.draw do
-  get 'stripe/new_checkout_session'
-  get 'stripe/webhooks'
-  get 'orders/new'
-  get 'orders/create'
-  get 'orders/update'
-  get 'venues/show'
-  get 'venues/edit'
-  get 'venues/update'
-  get 'venues/destroy'
-  get 'places/index'
-  get 'places/show'
-  get 'places/new'
-  get 'places/create'
-  get 'places/edit'
-  get 'places/update'
-  get 'places/destroy'
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -26,10 +10,8 @@ Rails.application.routes.draw do
   root 'pages#landing_page'
 
   resources :places do
-    resources :venues, only: %i[show edit update destroy] do
-      # For tax purposes "update" will "cancel" the order. Even if an order is cancelled it still needs to be in DB
-      resources :orders, only: %i[new create update]
-    end
+    # For tax purposes "update" will "cancel" the order. Even if an order is cancelled it still needs to be in DB
+    resources :orders, only: %i[new create update]
   end
 
   # Stripe Checkout route for creating a new subscription

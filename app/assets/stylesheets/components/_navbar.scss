@@ -1,8 +1,10 @@
 .navbar-space-mi {
   justify-content: space-between;
-  background-color: rgba(155, 155, 155, 0.5);
+  background-color: rgba($color: $background-color, $alpha: 0.5);
   position: fixed;
   width: 100%;
+  border-bottom: 1px solid #b4b4b4;
+  z-index: 1;
 }
 
 .navbar-space-mi .navbar-collapse {
@@ -11,4 +13,9 @@
 
 .navbar-space-mi .navbar-brand img {
   width: 40px;
+}
+
+.nav-link {
+  display: flex;
+  text-align: center;
 }

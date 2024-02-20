@@ -14,13 +14,12 @@
       </div>
       <%= form_with url: places_path, method: :get, data: { turbo_frame: "places_list"}, class: "d-flex flex-column filters-checkboxes p-2" do |form| %>
         <% @filters.each do |filter| %>
-          <div class="d-flex justify-content-between">
+          <div class="d-flex">
             <div>
-              <%= check_box_tag "filters[]", filter.id, params[:filters]&.include?(filter.id.to_s), id: "filters_#{filter.id}", onchange: "this.form.requestSubmit();", class: 'filter-checkbox-size me-2' %>
-              <%= label_tag "filters[#{filter.id}]", filter.name.capitalize %>
+              <%= check_box_tag "filters[]", filter.id, params[:filters]&.include?(filter.id.to_s), id: "filters_#{filter.id}", onchange: "this.form.requestSubmit();", class: 'filter-checkbox-size filter-checkbox me-2' %>
             </div>
-            <div class="count-results-center d-flex justify-content-center">
-              <%= PlaceFilter.where(filter_id: filter.id).count %>
+            <div>
+              <%= label_tag "filters[#{filter.id}]", filter.name.capitalize %>
             </div>
           </div>
         <% end %>

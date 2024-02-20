@@ -1,3 +1,5 @@
+<!-- TODO: Order form, email to user and martin upon submission of the order -->
+
 <div class="container show-places-container">
   <div class="show-banner">
     <%= link_to :back do %>
@@ -7,22 +9,17 @@
   <h1><%= @place.place_name %></h1>
 
   <section id="basic-info">
-    <p><%= @place.address %></p>
+    <p><%= @place.street %></p>
     <div class="d-flex">
       <% @filters.each do |filter| %>
         <p class="mx-2"><%= filter.name %></p>
       <% end %>
     </div>
 
-    <div class="conditions-amenities-table d-flex">
-      <div class="d-flex flex-column amenities w-50">
-        <h3>Vybavení</h3>
-        <hr class="conditions-amenities-divider-width">
-      </div>
-      <div class="d-flex flex-column conditions w-50">
-        <h3>Podmínky</h3>
-        <hr class="conditions-amenities-divider-width">
-      </div>
+    <!-- TODO: Check if even want that -->
+    <div class="d-flex flex-column amenities w-50">
+      <h3>Vybavení</h3>
+      <hr class="conditions-amenities-divider-width">
     </div>
   </section>
 
@@ -31,7 +28,7 @@
     <div class="spaces-cards place-show-spaces-cards">
       <% @venues.each do |venue| %>
         <div class="card">
-          <div class="image-placeholder"></div>
+          <%= cl_image_tag venue.photo.key, height: 200, crop: :fill %>
           <div class="d-flex align-items-center">
             <div class="d-flex flex-column w-100">
               <div class="d-flex align-items-center my-2">
@@ -40,11 +37,8 @@
               </div>
               <div class="d-flex align-items-center justify-content-between">
                 <p><%= venue.venue_name %></p>
-                <%= link_to place_venue_path(venue) do %>
-                  <%= image_tag('arrow_right', width: 20) %>
-                <% end %>
               </div>
-              <%= link_to 'Book now!', new_place_venue_order_path(venue.place, venue), class: "btn btn-dark" %>
+              <%= link_to 'Book now!', new_place_order_path(venue), class: "btn btn-dark" %>
             </div>
           </div>
         </div>
@@ -55,9 +49,9 @@
   <section id="gallery">
     <h2 class="my-3">Galerie</h2>
     <div class="image-gallery-grid">
-      <% 10.times do %>
+      <% @place.photos.each do |photo| %>
         <div class="image-card p-1">
-          <div class="image-placeholder"></div>
+          <%= cl_image_tag photo.key, height: 200, crop: :fill %>
         </div>
       <% end %>
     </div>

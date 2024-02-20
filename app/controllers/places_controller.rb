@@ -4,13 +4,11 @@
 # showing details for a single place, creating new places, editing existing places, and
 # deleting places. It responds to routes defined in config/routes.rb for the Place model.
 class PlacesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show] # Skip authentication for index
-
-  # TODO: Date, capacity, notes, event type, email, phone
+  skip_before_action :authenticate_user!, only: %i[index show new] # Skip authentication for index
 
   # Lists all places.
   def index
-    @places = policy_scope(Place)
+    @places  = policy_scope(Place)
     @filters = Filter.all
 
     if params[:filters].present?
@@ -24,7 +22,10 @@ class PlacesController < ApplicationController
 
     respond_to do |format|
       format.html # For regular HTML requests
-      format.json { render json: { html: render_to_string(partial: 'shared/places_card_grid', locals: { places: @places }, formats: [:html]) } }
+      format.json do
+        render json: { html: render_to_string(partial: 'shared/places_card_grid', locals: { places: @places },
+                                              formats: [:html]) }
+      end
     end
   end
 
@@ -34,17 +35,43 @@ class PlacesController < ApplicationController
     authorize @place
 
     @filters = @place.filters
-
-    @venues = Venue.where(place: @place)
-
-    @order = Order.new
+    @venues  = Venue.where(place: @place)
+    @order   = Order.new
   end
 
   # Renders a form for creating a new place.
-  def new; end
+  def new
+    @place   = Place.new
+    @venue   = Venue.new
+    @filters = Filter.all
+    authorize @place
+  end
 
   # Creates a new place record from the submitted form data.
-  def create; end
+  def create
+    params_for_place  = place_params.except(:venues_attributes)
+    params_for_venues = place_params[:venues_attributes]
+    filter_ids        = place_params[:filter_ids].each(&:to_i)
+
+    @place = Place.new(params_for_place)
+    authorize @place
+
+    @place.user = current_user
+
+    if @place.save
+      filter_ids.each do |filter_id|
+        unless PlaceFilter.exists?(place: @place, filter_id: filter_id)
+          PlaceFilter.create(place: @place, filter_id: filter_id)
+        end
+      end
+      params_for_venues.each do |params_venue|
+        @place.venues.create(params_venue.last)
+      end
+      redirect_to place_path(@place)
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
 
   # Renders a form for editing an existing place identified by id.
   def edit; end
@@ -54,4 +81,16 @@ class PlacesController < ApplicationController
 
   # Deletes the place record identified by id.
   def destroy; end
+
+  private
+
+  def set_place
+    @place = Place.find(params[:id])
+  end
+
+  def place_params
+    params.require(:place).permit(:place_name, :street, :house_number, :postal_code, :city, :max_capacity,
+                                  :place_description, :number_of_venues, photos: [], filter_ids: [],
+                                  venues_attributes: %i[venue_name capacity description photo])
+  end
 end

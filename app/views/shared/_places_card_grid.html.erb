@@ -1,8 +1,8 @@
 <% @places.each do |place| %>
   <div class="card d-flex flex-column justify-content-between">
-    <div class="image-placeholder"></div>
+    <%= cl_image_tag place.photos.first.key, height: 200, crop: :fill %>
     <div class="d-flex justify-content-between">
-      <p><%= place.address %></p>
+      <p><%= place.street %></p>
       <div class="d-flex align-items-center">
         <%= image_tag('person-grey', width: 10, class: "person-icon-margin-right") %>
         <p><%= place.largest_venue_capacity == place.smallest_venue_capacity ? "#{place.largest_venue_capacity}" : "#{place.smallest_venue_capacity} - #{place.largest_venue_capacity}" %></p>
