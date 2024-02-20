@@ -5,6 +5,9 @@
 }
 
 .search-bar-button-border-radius {
+  @extend .button-primary;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
