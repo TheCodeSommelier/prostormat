@@ -49,7 +49,6 @@
     }
   }
 
-
   .label-enter-active, .input-enter-active, .label-exit-left, .input-exit-right {
     animation-duration: 1s;
     animation-fill-mode: both;
@@ -101,7 +100,8 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   }
 
-  .filter {
-
+  .filter-checkbox:checked {
+    background-color: $accent;
+    border: none;
   }
 }

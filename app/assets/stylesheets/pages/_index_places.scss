@@ -22,6 +22,11 @@
 
     .filter-checkbox-size {
       width: 17px;
+
+      &:checked {
+        background-color: $accent;
+        border: none;
+      }
     }
 
     .filters-checkboxes {
@@ -33,4 +38,5 @@
       width: 6%;
     }
   }
+
 }

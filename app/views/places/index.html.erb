@@ -16,7 +16,7 @@
         <% @filters.each do |filter| %>
           <div class="d-flex">
             <div>
-              <%= check_box_tag "filters[]", filter.id, params[:filters]&.include?(filter.id.to_s), id: "filters_#{filter.id}", onchange: "this.form.requestSubmit();", class: 'filter-checkbox-size me-2' %>
+              <%= check_box_tag "filters[]", filter.id, params[:filters]&.include?(filter.id.to_s), id: "filters_#{filter.id}", onchange: "this.form.requestSubmit();", class: 'filter-checkbox-size filter-checkbox me-2' %>
             </div>
             <div>
               <%= label_tag "filters[#{filter.id}]", filter.name.capitalize %>

@@ -12,17 +12,23 @@
             <%= link_to "Nový prostor", new_place_path, class: "nav-link" %>
           </div>
           <div class="nav-item d-flex justify-content-center">
-            <%= link_to "Prostor", places_path, class: "nav-link" %>
+            <%= link_to "Prostory", places_path, class: "nav-link" %>
           </div>
           <div>
-            <%= link_to "Log out", destroy_user_session_path, class: "nav-link", data: {turbo_method: :delete} %>
+            <%= link_to "Logout", destroy_user_session_path, class: "nav-link", data: {turbo_method: :delete} %>
           </div>
         <% else %>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+           class="nav-item active d-flex justify-content-center">
+            <%= link_to "Home", root_path, class: "nav-link" %>
           </div>
           <div class="nav-item d-flex justify-content-center">
             <%= link_to "Nový prostor", new_user_registration_path, class: "nav-link" %>
+          </div>
+          <div class="nav-item d-flex justify-content-center">
+            <%= link_to "Prostory", places_path, class: "nav-link" %>
+          </div>
+          <div class="nav-item d-flex justify-content-center">
+            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
           </div>
         <% end %>
       </div>

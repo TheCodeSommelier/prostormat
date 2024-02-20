@@ -52,7 +52,6 @@ class PlacesController < ApplicationController
     params_for_place  = place_params.except(:venues_attributes)
     params_for_venues = place_params[:venues_attributes]
     filter_ids        = place_params[:filter_ids].each(&:to_i)
-    filters           = Filter.where(id: filter_ids).distinct
 
     @place = Place.new(params_for_place)
     authorize @place
@@ -60,7 +59,11 @@ class PlacesController < ApplicationController
     @place.user = current_user
 
     if @place.save
-      filters.each { |filter| PlaceFilter.create(place: @place, filter: filter) }
+      filter_ids.each do |filter_id|
+        unless PlaceFilter.exists?(place: @place, filter_id: filter_id)
+          PlaceFilter.create(place: @place, filter_id: filter_id)
+        end
+      end
       params_for_venues.each do |params_venue|
         @place.venues.create(params_venue.last)
       end
