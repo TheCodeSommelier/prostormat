@@ -12,9 +12,8 @@ class StripeController < ApplicationController
   def new_checkout_session
     # You might want to find or create a product/subscription plan here, or pass these as parameters
     session = Stripe::Checkout::Session.create(
-      payment_method_types: ['card'],
+      automatic_payment_methods: { enabled: true },
       line_items: [{
-        # Assuming you have a subscription plan already created in your Stripe dashboard
         price: ENV.fetch('STRIPE_PRICE_ID'),
         quantity: 1
       }],
@@ -25,10 +24,6 @@ class StripeController < ApplicationController
 
     redirect_to session.url, allow_other_host: true
   end
-
-  # Receives and processes webhook events from Stripe, such as subscription
-  # updates, payment successes, or failures.
-  def webhooks; end
 
   def success
     # redirect_to place_path(@place)

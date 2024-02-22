@@ -66,7 +66,7 @@ class PlacesController < ApplicationController
         fromat.js
         fromat.html
       end
-      redirect_to new_checkout_session_path
+      redirect_to stripe_checkout_path
     else
       render :new, status: :unprocessable_entity
     end

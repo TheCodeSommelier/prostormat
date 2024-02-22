@@ -15,11 +15,12 @@ Rails.application.routes.draw do
   end
 
   # Stripe Checkout route for creating a new subscription
-  get 'stripe/checkout', to: 'stripe#new_checkout_session', as: :new_checkout_session
+  get 'stripe/checkout', to: 'stripe/checkout#checkout'
 
   # Stripe Webhook route for handling events
-  post 'stripe/webhooks', to: 'stripe#webhooks'
+  # stripe listen --forward-to localhost:3000/stripe/webhooks
+  post 'stripe/webhooks', to: 'stripe/webhooks#create'
 
-  get 'success', to: 'stripe#success'
-  get 'cancel', to: 'stripe#cancel'
+  get 'success', to: 'stripe/checkout#checkout_success'
+  get 'cancel', to: 'stripe/checkout#checkout_cancel'
 end

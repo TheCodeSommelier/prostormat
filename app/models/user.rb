@@ -9,4 +9,8 @@ class User < ApplicationRecord
   has_one :subscription
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  after_create do
+    Stripe::Customer.create(email: email)
+  end
 end
