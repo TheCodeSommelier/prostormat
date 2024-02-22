@@ -1,5 +1,5 @@
 #new-place-form {
-  padding: 5rem;
+  padding: 9rem;
 
   // Animation for labels coming in
   @keyframes slideInFromLeft {
@@ -70,11 +70,11 @@
     animation-name: slideOutFromRight;
   }
 
-  .hidden-title, .hidden-submit {
+  .hidden-title {
     opacity: 0;
   }
 
-  .show-title, .show-submit {
+  .show-title {
     transition: transform 1s ease-in, opacity 1s ease-in;
     opacity: 1;
   }
@@ -84,13 +84,9 @@
     opacity: 0;
   }
 
-  .form-label, .venue-label {
+  .form-label {
     font-size: 18px;
     margin-bottom: 0.25rem;
-    margin-top: 1rem;
-  }
-
-  .venue-title {
     margin-top: 1rem;
   }
 
@@ -103,5 +99,9 @@
   .filter-checkbox:checked {
     background-color: $accent;
     border: none;
+  }
+
+  .long-description-text-area-height {
+    height: 250px;
   }
 }

@@ -19,4 +19,7 @@ Rails.application.routes.draw do
 
   # Stripe Webhook route for handling events
   post 'stripe/webhooks', to: 'stripe#webhooks'
+
+  get 'success', to: 'stripe#success'
+  get 'cancel', to: 'stripe#cancel'
 end

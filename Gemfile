@@ -91,3 +91,6 @@ gem 'cloudinary'
 
 # Allows to set environment variables
 gem 'dotenv-rails'
+
+# Allows for yearly subscription
+gem 'stripe'

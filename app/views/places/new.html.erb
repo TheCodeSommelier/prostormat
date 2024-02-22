@@ -1,7 +1,7 @@
 <div id="new-place-form">
   <h1>Vytvořte vaše porstory</h1>
 
-  <%= form_for @place, html: { id: 'place-form' }, data: { controller: 'multi-step-form' } do |f| %>
+  <%= form_for @place, html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form' } do |f| %>
 
     <div class="input-container">
       <%= f.label :place_name, 'Jak se jmenuje místo kde máte porstory?', class: 'form-label label-enter-active' %>
@@ -63,14 +63,16 @@
     </div>
 
     <div class="input-container">
-      <%= f.label :place_description, 'Popište nám váš prostor, stačí krátce.', class: 'form-label label-enter-active' %>
-      <%= f.text_area :place_description, placeholder: 'Je moderní, minimalistický... A teď vy...', class: 'form-input form-control input-enter-active' %>
+      <%= f.label :short_description, 'Popište nám váš prostor, stačí krátce.', class: 'form-label label-enter-active' %>
+      <%= f.text_area :short_description, placeholder: 'Je moderní, minimalistický... A teď vy...', class: 'form-input form-control input-enter-active' %>
     </div>
 
-    <%= button_tag 'Next', class: 'button-primary my-3 w-100', data: { action: 'click->multi-step-form#showVenue' } %>
+    <div class="input-container">
+      <%= f.label :long_description, 'Popište nám váš prostor, jdeme do detailů.', class: 'form-label label-enter-active' %>
+      <%= f.text_area :long_description, placeholder: 'Pokud máte více prostorů v rámci vašeho komplexu povězte nám o nich...', height: 400, class: 'form-input form-control input-enter-active long-description-text-area-height' %>
+    </div>
 
-    <%= fields_for :venues do |venues_fields| %>
-    <% end %>
+    <%#= button_tag 'Next', class: 'button-primary my-3 w-100', data: { action: 'click->multi-step-form#showVenue' } %>
 
     <%= f.submit "Create Place", class: 'hidden-submit button-primary my-3 w-100' %>
   <% end %>

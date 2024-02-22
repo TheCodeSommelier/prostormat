@@ -9,5 +9,8 @@
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "dependencies": {
+    "@stripe/stripe-js": "^3.0.4"
+  }
 }
