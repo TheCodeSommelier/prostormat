@@ -35,7 +35,6 @@ class PlacesController < ApplicationController
     authorize @place
 
     @filters = @place.filters
-    @venues  = Venue.where(place: @place)
     @order   = Order.new
   end
 

@@ -11,14 +11,6 @@ class Place < ApplicationRecord
   has_many :filters, through: :place_filters
   has_many_attached :photos
 
-  def largest_venue_capacity
-    venues.order(capacity: :desc).first.capacity
-  end
-
-  def smallest_venue_capacity
-    venues.order(capacity: :asc).first.capacity
-  end
-
   scope :search_by_query, lambda { |query|
     where('LOWER(city) LIKE LOWER(?) OR LOWER(address) LIKE LOWER(?)', "%#{query}%", "%#{query}%")
   }
