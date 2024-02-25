@@ -6,7 +6,7 @@ class Stripe::CheckoutController < ApplicationController
 
   def setup_intent
     setup_intent = Stripe::SetupIntent.create({
-      automatic_payment_methods: { enabled: true }
+      payment_method_types: ['card']
     })
 
     render json: { clientSecret: setup_intent.client_secret }
