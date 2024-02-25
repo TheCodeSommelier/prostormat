@@ -5,5 +5,4 @@
 class Order < ApplicationRecord
   # TODO: Form for order
   belongs_to :bokee
-  belongs_to :venue
 end

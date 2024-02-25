@@ -8,7 +8,7 @@ class PlacesController < ApplicationController
 
   # Lists all places.
   def index
-    @places  = policy_scope(Place)
+    @places  = policy_scope(Place.visible)
     @filters = Filter.all
 
     if params[:filters].present?
@@ -35,22 +35,19 @@ class PlacesController < ApplicationController
     authorize @place
 
     @filters = @place.filters
-    @venues  = Venue.where(place: @place)
     @order   = Order.new
   end
 
   # Renders a form for creating a new place.
   def new
     @place   = Place.new
-    @venue   = Venue.new
     @filters = Filter.all
     authorize @place
   end
 
   # Creates a new place record from the submitted form data.
   def create
-    params_for_place  = place_params.except(:venues_attributes)
-    params_for_venues = place_params[:venues_attributes]
+    params_for_place  = place_params
     filter_ids        = place_params[:filter_ids].each(&:to_i)
 
     @place = Place.new(params_for_place)
@@ -64,10 +61,11 @@ class PlacesController < ApplicationController
           PlaceFilter.create(place: @place, filter_id: filter_id)
         end
       end
-      params_for_venues.each do |params_venue|
-        @place.venues.create(params_venue.last)
+      respond_to do |fromat|
+        fromat.js
+        fromat.html
       end
-      redirect_to place_path(@place)
+      redirect_to stripe_checkout_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -88,9 +86,9 @@ class PlacesController < ApplicationController
     @place = Place.find(params[:id])
   end
 
+  # TODO: Check if we need :number_of_venues,
   def place_params
     params.require(:place).permit(:place_name, :street, :house_number, :postal_code, :city, :max_capacity,
-                                  :place_description, :number_of_venues, photos: [], filter_ids: [],
-                                  venues_attributes: %i[venue_name capacity description photo])
+                                  :short_description, :long_description, photos: [], filter_ids: [])
   end
 end

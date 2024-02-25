@@ -2,6 +2,8 @@
 <!-- TODO: Další služby section -->
 <!-- TODO: Footer -->
 <!-- TODO: Další služby controller and model -->
+<!-- TODO: Form for we'll organize the event -->
+<!-- TODO: Moving pictures on the landing page as is on design site but constantly changing location -->
 
 <section class="banner" id="banner">
   <div class="banner-background-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= image_path('moonclub-interier') %>)">
@@ -50,7 +52,7 @@
           <div class="space-card p-2">
             <div class="text-left">
               <div class="image-placeholder"></div>
-              <p class="vanues-color">Prostrů k pronájmu: <%= place.venues.count %></p>
+              <p class="">Prostrů k pronájmu: <%= place %></p>
               <div class="title-container py-3">
                 <h4 class="space-card-title"><%= place.place_name %></h4>
               </div>
@@ -66,4 +68,5 @@
     </div>
     <%= link_to 'Všechny prostory', places_path, class: "btn btn-dark w-50" %>
   </div>
+  <%= button_to 'Billing', stripe_billing_path, class: 'button-primary', data: { turbo: 'false' } %>
 </section>

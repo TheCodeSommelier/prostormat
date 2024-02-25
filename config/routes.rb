@@ -14,9 +14,17 @@ Rails.application.routes.draw do
     resources :orders, only: %i[new create update]
   end
 
+
   # Stripe Checkout route for creating a new subscription
-  get 'stripe/checkout', to: 'stripe#new_checkout_session', as: :new_checkout_session
+  get 'stripe/checkout', to: 'stripe/checkout#checkout'
 
   # Stripe Webhook route for handling events
-  post 'stripe/webhooks', to: 'stripe#webhooks'
+  # stripe listen --forward-to localhost:3000/stripe/webhooks
+  post 'stripe/webhooks', to: 'stripe/webhooks#create'
+
+  get 'stripe/checkoutcomplete', to: 'stripe/checkout#success', as: :checkout_success
+  get 'checkout/cancel', to: 'stripe/checkout#cancel', as: :checkout_cancel
+  post 'stripe/billing', to: 'stripe/billing#create'
+  post 'stripe/create-subscription', to: 'stripe/checkout#create_subscription'
+  post 'stripe/create-setup-intent', to: 'stripe/checkout#setup_intent'
 end

@@ -5,7 +5,8 @@
       <p><%= place.street %></p>
       <div class="d-flex align-items-center">
         <%= image_tag('person-grey', width: 10, class: "person-icon-margin-right") %>
-        <p><%= place.largest_venue_capacity == place.smallest_venue_capacity ? "#{place.largest_venue_capacity}" : "#{place.smallest_venue_capacity} - #{place.largest_venue_capacity}" %></p>
+        <!-- TODO: Change this -->
+        <p><%#= place.largest_venue_capacity == place.smallest_venue_capacity ? "#{place.largest_venue_capacity}" : "#{place.smallest_venue_capacity} - #{place.largest_venue_capacity}" %></p>
       </div>
     </div>
     <div class="d-flex align-items-center justify-content-between">

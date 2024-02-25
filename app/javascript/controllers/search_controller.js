@@ -35,7 +35,6 @@ export default class extends Controller {
 
   updateCardGrid(html) {
     const cardGridContainer = document.querySelector('#index-card-grid');
-    console.log(cardGridContainer)
     if (cardGridContainer) {
       cardGridContainer.innerHTML = html;
     }

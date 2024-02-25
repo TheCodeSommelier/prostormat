@@ -1,21 +1,23 @@
-.navbar-space-mi {
+.navbar-prostormat {
+  padding-right: 2rem;
+  padding-left: 2rem;
   justify-content: space-between;
-  background-color: rgba($color: $background-color, $alpha: 0.5);
+  background-color: rgba($color: $background-color, $alpha: 1);
   position: fixed;
   width: 100%;
   border-bottom: 1px solid #b4b4b4;
   z-index: 1;
-}
 
-.navbar-space-mi .navbar-collapse {
-  flex-grow: 0;
-}
+  .navbar-space-mi .navbar-collapse {
+    flex-grow: 0;
+  }
 
-.navbar-space-mi .navbar-brand img {
-  width: 40px;
-}
+  .navbar-space-mi .navbar-brand img {
+    width: 40px;
+  }
 
-.nav-link {
-  display: flex;
-  text-align: center;
+  .nav-link {
+    display: flex;
+    text-align: center;
+  }
 }
