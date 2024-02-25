@@ -30,7 +30,7 @@ class Stripe::CheckoutController < ApplicationController
 
     Stripe::Subscription.create({
                                   customer: customer_id,
-                                  items: [{ price: ENV.fetch('STRIPE_PRICE_ID') }],
+                                  items: [{ price: Rails.application.config.x.stripe.price_id }],
                                   currency: 'czk',
                                   expand: ['latest_invoice.payment_intent']
                                 })

@@ -1,4 +1,4 @@
-<div id="checkout-container" data-controller="stripe-checkout" data-stripe-public-key="<%= ENV.fetch('STRIPE_PUBLIC_KEY') %>">
+<div id="checkout-container" data-controller="stripe-checkout" data-stripe-public-key="<%= Rails.application.config.x.stripe.publishable_key %>">
   <section>
     <div class="product">
       <div class="description">
