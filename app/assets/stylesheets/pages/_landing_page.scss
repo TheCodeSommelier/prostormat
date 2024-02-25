@@ -1,34 +1,119 @@
-#banner {
-  .banner-title-position {
-    position: relative;
-    top: 280px;
-    color: white;
+#main-section {
+  padding: 11rem 9rem;
+
+  .title {
+    font-weight: 700;
+    line-height: 64px;
+    font-size: 48px;
   }
 
-  .banner-background-image {
-    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(app/assets/images/moonclub-interier.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
+  .text-gradient {
+    background: linear-gradient(120deg, $primary, $secondary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
-  .banner-size {
-    height: 700px;
+  .transparent-title {
+    font-style: italic;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: $font-color;
+    color: transparent;
   }
 
-  .search-bar-landing-page-position {
-    position: relative;
-    top: 300px;
+  .moving-picture-display {
+    display: flex;
+    flex-wrap: wrap;
   }
 
-  .arrow-down-position {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+  .spacing {
+    gap: 8px;
+  }
+
+  .square {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+  }
+
+  .big-square {
+    width: 200px;
+    height: 200px;
+  }
+
+  .meddium-square {
+    width: 96px;
+    height: 96px;
+  }
+
+  .horizontal-rectangle-short-thick {
+    width: 96px;
+    height: 46px;
+  }
+
+  .horizontal-rectangle-long-thick {
+    width: 156px;
+    height: 44px;
+  }
+
+  .vertical-rectangle-short-thick {
+    width: 44px;
+    height: 96px;
+  }
+
+  .vertical-rectangle-long-thick {
+    width: 46px;
+    height: 156px;
+  }
+
+  .horizontal-rectangle-short-slim {
+    width: 96px;
+    height: 23px;
+  }
+
+  .horizontal-rectangle-long-slim {
+    width: 156px;
+    height: 23px;
+  }
+
+  .vertical-rectangle-short-slim {
+    width: 23px;
+    height: 96px;
+  }
+
+  .vertical-rectangle-long-slim {
+    width: 23px;
+    height: 156px;
+  }
+
+  .background-color-purple {
+    background-color: $primary;
+  }
+
+  .background-color-red {
+    background-color: $secondary;
+  }
+
+  .background-color-orange {
+    background-color: $accent;
+  }
+
+  .background-color-black {
+    background-color: black;
+  }
+
+  .background-color-grey {
+    background-color: rgb(179, 179, 179);
+  }
+
+  .background-color-transparent {
+    background-color: transparent;
   }
 }
 
 .section-how-it-works {
   background-color: grey;
+
   .icon-grid {
     display: grid;
     gap: 70px;
@@ -38,8 +123,6 @@
   .text-column {
     height: 100px;
   }
-
-
 }
 
 .section-sample-spaces {

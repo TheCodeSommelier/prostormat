@@ -5,15 +5,55 @@
 <!-- TODO: Form for we'll organize the event -->
 <!-- TODO: Moving pictures on the landing page as is on design site but constantly changing location -->
 
-<section class="banner" id="banner">
-  <div class="banner-background-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= image_path('moonclub-interier') %>)">
-    <div class="container banner-size">
-      <h1 class="banner-title-position">Najděte prostor svých snů</h1>
-      <%= render 'shared/search_bar' %>
+<section class="d-flex" id="main-section">
+  <div class="container col-6 me-5">
+    <h1 class="title mb-5">
+      Potřebujete <span class="text-gradient">prostor</span>
+      <br>
+      pro <span class="transparent-title">vaše</span> akce?
+      <br>
+      U nás najdete!
+    </h1>
+  <%= render 'shared/search_bar' %>
+  </div>
+  <div class="moving-picture-display col-6 d-flex flex-column spacing">
+    <div class="d-flex spacing">
+      <div class="square background-color-grey horizontal-rectangle-long-thick"></div>
+      <div class="square background-color-transparent horizontal-rectangle-long-thick"></div>
+      <div class="square background-color-red horizontal-rectangle-short-thick"></div>
     </div>
-    <%= link_to "#section-sample-spaces" do %>
-      <%= image_tag('arrow-down-banner', class: "arrow-down-position mb-3") %>
-    <% end %>
+    <div class="d-flex spacing">
+      <div class="d-flex flex-column spacing">
+        <div class="square background-color-transparent vertical-rectangle-short-thick"></div>
+        <div class="square background-color-grey vertical-rectangle-long-thick"></div>
+        <div class="square background-color-red vertical-rectangle-short-thick"></div>
+      </div>
+      <div class="d-flex flex-column spacing">
+        <div class="d-flex spacing">
+          <div class="square background-color-purple big-square"></div>
+          <div class="d-flex flex-column spacing">
+            <div class="square background-color-red meddium-square"></div>
+            <div class="d-flex spacing">
+              <div class="square background-color-grey vertical-rectangle-short-thick"></div>
+              <div class="square background-color-grey vertical-rectangle-short-thick"></div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex spacing">
+          <div class="square background-color-black medium-square"></div>
+          <div class="d-flex flex-column spacing">
+            <div class="square background-color-grey horizontal-rectangle-short-thick"></div>
+            <div class="square background-color-orange horizontal-rectangle-short-thick"></div>
+          </div>
+          <div class="square background-color-red medium-square" style="width: 170px;"></div>
+        </div>
+        <div class="d-flex spacing">
+          <div class="square background-color-transparent horizontal-rectangle-short-slim"  style="width: 100px"></div>
+          <div class="square background-color-black horizontal-rectangle-short-slim"></div>
+          <div class="square background-color-orange horizontal-rectangle-long-thick" style="width: 170px;"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
