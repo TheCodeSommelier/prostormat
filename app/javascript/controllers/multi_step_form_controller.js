@@ -58,6 +58,8 @@ export default class extends Controller {
     })
   }
 
+  // TODO: CHeck if we need this code
+
   // appendVenueForm() {
   //   const numberOfVenues = parseInt(
   //     document.querySelector("#number_of_venues").value
