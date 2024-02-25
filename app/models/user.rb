@@ -5,12 +5,18 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  has_one :place
+  after_create :create_stripe_customer
+
+  has_one :place, dependent: :destroy
   has_one :subscription
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  after_create do
-    Stripe::Customer.create(email: email)
+  private
+
+  def create_stripe_customer
+    customer = Stripe::Customer.create(email: email)
+    update(stripe_customer_id: customer.id)
   end
 end
