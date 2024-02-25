@@ -3,8 +3,6 @@ import { Controller } from "@hotwired/stimulus";
 // Connects to data-controller="multi-step-form"
 export default class extends Controller {
   connect() {
-    console.log("Multi step form controller here!");
-    // this.formCouter = 0;
     this.animateFormInputs();
   }
 

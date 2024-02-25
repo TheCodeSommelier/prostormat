@@ -6,12 +6,13 @@ class Stripe::CheckoutController < ApplicationController
 
   def setup_intent
     setup_intent = Stripe::SetupIntent.create({
-      payment_method_types: ['card']
-    })
+                                                payment_method_types: ['card']
+                                              })
 
     render json: { clientSecret: setup_intent.client_secret }
   end
 
+  # TODO: Add an email when subscription is made
   def create_subscription
     customer_id = current_user.stripe_customer_id
     payment_method_id = params[:payment_method_id]
@@ -28,13 +29,11 @@ class Stripe::CheckoutController < ApplicationController
     )
 
     Stripe::Subscription.create({
-        customer: customer_id,
-        items: [{ price: ENV.fetch('STRIPE_PRICE_ID') }],
-        currency: 'czk',
-        expand: ['latest_invoice.payment_intent']
-      }
-    )
-    render json: {  }
+                                  customer: customer_id,
+                                  items: [{ price: ENV.fetch('STRIPE_PRICE_ID') }],
+                                  currency: 'czk',
+                                  expand: ['latest_invoice.payment_intent']
+                                })
   end
 
   def success

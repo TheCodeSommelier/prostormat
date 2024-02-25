@@ -36,34 +36,40 @@ class Stripe::WebhooksController < ApplicationController
     # Get the type of webhook event sent - used to check the status of PaymentIntents.
     event_type = event['type']
     data = event['data']
-    data_object = data['object']
+    subscription_data = data['object']
 
-    case event.type
-    when 'customer.created'
+    if event.type == 'customer.created'
       customer = event.data.object
       user = User.find_by(email: customer.email)
       user.update(stripe_customer_id: customer.id)
     end
 
+    # TODO: Add mailer to notify the customer
     if event.type == 'customer.subscription.deleted'
       # handle subscription canceled automatically based
       # upon your subscription settings. Or if the user cancels it.
-      # puts data_object
-      puts "Subscription canceled: #{event.id}"
+      customer = User.find_by(stripe_customer_id: subscription_data.customer)
+      customer.update(premium: false)
+      customer.place.update(hidden: true)
     end
 
+    # TODO: Add mailer to notify the customer about updating the subscription
     if event.type == 'customer.subscription.updated'
       # handle subscription updated
       # puts data_object
       puts "Subscription updated: #{event.id}"
     end
 
+    # TODO: Add mailer to welcome them
     if event.type == 'customer.subscription.created'
       # handle subscription created
       # puts data_object
-      puts "Subscription created: #{event.id}"
+      customer = User.find_by(stripe_customer_id: subscription_data.customer)
+      customer.update(premium: true)
+      customer.place.update(hidden: false)
     end
 
+    # TODO: Maybe add a mailer before the subscription ends
     if event.type == 'customer.subscription.trial_will_end'
       # handle subscription trial ending
       # puts data_object

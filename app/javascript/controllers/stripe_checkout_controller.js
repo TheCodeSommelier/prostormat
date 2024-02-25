@@ -3,7 +3,6 @@ import { Controller } from "@hotwired/stimulus";
 // Connects to data-controller="stripe-checkout"
 export default class extends Controller {
   async connect() {
-    console.log("Stripe over here!");
     const publicKey    = this.element.dataset.stripePublicKey;
     const stripe       = Stripe(publicKey);
     const clientSecret = await this.fetchClientSecret(stripe);
@@ -71,7 +70,6 @@ export default class extends Controller {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
       });
   }
 }

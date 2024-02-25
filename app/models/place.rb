@@ -5,7 +5,6 @@
 # delete its associated Venues (dependent: :destroy).
 class Place < ApplicationRecord
   # TODO: payment gate after place create
-
   belongs_to :user
   has_many :place_filters, dependent: :destroy
   has_many :filters, through: :place_filters
@@ -14,4 +13,5 @@ class Place < ApplicationRecord
   scope :search_by_query, lambda { |query|
     where('LOWER(city) LIKE LOWER(?) OR LOWER(address) LIKE LOWER(?)', "%#{query}%", "%#{query}%")
   }
+  scope :visible, -> { where(hidden: false) }
 end

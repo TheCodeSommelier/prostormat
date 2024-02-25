@@ -8,7 +8,7 @@ class PlacesController < ApplicationController
 
   # Lists all places.
   def index
-    @places  = policy_scope(Place)
+    @places  = policy_scope(Place.visible)
     @filters = Filter.all
 
     if params[:filters].present?
