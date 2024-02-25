@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#545454" d="M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v48H0V112C0 85.5 21.5 64 48 64H96V32c0-17.7 14.3-32 32-32zM0 192H448V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V192zm80 64c-8.8 0-16 7.2-16 16v96c0 8.8 7.2 16 16 16h96c8.8 0 16-7.2 16-16V272c0-8.8-7.2-16-16-16H80z"/></svg>
+<svg width="448" height="512" viewBox="0 0 448 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_36_61)">
+<rect x="60" y="236" width="139" height="169" fill="#EA9757"/>
+<path d="M128 0C145.7 0 160 14.3 160 32V64H288V32C288 14.3 302.3 0 320 0C337.7 0 352 14.3 352 32V64H400C426.5 64 448 85.5 448 112V160H0V112C0 85.5 21.5 64 48 64H96V32C96 14.3 110.3 0 128 0ZM0 192H448V464C448 490.5 426.5 512 400 512H48C21.5 512 0 490.5 0 464V192ZM80 256C71.2 256 64 263.2 64 272V368C64 376.8 71.2 384 80 384H176C184.8 384 192 376.8 192 368V272C192 263.2 184.8 256 176 256H80Z" fill="#EEC3C2"/>
+</g>
+<defs>
+<clipPath id="clip0_36_61">
+<rect width="448" height="512" fill="white"/>
+</clipPath>
+</defs>
+</svg>
