@@ -1,5 +1,5 @@
 <% @places.each do |place| %>
-  <div class="card d-flex flex-column justify-content-between">
+  <div class="card-index d-flex flex-column justify-content-between">
     <%= cl_image_tag place.photos.first.key, height: 200, crop: :fill %>
     <div class="d-flex justify-content-between">
       <p><%= place.street %></p>
