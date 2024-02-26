@@ -1,70 +1,172 @@
-#banner {
-  .banner-title-position {
-    position: relative;
-    top: 280px;
-    color: white;
-  }
+#landing-page {
+  padding: 11rem 9rem 6rem;
 
-  .banner-background-image {
-    background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(app/assets/images/moonclub-interier.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
+  #main-section {
+    padding-bottom: 6rem;
 
-  .banner-size {
-    height: 700px;
-  }
+    .title {
+      font-weight: 700;
+      line-height: 64px;
+      font-size: 48px;
+    }
 
-  .search-bar-landing-page-position {
-    position: relative;
-    top: 300px;
-  }
+    .text-gradient {
+      background: linear-gradient(120deg, $primary, $secondary);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-  .arrow-down-position {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
-
-.section-how-it-works {
-  background-color: grey;
-  .icon-grid {
-    display: grid;
-    gap: 70px;
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-
-  .text-column {
-    height: 100px;
-  }
-
-
-}
-
-.section-sample-spaces {
-  .image-placeholder {
-    height: 140px;
-    width: 100%;
-    background-color: grey;
-  }
-
-  .space-card {
-    height: 400px;
-    width: 250px;
-    border: 2px solid black;
-
-    .vanues-color {
+    .transparent-title {
       font-style: italic;
-      font-size: 12px;
+      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-color: $font-color;
+      color: transparent;
     }
 
-    .space-card-title {
-      font-size: 17px;
+    .moving-picture-display {
+      display: flex;
+      flex-wrap: wrap;
     }
 
-    .title-container {
-      height: 50px;
+    .spacing {
+      gap: 8px;
+    }
+
+    .square {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+    }
+
+    .big-square {
+      width: 200px;
+      height: 200px;
+    }
+
+    .meddium-square {
+      width: 96px;
+      height: 96px;
+    }
+
+    .horizontal-rectangle-short-thick {
+      width: 96px;
+      height: 46px;
+    }
+
+    .horizontal-rectangle-long-thick {
+      width: 156px;
+      height: 44px;
+    }
+
+    .vertical-rectangle-short-thick {
+      width: 44px;
+      height: 96px;
+    }
+
+    .vertical-rectangle-long-thick {
+      width: 46px;
+      height: 156px;
+    }
+
+    .horizontal-rectangle-short-slim {
+      width: 96px;
+      height: 23px;
+    }
+
+    .horizontal-rectangle-long-slim {
+      width: 156px;
+      height: 23px;
+    }
+
+    .vertical-rectangle-short-slim {
+      width: 23px;
+      height: 96px;
+    }
+
+    .vertical-rectangle-long-slim {
+      width: 23px;
+      height: 156px;
+    }
+
+    .background-color-purple {
+      background-color: $primary;
+    }
+
+    .background-color-red {
+      background-color: $secondary;
+    }
+
+    .background-color-orange {
+      background-color: $accent;
+    }
+
+    .background-color-black {
+      background-color: black;
+    }
+
+    .background-color-grey {
+      background-color: rgb(179, 179, 179);
+    }
+
+    .background-color-transparent {
+      background-color: transparent;
+    }
+  }
+
+  .section-how-it-works {
+
+    .card-spacing {
+      gap: 32px;
+    }
+
+    h2 {
+      font-size: 38px;
+      font-weight: 600;
+      margin-bottom: 4rem;
+    }
+
+    .icon-grid {
+      display: grid;
+      gap: 70px;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .icon-card {
+      background-color: rgba($color: $primary, $alpha: 0.1);
+      border-radius: 8px;
+      padding: 4rem 1rem;
+    }
+
+    .text-column {
+      height: 100px;
+    }
+  }
+
+  .section-sample-spaces {
+    .image-placeholder {
+      height: 140px;
+      width: 100%;
+      background-color: grey;
+    }
+
+    .space-card {
+      height: 400px;
+      width: 250px;
+      border: 2px solid black;
+
+      .vanues-color {
+        font-style: italic;
+        font-size: 12px;
+      }
+
+      .space-card-title {
+        font-size: 17px;
+      }
+
+      .title-container {
+        height: 50px;
+      }
     }
   }
 }
