@@ -22,4 +22,7 @@
       <% end %>
     </div>
   </section>
+  <% if @place.user == current_user %>
+    <%= link_to 'Upravte', edit_place_path(current_user.place), class: 'button-primary' %>
+  <% end %>
 </div>
