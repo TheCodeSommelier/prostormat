@@ -1,0 +1,36 @@
+
+ // !Config files need to be imported before pages and components!
+ @import 'config/fonts';
+ @import 'config/colors';
+
+
+ // Pages and components
+ @import 'pages/index';
+ @import 'components/index';
+
+ // This is where bootstrap comes from
+ @import 'bootstrap';
+
+ // Margin reset
+ h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  color: $font-color;
+ }
+
+ // Heading font (Montserrat
+ h1, h2, h3, h4, h5, h6 {
+  font-family: $heading-font;
+ }
+
+ // Body font (open sans)
+ p {
+  font-family: $body-font;
+ }
+
+ html, body, section {
+  background-color: $background-color;
+ }
+
+ html {
+  margin: 0;
+ }
