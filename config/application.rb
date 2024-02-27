@@ -26,6 +26,5 @@ module SpaceMi
     config.active_storage.service = :cloudinary
 
     config.assets.enabled = true
-    config.assets.precompile += ['application.scss']
   end
 end
