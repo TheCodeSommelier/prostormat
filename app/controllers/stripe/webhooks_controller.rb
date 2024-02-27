@@ -60,7 +60,6 @@ class Stripe::WebhooksController < ApplicationController
       puts "Subscription updated: #{event.id}"
     end
 
-    # TODO: Add mailer to welcome them
     if event.type == 'customer.subscription.created'
       # handle subscription created
       # puts data_object
