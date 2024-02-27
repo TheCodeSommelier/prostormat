@@ -6,8 +6,9 @@ class SubscriberMailer < ApplicationMailer
   #   en.subscriber_mailer.welcome_email.subject
   #
   def welcome_email(user)
-    @greeting = "Vážený pane/paní #{user.last_name}"
+    @greeting = "Vážený/á pane/paní #{user.last_name}"
     @place = user.place
+
     mail(
       subject: 'Děkujeme Vám za vaší registraci',
       to: user.email,
