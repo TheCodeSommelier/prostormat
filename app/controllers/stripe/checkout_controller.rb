@@ -12,7 +12,6 @@ class Stripe::CheckoutController < ApplicationController
     render json: { clientSecret: setup_intent.client_secret }
   end
 
-  # TODO: Add an email when subscription is made
   def create_subscription
     customer_id = current_user.stripe_customer_id
     payment_method_id = params[:payment_method_id]

@@ -60,13 +60,13 @@ class Stripe::WebhooksController < ApplicationController
       puts "Subscription updated: #{event.id}"
     end
 
-    # TODO: Add mailer to welcome them
     if event.type == 'customer.subscription.created'
       # handle subscription created
       # puts data_object
       customer = User.find_by(stripe_customer_id: subscription_data.customer)
       customer.update(premium: true)
       customer.place.update(hidden: false)
+      SubscriberMailer.welcome_email(customer).deliver_later
     end
 
     # TODO: Maybe add a mailer before the subscription ends

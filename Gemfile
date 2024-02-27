@@ -94,3 +94,10 @@ gem 'dotenv-rails'
 
 # Allows for yearly subscription
 gem 'stripe'
+
+# Allows for sending emails through postmark
+gem 'postmark-rails'
+
+# Allows for background job
+gem 'sidekiq'
+gem 'sidekiq-failures'

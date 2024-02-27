@@ -27,4 +27,10 @@ Rails.application.routes.draw do
   post 'stripe/billing', to: 'stripe/billing#create'
   post 'stripe/create-subscription', to: 'stripe/checkout#create_subscription'
   post 'stripe/create-setup-intent', to: 'stripe/checkout#setup_intent'
+
+  # TODO: Fix sidekiq UI
+  require 'sidekiq/web'
+  authenticate :user, ->(user) { user.dev? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end

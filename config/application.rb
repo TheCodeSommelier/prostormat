@@ -26,5 +26,14 @@ module SpaceMi
     config.active_storage.service = :cloudinary
 
     config.assets.enabled = true
+
+    config.action_mailer.delivery_method = :postmark
+
+    config.action_mailer.postmark_settings = {
+      api_token: ENV.fetch('POSTMARK_API_TOKEN')
+    }
+
+    # Uses sidekiq for background job processing
+    config.active_job.queue_adapter = :sidekiq
   end
 end

@@ -85,9 +85,6 @@ class PlacesController < ApplicationController
     @place   = Place.find(place_id)
     authorize @place
 
-    p "🔥 #{params[:place][:photos].empty?}"
-    p "🔥 #{params[:place][:photos].nil?}"
-    p "🔥 #{params[:place][:photos].count > 1}"
     if @place.update(place_params.except(:photos))
       if params[:place][:photos].count > 1
         @place.photos.purge
