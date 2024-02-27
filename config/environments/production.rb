@@ -99,4 +99,8 @@ Rails.application.configure do
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   config.serve_static_files = true
+
+  # For creating urls
+  config.action_mailer.default_url_options = { host: 'prostormat.cz' }
+
 end

@@ -78,4 +78,7 @@ Rails.application.configure do
 
   # TODO [PROD]: Make sure this is not in production otherwise it crumbles like a house of cards
   config.assets.check_precompiled_asset = false
+
+  # For url building
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end
