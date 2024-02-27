@@ -1,50 +1,35 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. It is generally better to create a new file per style scope.
- *
- *= require_self
- */
+/* !Config files need to be imported before pages and components! */
+@import 'config/fonts';
+@import 'config/colors';
 
- // This is where bootstrap comes from
- @import 'bootstrap';
+/* Pages and components */
+@import 'pages/index';
+@import 'components/index';
 
- // !Config files need to be imported before pages and components!
- @import 'config/fonts';
- @import 'config/colors';
+/* This is where bootstrap comes from */
+@import 'bootstrap';
 
 
- // Pages and components
- @import 'pages/index';
- @import 'components/index';
-
-
- // Margin reset
- h1, h2, h3, h4, h5, h6, p {
+// Margin reset
+h1, h2, h3, h4, h5, h6, p {
   margin: 0;
   color: $font-color;
- }
+}
 
- // Heading font (Montserrat
- h1, h2, h3, h4, h5, h6 {
+// Heading font (Montserrat
+h1, h2, h3, h4, h5, h6 {
   font-family: $heading-font;
- }
+}
 
- // Body font (open sans)
- p {
+// Body font (open sans)
+p {
   font-family: $body-font;
- }
+}
 
- html, body, section {
+html, body, section {
   background-color: $background-color;
- }
+}
 
- html {
+html {
   margin: 0;
- }
+}
