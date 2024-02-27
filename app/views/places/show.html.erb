@@ -1,28 +1,70 @@
 <!-- TODO: Order form, email to user and martin upon submission of the order -->
 
-<div class="container show-places-container">
-  <h1><%= @place.place_name %></h1>
+<div class="container show-places-container d-flex">
+  <div id="show-page-content" class="col-9 me-2">
+    <h1><%= @place.place_name %></h1>
 
-  <section id="basic-info">
-    <p><%= @place.street %></p>
-    <div class="d-flex">
-      <% @filters.each do |filter| %>
-        <p class="mx-2"><%= filter.name %></p>
-      <% end %>
-    </div>
-  </section>
+    <section id="basic-info">
+      <p><%= @place.street %></p>
+      <div class="d-flex">
+        <% @filters.each do |filter| %>
+          <p class="mx-2"><%= filter.name %></p>
+        <% end %>
+      </div>
+    </section>
 
-  <section id="gallery">
-    <h2 class="my-3">Galerie</h2>
-    <div class="image-gallery-grid">
-      <% @place.photos.each do |photo| %>
-        <div class="image-card p-1">
-          <%= cl_image_tag photo.key, height: 200, crop: :fill %>
+    <section id="gallery">
+      <h2 class="my-3">Galerie</h2>
+      <div class="image-gallery-grid">
+        <% @place.photos.each do |photo| %>
+          <div class="image-card p-1">
+            <%= cl_image_tag photo.key, height: 200, crop: :fill %>
+          </div>
+        <% end %>
+      </div>
+    </section>
+    <% if @place.user == current_user %>
+      <%= link_to 'Upravte', edit_place_path(current_user.place), class: 'button-secondary' %>
+    <% end %>
+  </div>
+  <div id="order-form" class="col-3">
+    <h3>Pošlete poptávku</h3>
+    <%= form_with model: [@place, @order], local: true do |f|%>
+
+      <div>
+        <%= f.label 'Typ akce' %>
+        <%= f.text_field :event_type, placeholder: 'Máte firemní akci nebo narozeniny?', class: 'form-control' %>
+      </div>
+
+      <div>
+        <%= f.label 'Datum' %>
+        <%= f.date_field :date, placeholder: 'Jaký den', class: 'form-control' %>
+      </div>
+
+      <div>
+        <%= f.label 'Čas' %>
+        <%= f.time_field :time, placeholder: 'V kolik hodin', class: 'form-control' %>
+      </div>
+
+
+      <%= f.fields_for :bokee do |field_for_bokee| %>
+        <div>
+          <%= field_for_bokee.label 'Celé jméno' %>
+          <%= field_for_bokee.text_field :full_name, placeholder: 'John Doe', class: 'form-control' %>
+        </div>
+
+        <div>
+          <%= field_for_bokee.label 'Email' %>
+          <%= field_for_bokee.text_field :email, placeholder: 'john@doe.com', class: 'form-control' %>
+        </div>
+
+        <div>
+          <%= field_for_bokee.label 'Telefonní číslo' %>
+          <%= field_for_bokee.text_field :phone_number, placeholder: '+420 333 333 333', class: 'form-control' %>
         </div>
       <% end %>
-    </div>
-  </section>
-  <% if @place.user == current_user %>
-    <%= link_to 'Upravte', edit_place_path(current_user.place), class: 'button-primary' %>
-  <% end %>
+
+      <%= f.submit 'Poslat poptávku', class: 'button-primary mt-3' %>
+    <% end %>
+  </div>
 </div>

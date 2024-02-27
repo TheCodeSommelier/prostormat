@@ -6,6 +6,7 @@
 class Place < ApplicationRecord
   # TODO: payment gate after place create
   belongs_to :user
+  has_many :orders, dependent: :destroy
   has_many :place_filters, dependent: :destroy
   has_many :filters, through: :place_filters
   has_many_attached :photos

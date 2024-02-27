@@ -36,6 +36,7 @@ class PlacesController < ApplicationController
 
     @filters = @place.filters
     @order   = Order.new
+    @order.build_bokee
   end
 
   # Renders a form for creating a new place.
