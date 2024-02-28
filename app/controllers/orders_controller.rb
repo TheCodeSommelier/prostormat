@@ -17,8 +17,10 @@ class OrdersController < ApplicationController
 
     if @order.save && bokee.save
       flash.now[:notice] = 'Poptávka je vytvořená. Majitel se Vám ozve.'
+      redirect_to place_path(place)
     else
-      flash.now[:alert]  = 'Něco se pokazilo zkuste to znovu prosím...'
+      flash.now[:alert] = 'Něco se pokazilo zkuste to znovu prosím...'
+      render "places/#{place_id}"
     end
   end
 
