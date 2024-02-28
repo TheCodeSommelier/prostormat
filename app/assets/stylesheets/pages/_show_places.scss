@@ -10,4 +10,17 @@
   .conditions-amenities-divider-width {
     width: 90%;
   }
+
+  #order-form {
+    padding: 2rem;
+    width: 28%;
+    position: sticky;
+    top: 100px;
+    background-color: rgba($color: #FFF, $alpha: 1);
+    border-radius: 8px;
+  }
+
+  .sections-spacing {
+    gap: 13px;
+  }
 }
