@@ -33,9 +33,7 @@ class PlacesController < ApplicationController
   def show
     @place = Place.find(params[:id])
     authorize @place
-
-    @filters = @place.filters
-    @order   = Order.new
+    @order = Order.new
     @order.build_bokee
   end
 
@@ -58,9 +56,7 @@ class PlacesController < ApplicationController
 
     if @place.save
       filter_ids.each do |filter_id|
-        unless PlaceFilter.exists?(place: @place, filter_id: filter_id)
-          PlaceFilter.create(place: @place, filter_id: filter_id)
-        end
+        PlaceFilter.create(place: @place, filter_id:) unless PlaceFilter.exists?(place: @place, filter_id:)
       end
       respond_to do |fromat|
         fromat.js
@@ -68,7 +64,7 @@ class PlacesController < ApplicationController
       end
       redirect_to stripe_checkout_path
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity, alert: display_error_messages
     end
   end
 
@@ -104,6 +100,24 @@ class PlacesController < ApplicationController
   def destroy; end
 
   private
+
+  def display_error_messages
+    flsh.now[:alert] = if place_params[:place_name].empty?
+      'Vyplňte prosím jméno vašeho prostoru'
+    elsif place_params[:street].empty?
+    elsif place_params[:house_number].empty?
+    elsif place_params[:postal_code].empty?
+    elsif place_params[:city].empty?
+    elsif place_params[:max_capacity].empty?
+    elsif place_params[:short_description].empty?
+      'Dejte nám krátký popis vašeho prostoru'
+    elsif place_params[:long_description].empty?
+      'Popište nám svůj prostor'
+    elsif place_params[:photos].empty?
+      'Vyberte prosím fotky'
+    else
+      'Vyberte prosím filtry'
+  end
 
   def set_place
     @place = Place.find(params[:id])

@@ -76,7 +76,7 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = false
 
-  # TODO [PROD]: Make sure this is not in production otherwise it crumbles like a house of cards
+  # TODO: [PROD]: Make sure this is not in production otherwise it crumbles like a house of cards
   config.assets.check_precompiled_asset = false
 
   # For url building

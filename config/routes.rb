@@ -14,7 +14,6 @@ Rails.application.routes.draw do
     resources :orders, only: %i[create update]
   end
 
-
   # Stripe Checkout route for creating a new subscription
   get 'stripe/checkout', to: 'stripe/checkout#checkout'
 

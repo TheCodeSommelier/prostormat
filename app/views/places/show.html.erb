@@ -7,9 +7,6 @@
     <section id="basic-info">
       <p><%= @place.street %></p>
       <div class="d-flex">
-        <% @filters.each do |filter| %>
-          <p class="mx-2"><%= filter.name %></p>
-        <% end %>
       </div>
     </section>
 
@@ -29,7 +26,7 @@
   </div>
   <div id="order-form" class="col-3">
     <h3>Pošlete poptávku</h3>
-    <%= form_with model: [@place, @order], local: true do |f|%>
+    <%= form_with model: [@place, @order], local: true, data: { turbo: false } do |f|%>
 
       <div>
         <%= f.label 'Typ akce' %>
@@ -38,7 +35,7 @@
 
       <div>
         <%= f.label 'Datum' %>
-        <%= f.date_field :date, placeholder: 'Jaký den', class: 'form-control' %>
+        <%= f.date_field :date, placeholder: 'Jaký den', class: 'form-control date-input', min: Date.today.to_s %>
       </div>
 
       <%= f.fields_for :bokee do |field_for_bokee| %>

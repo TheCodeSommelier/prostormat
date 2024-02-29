@@ -114,8 +114,8 @@ Filter.destroy_all
 # ].freeze
 
 FILTER_NAMES = [
-  [
-    'bar', 'restaurant', 'hotel', 'indoor', 'outdoor', 'svatba', 'industrial'
+  %w[
+    bar restaurant hotel indoor outdoor svatba industrial
   ]
 ].freeze
 

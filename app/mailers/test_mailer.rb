@@ -5,7 +5,7 @@ class TestMailer < ApplicationMailer
   #   en.test_mailer.hello.subject
   #
   def hello
-    @greeting = "Hi"
+    @greeting = 'Hi'
 
     mail(
       subject: 'Hello from Postmark',
