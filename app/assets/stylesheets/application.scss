@@ -28,10 +28,10 @@ p {
   font-family: $body-font;
 }
 
-html, body, section {
-  background-color: $background-color;
-}
-
 html {
   margin: 0;
+}
+
+a {
+  cursor: pointer;
 }

@@ -14,7 +14,7 @@
 
 # Place.destroy_all
 # Bokee.destroy_all
-# Filter.destroy_all
+Filter.destroy_all
 
 # puts 'Creating places...'
 
@@ -104,12 +104,18 @@
 #   }
 # }.freeze
 
+# FILTER_NAMES = [
+#   [
+#     'alternative', 'meeting', 'indoor', 'industrial', 'art&culture', 'popup', 'stylish', 'bar', 'community', 'workshop',
+#     'party', 'diplomatic', 'restaurant', 'hotel', 'outdoor', 'traditional', 'historical', 'svatba', 'business',
+#     'teambuilding', 'family', 'exclusive', 'konference', 'training', 'yoga', 'offsite', 'hobby', 'production',
+#     'brainstorming', 'kongres'
+#   ]
+# ].freeze
+
 FILTER_NAMES = [
   [
-    'alternative', 'meeting', 'indoor', 'industrial', 'art&culture', 'popup', 'stylish', 'bar', 'community', 'workshop',
-    'party', 'diplomatic', 'restaurant', 'hotel', 'outdoor', 'traditional', 'historical', 'svatba', 'business',
-    'teambuilding', 'family', 'exclusive', 'konference', 'training', 'yoga', 'offsite', 'hobby', 'production',
-    'brainstorming', 'kongres'
+    'bar', 'restaurant', 'hotel', 'indoor', 'outdoor', 'svatba', 'industrial'
   ]
 ].freeze
 
