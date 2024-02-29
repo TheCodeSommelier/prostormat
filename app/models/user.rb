@@ -13,6 +13,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  validates :first_name, :last_name, :company_name, :phone_number, :company_address, :ico, presence: true
+  validates :phone_number, format: { with: /\A\+?(\d{1,3})?[-. ]?\(?\d{1,3}\)?[-. ]?\d{1,4}[-. ]?\d{1,4}[-. ]?\d{1,9}\z/ }
+  validates :ico, format: { with: /\d+/ }
+
   private
 
   def create_stripe_customer
