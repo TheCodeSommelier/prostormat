@@ -12,6 +12,7 @@
     <h5>Prosím opravte tyto údaje</h5>
     <br>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <%= alert %>
     <% alert.split(', ').each do |msg| %>
       <li><%= msg %></li>
     <% end %>
