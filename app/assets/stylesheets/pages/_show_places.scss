@@ -18,6 +18,27 @@
     top: 100px;
     background-color: rgba($color: #FFF, $alpha: 1);
     border-radius: 8px;
+
+    .date-input {
+      &input::placeholder {
+        color: #909090; /* Change this to your desired color */
+        opacity: 1; /* Override any default opacity */
+      }
+
+      /* For browsers that require vendor prefixes */
+      &::-webkit-input-placeholder {
+        color: #909090;
+      }
+
+      &:-ms-input-placeholder {
+        color: #909090;
+      }
+
+      &::-moz-placeholder {
+        color: #909090;
+        opacity: 1;
+      }
+    }
   }
 
   .sections-spacing {

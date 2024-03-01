@@ -1,6 +1,6 @@
 class OrderPolicy < ApplicationPolicy
   def create?
-    record.place.user != user
+    true
   end
 
   class Scope < Scope

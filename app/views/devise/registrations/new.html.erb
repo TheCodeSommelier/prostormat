@@ -1,48 +1,50 @@
 <div id="registration-form">
   <h2>Sign up</h2>
-
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { controller: 'multi-step-form', action: 'submit->multi-step-form#nextStep' }) do |f| %>
+  <!-- TODO: make the render flash with my flashes -->
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
+    <%#= render 'shared/flashes' %>
+
 
     <div class="d-flex">
       <div class="field col-6">
         <%= f.label :first_name, class: 'label-enter-active' %><br />
-        <%= f.text_field :first_name, autofocus: true, class: 'form-control input-enter-active' %>
+        <%= f.text_field :first_name, autofocus: true, class: 'form-control input-enter-active', placeholder: 'John' %>
       </div>
 
       <div class="field col-6">
         <%= f.label :last_name, class: 'label-enter-active' %><br />
-        <%= f.text_field :last_name, class: 'form-control input-enter-active' %>
+        <%= f.text_field :last_name, class: 'form-control input-enter-active', placeholder: 'Doe' %>
       </div>
     </div>
 
     <div class="d-flex">
       <div class="field col-6">
         <%= f.label :email, class: 'label-enter-active' %><br />
-        <%= f.email_field :email, autocomplete: "email", class: 'form-control input-enter-active' %>
+        <%= f.email_field :email, autocomplete: "email", class: 'form-control input-enter-active', placeholder: 'john@doe.com' %>
       </div>
 
       <div class="field col-6">
         <%= f.label :phone_number, class: 'label-enter-active' %><br />
-        <%= f.text_field :phone_number, class: 'form-control input-enter-active' %>
+        <%= f.text_field :phone_number, class: 'form-control input-enter-active', placeholder: '+420 222 333 444' %>
       </div>
     </div>
 
     <div class="d-flex">
       <div class="field col-6">
         <%= f.label :company_name, class: 'label-enter-active' %><br />
-        <%= f.text_field :company_name, class: 'form-control input-enter-active' %>
+        <%= f.text_field :company_name, class: 'form-control input-enter-active', placeholder: 'Prostormat s.r.o.' %>
       </div>
 
       <div class="field col-6">
         <%= f.label :ico, class: 'label-enter-active' %><br />
-        <%= f.text_field :ico, class: 'form-control input-enter-active' %>
+        <%= f.text_field :ico, class: 'form-control input-enter-active', placeholder: '1232232' %>
       </div>
     </div>
 
     <div class="field">
       <%= f.label :company_address, class: 'label-enter-active' %><br />
-      <%= f.text_field :company_address, class: 'form-control input-enter-active' %>
+      <%= f.text_field :company_address, class: 'form-control input-enter-active', placeholder: 'Pařížská 63, 130 00, Praha 1' %>
     </div>
 
     <div class="field">

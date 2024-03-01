@@ -4,32 +4,43 @@
 # creating a new order, updating an existing order, or potentially canceling an order.
 # It responds to routes defined in config/routes.rb.
 class OrdersController < ApplicationController
+  skip_before_action :authenticate_user!, only: %i[create] # Skip authentication for create
+
   # Creates a new order with the provided parameters.
   def create
     @order       = Order.new(orders_params.except(:bokee_attributes))
     place_id     = params[:place_id].to_i
-    place        = Place.find(place_id)
-    @order.place = place
+    @place       = Place.find(place_id)
+    @order.place = @place
 
     authorize @order
 
     bokee = @order.build_bokee(orders_params[:bokee_attributes])
 
     if @order.save && bokee.save
-      flash.now[:notice] = 'Poptávka je vytvořená. Majitel se Vám ozve.'
-      redirect_to place_path(place)
+      redirect_to place_path(@place), notice: 'Poptávka je vytvořená. Majitel se Vám ozve.'
     else
-      flash.now[:alert] = 'Něco se pokazilo zkuste to znovu prosím...'
-      render "places/#{place_id}"
+      redirect_to place_path(@place), alert: display_error_messages
     end
   end
 
-  # Updates an existing order, potentially used for canceling for tax purposes.
-  def update; end
-
   private
 
+  def display_error_messages
+    flash.now[:alert] = if orders_params[:event_type].empty?
+                          'Typ eventu nemůže být prázdný'
+                        elsif orders_params[:date].empty?
+                          'Vyberte datum'
+                        elsif orders_params[:bokee_attributes][:full_name].empty?
+                          'Dejte nám své jméno'
+                        elsif orders_params[:bokee_attributes][:email].empty?
+                          'Vyplňte svůj email'
+                        else
+                          'Vyplňte svoje telefonní číslo'
+                        end
+  end
+
   def orders_params
-    params.require(:order).permit(:event_type, :date, :time, bokee_attributes: %i[full_name email phone_number])
+    params.require(:order).permit(:event_type, :date, bokee_attributes: %i[full_name email phone_number])
   end
 end
