@@ -47,7 +47,7 @@ class PlacesController < ApplicationController
   # Creates a new place record from the submitted form data.
   def create
     params_for_place  = place_params
-    filter_ids        = place_params[:filter_ids].each(&:to_i)
+    filter_ids        = place_params[:filter_ids].map(&:to_i) unless place_params[:filter_ids].nil?
 
     @place = Place.new(params_for_place)
     authorize @place
@@ -55,7 +55,8 @@ class PlacesController < ApplicationController
     @place.user = current_user
 
     if @place.save
-      filter_ids.each do |filter_id|
+      # If filter give you shadow bugs, the ampersand try deleting the ampersand infront of .each
+      filter_ids&.each do |filter_id|
         PlaceFilter.create(place: @place, filter_id:) unless PlaceFilter.exists?(place: @place, filter_id:)
       end
       respond_to do |fromat|
@@ -64,7 +65,8 @@ class PlacesController < ApplicationController
       end
       redirect_to stripe_checkout_path
     else
-      render :new, status: :unprocessable_entity, alert: display_error_messages
+      flash[:alert] = @place.errors.full_messages.join(', ')
+      redirect_to new_place_path
     end
   end
 
@@ -102,21 +104,27 @@ class PlacesController < ApplicationController
   private
 
   def display_error_messages
-    flsh.now[:alert] = if place_params[:place_name].empty?
-      'Vyplňte prosím jméno vašeho prostoru'
-    elsif place_params[:street].empty?
-    elsif place_params[:house_number].empty?
-    elsif place_params[:postal_code].empty?
-    elsif place_params[:city].empty?
-    elsif place_params[:max_capacity].empty?
-    elsif place_params[:short_description].empty?
-      'Dejte nám krátký popis vašeho prostoru'
-    elsif place_params[:long_description].empty?
-      'Popište nám svůj prostor'
-    elsif place_params[:photos].empty?
-      'Vyberte prosím fotky'
-    else
-      'Vyberte prosím filtry'
+    flash.now[:alert] = if place_params[:place_name].empty?
+                          'Vyplňte prosím jméno vašeho prostoru'
+                        elsif place_params[:street].empty?
+                          'Vyplňte prosím jméno ulice'
+                        elsif place_params[:house_number].empty?
+                          'Vyplňte prosím číslo popisné'
+                        elsif place_params[:postal_code].empty?
+                          'Vyplňte prosím PSČ'
+                        elsif place_params[:city].empty?
+                          'Vyplňte prosím město'
+                        elsif place_params[:max_capacity].empty?
+                          'Vyplňte prosím maximální kapacitu'
+                        elsif place_params[:short_description].empty?
+                          'Vyplňte prosím krátký popis vašeho prostoru'
+                        elsif place_params[:long_description].empty?
+                          'Vyplňte prosím dlouhý popis vašeho prostoru'
+                        elsif place_params[:photos].empty?
+                          'Vyberte prosím fotky'
+                        else
+                          'Vyberte prosím filtry'
+                        end
   end
 
   def set_place
