@@ -1,0 +1,19 @@
+<% if notice %>
+  <div class="alert alert-dismissible fade show m-1 flash-notice-container" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <% notice.each do |msg| %>
+      <p><%= msg %></p>
+    <% end %>
+  </div>
+<% end %>
+
+<% if alert %>
+  <div class="alert alert-dismissible fade show m-1 flash-alert-container" role="alert">
+    <h5>Prosím opravte tyto údaje</h5>
+    <br>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <% alert.split(', ').each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </div>
+<% end %>

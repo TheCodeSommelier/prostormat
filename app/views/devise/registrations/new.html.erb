@@ -1,7 +1,7 @@
 <div id="registration-form">
   <h2>Sign up</h2>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { controller: 'multi-step-form', action: 'submit->multi-step-form#nextStep' }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { action: 'submit->multi-step-form#nextStep', context: 'registration' }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
     <div class="d-flex">
@@ -42,7 +42,7 @@
 
     <div class="field">
       <%= f.label :company_address, class: 'label-enter-active' %><br />
-      <%= f.text_field :company_address, class: 'form-control input-enter-active' %>
+      <%= f.text_field :company_address, class: 'form-control input-enter-active', placeholder: 'Pařížská 63, 130 00, Praha 1' %>
     </div>
 
     <div class="field">

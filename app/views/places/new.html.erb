@@ -1,7 +1,7 @@
 <div id="new-place-form">
   <h1>Vytvořte vaše porstory</h1>
 
-  <%= form_for @place, html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form' } do |f| %>
+  <%= form_for @place, html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form', context: 'new-place' } do |f| %>
 
     <div class="input-container">
       <%= f.label :place_name, 'Jak se jmenuje místo kde máte porstory?', class: 'form-label label-enter-active' %>
