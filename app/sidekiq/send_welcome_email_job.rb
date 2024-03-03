@@ -1,7 +1,8 @@
 class SendWelcomeEmailJob < ApplicationJob
   queue_as :mailers
 
-  def perform(user)
+  def perform(user_id)
+    user = User.find(user_id.to_i)
     @greeting = "Vážený/á pane/paní #{user.last_name}"
     @place = user.place
 
