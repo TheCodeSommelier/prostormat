@@ -5,6 +5,13 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+# TODO: Admin can edit all places
+# TODO: Footer
+# TODO: Test stripe in prod
+# TODO: Admin can mark as primary
+# TODO: Services
+# TODO: About us page
+# TODO: Contact page and FAQs
 
 module SpaceMi
   class Application < Rails::Application

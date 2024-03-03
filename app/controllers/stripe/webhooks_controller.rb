@@ -66,7 +66,7 @@ class Stripe::WebhooksController < ApplicationController
       customer = User.find_by(stripe_customer_id: subscription_data.customer)
       customer.update(premium: true)
       customer.place.update(hidden: false)
-      SubscriberMailer.welcome_email(customer).deliver_later
+      SendWelcomeEmailJob.perform_later(customer)
     end
 
     # TODO: Maybe add a mailer before the subscription ends
