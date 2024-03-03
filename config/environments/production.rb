@@ -101,5 +101,6 @@ Rails.application.configure do
   config.serve_static_files = true
 
   # For creating urls
-  config.action_mailer.default_url_options = { host: 'prostormat.cz' }
+  config.action_mailer.default_url_options = { host: 'https://prostormat-b1289c90688d.herokuapp.com' }
+  # config.action_mailer.default_url_options = { host: 'prostormat.cz' } # TODO: Change back to prostormat.cz
 end

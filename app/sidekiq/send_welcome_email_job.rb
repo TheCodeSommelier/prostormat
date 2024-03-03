@@ -1,15 +1,11 @@
-class SubscriberMailer < ApplicationMailer
-  # TODO: Make a sidekiq worker and postmark should send this data
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.subscriber_mailer.welcome_email.subject
-  #
-  def welcome_email(user)
+class SendWelcomeEmailJob < ApplicationJob
+  queue_as :mailers
+
+  def perform(user)
     @greeting = "Vážený/á pane/paní #{user.last_name}"
     @place = user.place
 
-    template_path = Rails.root.join('app', 'view', 'subscriber_mailer', 'welcome_email.html.erb')
+    template_path = Rails.root.join('app', 'views', 'subscriber_mailer', 'welcome_email.html.erb')
     template      = File.read(template_path)
     erb_template  = ERB.new(template)
     html_content  = erb_template.result(binding)
@@ -23,7 +19,7 @@ class SubscriberMailer < ApplicationMailer
       message_stream: 'broadcast'
     }
 
-    client = Postmark::APIcleint.new(ENV.fetch('POSTMARK_API_TOKEN'))
+    client = Postmark::ApiClient.new(ENV.fetch('POSTMARK_API_TOKEN'))
     client.deliver(email)
   end
 end

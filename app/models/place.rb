@@ -4,7 +4,6 @@
 # A Place has many Venues associated with it and deleting a Place will also
 # delete its associated Venues (dependent: :destroy).
 class Place < ApplicationRecord
-  # TODO: validations and how to get the messages from them into the flashes
   belongs_to :user
   has_many :orders, dependent: :destroy
   has_many :place_filters, dependent: :destroy
