@@ -12,6 +12,7 @@ Bundler.require(*Rails.groups)
 # TODO: Services
 # TODO: About us page
 # TODO: Contact page and FAQs
+# TODO: Change price ID env variable to actual price ID
 
 module SpaceMi
   class Application < Rails::Application

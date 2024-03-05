@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root 'pages#landing_page'
 
+  get 'admin_places', to: 'places#admin_places', as: :admin_places
   resources :places do
     # For tax purposes "update" will "cancel" the order. Even if an order is cancelled it still needs to be in DB
     resources :orders, only: %i[create update]

@@ -101,6 +101,11 @@ class PlacesController < ApplicationController
   # Deletes the place record identified by id.
   def destroy; end
 
+  def admin_places
+    authorize :place, :admin_places?
+    @places = policy_scope(Place.where(user: current_user))
+  end
+
   private
 
   def display_error_messages
