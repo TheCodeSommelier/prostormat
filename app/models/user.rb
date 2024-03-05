@@ -34,6 +34,6 @@ class User < ApplicationRecord
   end
 
   def validate_user_places_limit
-    errors.add(:user, 'může mít pouze jeden prostor.') if !user.admin? && user.places.count >= 1
+    errors.add(:user, 'může mít pouze jeden prostor.') if !self.admin? && self.places.count >= 1
   end
 end

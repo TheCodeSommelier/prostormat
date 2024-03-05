@@ -4,11 +4,11 @@ class PlacePolicy < ApplicationPolicy
   end
 
   def new?
-    true
+    user.admin? || user.places.count < 1
   end
 
   def create?
-    !user.nil?
+    !user.nil? && user.admin? || user.places.count < 1
   end
 
   def edit?
