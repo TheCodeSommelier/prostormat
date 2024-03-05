@@ -4,19 +4,23 @@ class PlacePolicy < ApplicationPolicy
   end
 
   def new?
-    true
+    user.admin? || user.places.count < 1
   end
 
   def create?
-    !user.nil?
+    !user.nil? && user.admin? || user.places.count < 1
   end
 
   def edit?
-    user.premium? && place_belongs_to_user?
+    user.premium? && place_belongs_to_user? || user.admin?
   end
 
   def update?
-    user.premium? && place_belongs_to_user?
+    user.premium? && place_belongs_to_user? || user.admin?
+  end
+
+  def admin_places?
+    user.admin?
   end
 
   private
@@ -27,7 +31,11 @@ class PlacePolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      scope
+      if user.admin?
+        scope.all
+      else
+        scope.where(hidden: false)
+      end
     end
   end
 end

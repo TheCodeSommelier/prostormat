@@ -7,7 +7,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   after_create :create_stripe_customer
 
-  has_one :place, dependent: :destroy
+  has_many :places, dependent: :destroy
   has_one :subscription
 
   devise :database_authenticatable, :registerable,
@@ -21,6 +21,8 @@ class User < ApplicationRecord
   validates :ico, format: { with: /\d+/, message: 'IČO musí být pouze čísla' }
   validates :company_address, format: { with: /\A[\p{L}\s]+\s\d+,\s?\d{3}\s?\d{2},\s?[\p{L}\s\d]+\z/u, message: 'Adresa firmy musí být formátována takto: ulice, PSČ, Město' }
 
+  validate :validate_user_places_limit, on: :create
+
   private
 
   def create_stripe_customer
@@ -29,5 +31,9 @@ class User < ApplicationRecord
       name: company_name
     )
     update(stripe_customer_id: customer.id)
+  end
+
+  def validate_user_places_limit
+    errors.add(:user, 'může mít pouze jeden prostor.') if !self.admin? && self.places.count >= 1
   end
 end

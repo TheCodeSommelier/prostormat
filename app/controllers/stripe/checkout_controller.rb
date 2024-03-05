@@ -36,13 +36,13 @@ class Stripe::CheckoutController < ApplicationController
   end
 
   def success
-    place = current_user.place
+    place = current_user.places.first
     flash.now[:alert] = 'Máte zaplaceno'
     redirect_to place_path(place)
   end
 
   def cancel
-    place = current_user.place
+    place = current_user.places.first
     flash.now[:alert] = 'Něco se pokazilo... Zkuste to znovu prosím.'
     redirect_to new_place_path(place)
   end

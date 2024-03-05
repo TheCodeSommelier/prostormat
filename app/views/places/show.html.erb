@@ -21,7 +21,7 @@
       </div>
     </section>
     <% if @place.user == current_user %>
-      <%= link_to 'Upravte', edit_place_path(current_user.place), class: 'button-secondary' %>
+      <%= link_to 'Upravte', edit_place_path(current_user.places.first), class: 'button-secondary' %>
     <% end %>
   </div>
   <div id="order-form" class="col-3">
