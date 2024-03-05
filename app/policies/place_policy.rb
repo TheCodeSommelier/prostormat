@@ -31,10 +31,10 @@ class PlacePolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if user.admin?
-        scope.all
-      else
+      if user.nil? || !user.admin?
         scope.where(hidden: false)
+      elsif user.admin?
+        scope.all
       end
     end
   end
