@@ -23,6 +23,10 @@ class PlacePolicy < ApplicationPolicy
     user.admin?
   end
 
+  def toggle_primary?
+    user.admin?
+  end
+
   private
 
   def place_belongs_to_user?

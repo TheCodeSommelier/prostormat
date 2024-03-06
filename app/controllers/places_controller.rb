@@ -4,7 +4,8 @@
 # showing details for a single place, creating new places, editing existing places, and
 # deleting places. It responds to routes defined in config/routes.rb for the Place model.
 class PlacesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[index show new] # Skip authentication for index
+  skip_before_action :authenticate_user!, only: %i[index show new update toggle_primary] # Skip authentication for index
+  before_action :set_place, only: %i[show edit toggle_primary]
 
   # Lists all places.
   def index
@@ -20,6 +21,8 @@ class PlacesController < ApplicationController
 
     @places = @places.search_by_query(params[:query]) if params[:query].present?
 
+    @places = @places.order(primary: :desc)
+
     respond_to do |format|
       format.html # For regular HTML requests
       format.json do
@@ -31,7 +34,7 @@ class PlacesController < ApplicationController
 
   # Shows details for a single place identified by id.
   def show
-    @place = Place.find(params[:id])
+
     authorize @place
     @order = Order.new
     @order.build_bokee
@@ -72,15 +75,12 @@ class PlacesController < ApplicationController
 
   # Renders a form for editing an existing place identified by id.
   def edit
-    place_id = params[:id].to_i
-    @place   = Place.find(place_id)
     authorize @place
     @filters = Filter.all
   end
 
   # Updates an existing place record with the submitted form data.
   def update
-    place_id = params[:id].to_i
     @place   = Place.find(place_id)
     authorize @place
 
@@ -104,6 +104,17 @@ class PlacesController < ApplicationController
   def admin_places
     authorize :place, :admin_places?
     @places = policy_scope(Place.where(user: current_user))
+  end
+
+  def toggle_primary
+    authorize @place
+    if @place.primary? ? @place.update(primary: false) : @place.update(primary: true)
+      flash[:notice] = 'Primary status of the place was successfully toggled.'
+      redirect_to place_path(@place)
+    else
+      flash[:notice] = 'There was an issue toggling the primary status of the place. Try again...'
+      redirect_to place_path(@place)
+    end
   end
 
   private
