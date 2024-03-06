@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_05_201727) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_05_234845) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -90,6 +90,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_05_201727) do
     t.text "long_description"
     t.text "short_description"
     t.boolean "hidden", default: true
+    t.boolean "primary", default: false
     t.index ["user_id"], name: "index_places_on_user_id"
   end
 

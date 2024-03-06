@@ -58,4 +58,10 @@
       <%= f.submit 'Poslat poptávku', class: 'button-primary mt-3' %>
     <% end %>
   </div>
+  <% if current_user.admin? && !@place.primary %>
+    <%= button_to 'Make primary', toggle_primary_place_path(@place), class: 'button-primary' %>
+
+  <% elsif current_user.admin? && @place.primary %>
+    <%= button_to 'Make not primary', toggle_primary_place_path(@place), class: 'button-primary' %>
+  <% end %>
 </div>

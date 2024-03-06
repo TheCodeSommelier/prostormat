@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   resources :places do
     # For tax purposes "update" will "cancel" the order. Even if an order is cancelled it still needs to be in DB
     resources :orders, only: %i[create update]
+    member do
+      post 'toggle_primary', to: 'places#toggle_primary', as: 'toggle_primary'
+    end
   end
 
   # Stripe Checkout route for creating a new subscription
