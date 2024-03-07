@@ -4,7 +4,7 @@ class PlacePolicy < ApplicationPolicy
   end
 
   def new?
-    user.admin? || user.places.count < 1
+    create?
   end
 
   def create?
@@ -12,7 +12,7 @@ class PlacePolicy < ApplicationPolicy
   end
 
   def edit?
-    user.premium? && place_belongs_to_user? || user.admin?
+    update?
   end
 
   def update?
