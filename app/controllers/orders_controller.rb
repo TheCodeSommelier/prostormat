@@ -18,6 +18,7 @@ class OrdersController < ApplicationController
     bokee = @order.build_bokee(orders_params[:bokee_attributes])
 
     if @order.save && bokee.save
+      SendOrderToPlaceOwnerJob.perform_later(@place.id, bokee.id, @order.message)
       redirect_to place_path(@place), notice: 'Poptávka je vytvořená. Majitel se Vám ozve.'
     else
       redirect_to place_path(@place), alert: display_error_messages
@@ -41,6 +42,6 @@ class OrdersController < ApplicationController
   end
 
   def orders_params
-    params.require(:order).permit(:event_type, :date, bokee_attributes: %i[full_name email phone_number])
+    params.require(:order).permit(:event_type, :date, :message, bokee_attributes: %i[full_name email phone_number])
   end
 end
