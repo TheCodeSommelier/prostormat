@@ -1,5 +1,9 @@
 <div id="admin-places">
-  <% @places.each do |place| %>
-    <%= link_to place.place_name, place_path(place), class: 'my-3' %>
-  <% end %>
+  <ul>
+    <% @places.each do |place| %>
+      <li>
+        <%= link_to place.place_name, place_path(place), class: 'my-3' %>
+      </li>
+    <% end %>
+  </ul>
 </div>

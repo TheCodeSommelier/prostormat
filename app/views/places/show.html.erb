@@ -20,10 +20,12 @@
         <% end %>
       </div>
     </section>
-    <% if @place.user == current_user %>
-      <%= link_to 'Upravte', edit_place_path(current_user.places.first), class: 'button-secondary' %>
+
+    <% if @place.user == current_user || current_user&.admin? %>
+      <%= link_to 'Upravte', edit_place_path(current_user.places.first), class: 'button-secondary mt-3' %>
     <% end %>
   </div>
+
   <div id="order-form" class="col-3">
     <h3>Pošlete poptávku</h3>
     <%= form_with model: [@place, @order], local: true, data: { turbo: false } do |f|%>
@@ -55,13 +57,19 @@
         </div>
       <% end %>
 
+      <div>
+        <%= f.label 'Zpráva' %>
+        <%= f.text_area :message, placeholder: 'Chcete něco specifikovat? Máte slovo!', class: 'form-control message-input', min: Date.today.to_s %>
+      </div>
+
       <%= f.submit 'Poslat poptávku', class: 'button-primary mt-3' %>
     <% end %>
-  </div>
-  <% if current_user.admin? && !@place.primary %>
-    <%= button_to 'Make primary', toggle_primary_place_path(@place), class: 'button-primary' %>
 
-  <% elsif current_user.admin? && @place.primary %>
-    <%= button_to 'Make not primary', toggle_primary_place_path(@place), class: 'button-primary' %>
-  <% end %>
+    <% if current_user&.admin? && !@place.primary %>
+      <%= button_to 'Make primary', toggle_primary_place_path(@place), class: 'button-primary mt-3' %>
+
+    <% elsif current_user&.admin? && @place.primary %>
+      <%= button_to 'Make not primary', toggle_primary_place_path(@place), class: 'button-primary mt-3' %>
+    <% end %>
+  </div>
 </div>

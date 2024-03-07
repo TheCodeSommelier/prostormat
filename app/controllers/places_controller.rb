@@ -102,8 +102,9 @@ class PlacesController < ApplicationController
   def destroy; end
 
   def admin_places
-    authorize :place, :admin_places?
-    @places = policy_scope(Place.where(user: current_user))
+    authorize :place
+    @places = policy_scope(Place.all)
+    @places = @places.order(:place_name)
   end
 
   def toggle_primary
