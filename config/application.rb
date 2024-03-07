@@ -13,6 +13,7 @@ Bundler.require(*Rails.groups)
 # TODO: About us page
 # TODO: Contact page and FAQs
 # TODO: Change price ID env variable to actual price ID
+# TODO: Talk with martin potentially remove bokee model to keep the cost down
 
 module SpaceMi
   class Application < Rails::Application
