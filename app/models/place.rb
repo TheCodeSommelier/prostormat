@@ -28,6 +28,10 @@ class Place < ApplicationRecord
   }
   scope :visible, -> { where(hidden: false) }
 
+  def owner
+    user
+  end
+
   private
 
   def custom_validation_presence
