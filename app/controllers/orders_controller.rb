@@ -15,9 +15,11 @@ class OrdersController < ApplicationController
 
     authorize @order
 
-    bokee = @order.build_bokee(orders_params[:bokee_attributes])
+    # TODO: Needs to save or create a bokee
+    bokee        = Bokee.create_with(orders_params[:bokee_attributes]).find_or_create_by(email: orders_params[:bokee_attributes][:email])
+    @order.bokee = bokee
 
-    if @order.save && bokee.save
+    if @order.save
       SendOrderToPlaceOwnerJob.perform_later(@place.id, bokee.id, @order.message)
       redirect_to place_path(@place), notice: 'Poptávka je vytvořená. Majitel se Vám ozve.'
     else
@@ -36,8 +38,10 @@ class OrdersController < ApplicationController
                           'Dejte nám své jméno'
                         elsif orders_params[:bokee_attributes][:email].empty?
                           'Vyplňte svůj email'
-                        else
+                        elsif orders_params[:bokee_attributes][:phone_number].empty?
                           'Vyplňte svoje telefonní číslo'
+                        else
+                          'Něco se pokazilo skuste to znovu...'
                         end
   end
 
