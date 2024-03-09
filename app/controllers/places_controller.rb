@@ -12,6 +12,7 @@ class PlacesController < ApplicationController
     @places  = policy_scope(Place.visible)
     @filters = Filter.all
 
+    # Apply filters
     if params[:filters].present?
       filter_ids = params[:filters].reject(&:empty?).map(&:to_i)
       if filter_ids.any?
@@ -19,7 +20,13 @@ class PlacesController < ApplicationController
       end
     end
 
+    # Search by address or city
     @places = @places.search_by_query(params[:query]) if params[:query].present?
+
+    # Filter by capacity 'from' and 'to'
+    if params[:max_capacity_from].present? && params[:max_capacity_to].present?
+      @places = @places.where('max_capacity >= ? AND max_capacity <= ?', params[:max_capacity_from], params[:max_capacity_to])
+    end
 
     @places = @places.order(primary: :desc)
 
