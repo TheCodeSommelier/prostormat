@@ -2,4 +2,4 @@
 //= link_tree ../../javascript .js
 //= link_tree ../builds
 //= link_tree ../stylesheets .scss
-//= link app/assets/stylesheets/application.scss
+//= link application.scss
