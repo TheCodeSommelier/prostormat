@@ -44,6 +44,9 @@
           <div class="nav-item d-flex justify-content-center">
             <%= link_to "Prostory", places_path, class: "nav-link me-2" %>
           </div>
+          <div class="nav-item d-flex justify-content-center">
+            <%= link_to "Nový prostor", new_place_path, class: "nav-link me-2" %>
+          </div>
           <div class="nav-link">
             <%= link_to "Logout", destroy_user_session_path, class: "nav-link", data: {turbo_method: :delete} %>
           </div>
