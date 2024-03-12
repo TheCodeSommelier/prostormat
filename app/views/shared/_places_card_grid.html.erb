@@ -1,19 +1,28 @@
 <% @places.each do |place| %>
-  <div class="card-index d-flex flex-column justify-content-between">
-    <%= cl_image_tag place.photos.first.key, height: 200, crop: :fill %>
-    <div class="d-flex justify-content-between">
-      <p><%= place.street %></p>
-      <div class="d-flex align-items-center">
-        <%= image_tag('person-grey.svg', width: 10, class: "person-icon-margin-right") %>
-        <!-- TODO: Change this -->
-        <p><%#= place.largest_venue_capacity == place.smallest_venue_capacity ? "#{place.largest_venue_capacity}" : "#{place.smallest_venue_capacity} - #{place.largest_venue_capacity}" %></p>
-      </div>
+  <div class="card-index d-flex justify-content-between">
+    <div class="image-container border-side">
+      <%= cl_image_tag place.photos.first.key, crop: :fill, class: 'image-card' %>
     </div>
-    <div class="d-flex align-items-center justify-content-between">
-      <h5 class="m-0 card-title-width"><%= place.place_name.truncate(22) %></h5>
-      <%= link_to place_path(place) do %>
-        <%= image_tag('arrow_right.svg', width: 25) %>
-      <% end %>
+    <div class="d-flex flex-column justify-content-between w-50">
+      <div class="d-flex justify-content-between">
+        <p class="place-city-color-size"><%= place.city %></p>
+        <div class="d-flex align-items-center">
+          <%= image_tag('person-grey.svg', width: 10, class: "person-icon-margin-right") %>
+          <p><%= place.max_capacity %></p>
+        </div>
+      </div>
+
+      <div class="short-desc-color-size">
+        <h5>Jaký je náš porstor</h5>
+        <p class="my-3"><%= place.short_description %></p>
+      </div>
+
+      <div class="d-flex align-items-end justify-content-between">
+        <h4 class="card-title-width"><%= place.place_name.truncate(18) %></h4>
+        <%= link_to place_path(place) do %>
+          <%= image_tag('arrow_right.svg', width: 25) %>
+        <% end %>
+      </div>
     </div>
   </div>
 <% end %>

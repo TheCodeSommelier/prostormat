@@ -97,26 +97,9 @@
 
   <section class="section-sample-spaces" id="section-sample-spaces">
     <div class="container d-flex flex-column align-items-center ">
-      <h2 class="mt-4">Naše prostory</h2>
-      <div class="spaces-cards spaces-cards-landing-page my-5">
-        <% @random_places.each do |place| %>
-          <div class="d-flex flex-column align-items-center">
-            <div class="space-card p-2">
-              <div class="text-left">
-                <div class="image-placeholder"></div>
-                <p class="">Prostrů k pronájmu: <%= place %></p>
-                <div class="title-container py-3">
-                  <h4 class="space-card-title"><%= place.place_name %></h4>
-                </div>
-                <p class="my-3"><%= place.street.truncate(15) %></p>
-                <hr>
-                <div>
-                  <%= link_to 'Zobrazit', place_path(place), class: "btn btn-dark w-100" %>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% end %>
+      <h2 class="mt-5">Naše prostory</h2>
+      <div class="spaces-cards my-4 w-100" id="index-card-grid" data-controller="search">
+        <%= render 'shared/places_card_grid' %>
       </div>
       <%= link_to 'Všechny prostory', places_path, class: "button-secondary w-50" %>
     </div>
