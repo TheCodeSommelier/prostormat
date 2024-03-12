@@ -11,10 +11,10 @@
     <%= form_with url: places_path, method: :get, data: { turbo_frame: "places_list"}, class: "d-flex justify-content-center p-2" do |form| %>
 
       <%= label_tag :max_capacity_from, 'Kapacita od:', class: 'me-2' %>
-      <%= number_field_tag :max_capacity_from, params[:max_capacity_from], class: 'form-control me-3' %>
+      <%= number_field_tag :max_capacity_from, params[:max_capacity_from], placeholder: 100, class: 'form-control me-3' %>
 
       <%= label_tag :max_capacity_to, 'Kapacita do:', class: 'me-2' %>
-      <%= number_field_tag :max_capacity_to, params[:max_capacity_to], class: 'form-control me-3' %>
+      <%= number_field_tag :max_capacity_to, params[:max_capacity_to], placeholder: 10000, class: 'form-control me-3' %>
 
       <%= form.submit 'Filtrovat', class: "button-secondary" %>
     <% end %>
