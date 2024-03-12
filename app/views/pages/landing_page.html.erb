@@ -15,6 +15,18 @@
         U nás najdete!
       </h1>
       <%= render 'shared/search_bar' %>
+      <div id="filter-by-capacity" class="container my-4">
+      <%= form_with url: places_path, method: :get, data: { turbo_frame: "places_list"}, class: "d-flex justify-content-center p-2" do |form| %>
+
+        <%= label_tag :max_capacity_from, 'Kapacita od:', class: 'me-2' %>
+        <%= number_field_tag :max_capacity_from, params[:max_capacity_from], class: 'form-control me-3' %>
+
+        <%= label_tag :max_capacity_to, 'Kapacita do:', class: 'me-2' %>
+        <%= number_field_tag :max_capacity_to, params[:max_capacity_to], class: 'form-control me-3' %>
+
+        <%= form.submit 'Filtrovat', class: "btn btn-secondary" %>
+      <% end %>
+</div>
     </div>
     <div class="moving-picture-display col-6 d-flex flex-column spacing">
       <div class="d-flex spacing">

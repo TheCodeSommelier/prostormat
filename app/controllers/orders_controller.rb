@@ -15,7 +15,6 @@ class OrdersController < ApplicationController
 
     authorize @order
 
-    # TODO: Needs to save or create a bokee
     bokee        = Bokee.create_with(orders_params[:bokee_attributes]).find_or_create_by(email: orders_params[:bokee_attributes][:email])
     @order.bokee = bokee
 

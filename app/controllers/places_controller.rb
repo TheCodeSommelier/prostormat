@@ -64,8 +64,10 @@ class PlacesController < ApplicationController
 
     @place.user = current_user
 
+    @place.hidden = false if current_user.admin?
+
     if @place.save
-      # If filter give you shadow bugs, the ampersand try deleting the ampersand infront of .each
+      # If filter give you shadow bugs, try deleting the ampersand infront of .each
       filter_ids&.each do |filter_id|
         PlaceFilter.create(place: @place, filter_id:) unless PlaceFilter.exists?(place: @place, filter_id:)
       end
@@ -73,7 +75,11 @@ class PlacesController < ApplicationController
         fromat.js
         fromat.html
       end
-      redirect_to stripe_checkout_path
+      if current_user.admin?
+        redirect_to root_path
+      else
+        redirect_to stripe_checkout_path
+      end
     else
       flash[:alert] = @place.errors.full_messages.join(', ')
       redirect_to new_place_path
