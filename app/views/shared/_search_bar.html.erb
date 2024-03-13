@@ -1,9 +1,0 @@
-<%= form_with url: places_path, method: :get, data: { controller: "search" }, class: "d-flex search-bar-landing-page-position " do %>
-  <%= text_field_tag :query,
-        params[:query],
-        class: "form-control search-bar-border-radius",
-        placeholder: "Vyhledávejte podle adresy nebo města...",
-        data: { search_target: "searchTextField", action: "input->search#startSearch" }
-    %>
-  <%= submit_tag "Search", name: "", class: "search-bar-button-border-radius" %>
-<% end %>

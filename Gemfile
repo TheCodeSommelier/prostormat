@@ -101,3 +101,6 @@ gem 'postmark-rails'
 # Allows for background job
 gem 'sidekiq'
 gem 'sidekiq-failures'
+
+# Allows for pagination
+gem 'kaminari'

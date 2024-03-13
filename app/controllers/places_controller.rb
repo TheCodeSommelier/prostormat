@@ -30,6 +30,7 @@ class PlacesController < ApplicationController
 
     @places = @places.order(primary: :desc)
 
+    @places = @places.page(params[:page]).per(1)
     respond_to do |format|
       format.html # For regular HTML requests
       format.json do
