@@ -1,0 +1,22 @@
+<%= form_with url: places_path, method: :get, class: "d-flex justify-content-center p-2", data: { controller: "search", turbo_frame: "places_list" } do |form| %>
+  <!-- Search Field -->
+  <div class="d-flex flex-column w-100">
+    <div class="d-flex my-3 w-100">
+      <%= text_field_tag :query,
+            params[:query],
+            placeholder: "Vyhledávejte podle adresy nebo města...",
+            class: "form-control search-bar-border-radius",
+            data: { search_target: "searchTextField", action: "input->search#startSearch" } %>
+    </div>
+
+    <div class="d-flex mb-3">
+      <%= label_tag :max_capacity_from, 'Kapacita od:', class: 'me-2' %>
+      <%= number_field_tag :max_capacity_from, params[:max_capacity_from], placeholder: 0, class: 'form-control' %>
+
+      <%= label_tag :max_capacity_to, 'Kapacita do:', class: 'mx-2' %>
+      <%= number_field_tag :max_capacity_to, params[:max_capacity_to], placeholder: 10000, class: 'form-control' %>
+
+    </div>
+    <%= form.submit 'Search/Filtr', class: "btn btn-primary w-100" %>
+  </div>
+<% end %>
