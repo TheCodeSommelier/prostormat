@@ -2,13 +2,13 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="search"
 export default class extends Controller {
-  static targets = ['searchTextField']
+  static targets = ['searchTextField', 'capacityNumberField']
 
   connect() {
   }
 
   startSearch(event) {
-    const query = this.searchTextFieldTarget.value;
+    const query    = this.searchTextFieldTarget.value;
 
     if (['Shift', 'Meta', 'Control', 'Alt'].includes(event.key)) {
       return;
