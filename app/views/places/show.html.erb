@@ -1,75 +1,90 @@
 <!-- TODO: Order form, email to user and martin upon submission of the order -->
-
-<div class="container show-places-container d-flex">
-  <div id="show-page-content" class="col-9 me-2">
-    <h1><%= @place.place_name %></h1>
-
-    <section id="basic-info">
-      <p><%= @place.street %></p>
+<div class="container show-places-container d-flex flex-column">
+  <div class="content-gallery-gap d-flex justify-content-between">
+    <div id="show-page-content d-flex" class="w-100">
       <div class="d-flex">
       </div>
-    </section>
-
-    <section id="gallery">
-      <h2 class="my-3">Galerie</h2>
-      <div class="image-gallery-grid">
-        <% @place.photos.each do |photo| %>
-          <div class="image-card p-1">
-            <%= cl_image_tag photo.key, height: 200, crop: :fill %>
+      <div class="d-flex justify-content-between w-100">
+        <h1 class="h1-gradient-color"><%= @place.place_name %></h1>
+        <div class="d-flex">
+          <div>
+            <% if current_user&.admin? && !@place.primary %>
+              <%= button_to toggle_primary_place_path(@place), method: :patch, data: { turbo: false }, class: 'button-primary star-primary', form: {class: "inline"} do %>
+                <%= image_tag('star-solid.svg', width: 20) %>
+              <% end %>
+            <% elsif current_user&.admin? && @place.primary %>
+              <%= button_to toggle_primary_place_path(@place), method: :patch, data: { turbo: false }, class: 'button-primary star-primary', form: {class: "inline"} do %>
+                <%= image_tag('star-regular.svg', width: 20) %>
+              <% end %>
+            <% end %>
           </div>
+          <div>
+            <% if @place.user == current_user || current_user&.admin? %>
+              <%= link_to edit_place_path(current_user.places.first), class: "edit-link-button ms-2" do %>
+                <%= image_tag('pen-solid.svg', width: 20) %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <section id="basic-info mb-5">
+        <div class="d-flex justify-content-between">
+          <p><%= @place.street %> <%= @place.house_number %>, <%= @place.postal_code %>, <%= @place.city %></p>
+          <div class="d-flex">
+            <%= image_tag('person-grey.svg', width: 10, class: "me-2") %>
+            <p><%= @place.max_capacity %></p>
+          </div>
+        </div>
+        <div>
+          <h4 class="mt-2"><%= @place.short_description %></h4>
+        </div>
+      </section>
+
+      <div id="order-form" class="mt-5">
+        <%= form_with model: [@place, @order], local: true, data: { turbo: false } do |f|%>
+          <%= f.label 'Typ akce', class: 'order-label' %>
+          <%= f.text_field :event_type, placeholder: 'Máte firemní akci nebo narozeniny?', class: 'form-control' %>
+
+          <%= f.label 'Datum', class: 'order-label' %>
+          <%= f.date_field :date, placeholder: 'Jaký den', class: 'form-control date-input', min: Date.today.to_s %>
+
+          <%= f.fields_for :bokee do |field_for_bokee| %>
+            <%= field_for_bokee.label 'Celé jméno', class: 'order-label' %>
+            <%= field_for_bokee.text_field :full_name, placeholder: 'John Doe', class: 'form-control' %>
+
+            <%= field_for_bokee.label 'Email', class: 'order-label' %>
+            <%= field_for_bokee.text_field :email, placeholder: 'john@doe.com', class: 'form-control' %>
+
+            <%= field_for_bokee.label 'Telefonní číslo', class: 'order-label' %>
+            <%= field_for_bokee.text_field :phone_number, placeholder: '+420 333 333 333', class: 'form-control' %>
+          <% end %>
+
+          <%= f.label 'Zpráva', class: 'order-label' %>
+          <%= f.text_area :message, placeholder: 'Chcete něco specifikovat? Máte slovo!', class: 'form-control message-input', min: Date.today.to_s %>
+
+          <%= f.submit 'Poslat poptávku', class: 'button-primary mt-3 w-100' %>
         <% end %>
       </div>
-    </section>
 
-    <% if @place.user == current_user || current_user&.admin? %>
-      <%= link_to 'Upravte', edit_place_path(current_user.places.first), class: 'button-secondary mt-3' %>
-    <% end %>
+      <div class="long-description mt-4">
+        <h4>O nás</h4>
+        <p><%= @place.long_description %></p>
+      </div>
+    </div>
+
+    <div id="gallery" class="w-100">
+      <section>
+        <div class="image-gallery-grid">
+          <% @place.photos.each do |photo| %>
+            <%= cl_image_tag photo.key, height: 200, class: "image-card" %>
+          <% end %>
+        </div>
+      </section>
+    </div>
   </div>
-
-  <div id="order-form" class="col-3">
-    <h3>Pošlete poptávku</h3>
-    <%= form_with model: [@place, @order], local: true, data: { turbo: false } do |f|%>
-
-      <div>
-        <%= f.label 'Typ akce' %>
-        <%= f.text_field :event_type, placeholder: 'Máte firemní akci nebo narozeniny?', class: 'form-control' %>
-      </div>
-
-      <div>
-        <%= f.label 'Datum' %>
-        <%= f.date_field :date, placeholder: 'Jaký den', class: 'form-control date-input', min: Date.today.to_s %>
-      </div>
-
-      <%= f.fields_for :bokee do |field_for_bokee| %>
-        <div>
-          <%= field_for_bokee.label 'Celé jméno' %>
-          <%= field_for_bokee.text_field :full_name, placeholder: 'John Doe', class: 'form-control' %>
-        </div>
-
-        <div>
-          <%= field_for_bokee.label 'Email' %>
-          <%= field_for_bokee.text_field :email, placeholder: 'john@doe.com', class: 'form-control' %>
-        </div>
-
-        <div>
-          <%= field_for_bokee.label 'Telefonní číslo' %>
-          <%= field_for_bokee.text_field :phone_number, placeholder: '+420 333 333 333', class: 'form-control' %>
-        </div>
-      <% end %>
-
-      <div>
-        <%= f.label 'Zpráva' %>
-        <%= f.text_area :message, placeholder: 'Chcete něco specifikovat? Máte slovo!', class: 'form-control message-input', min: Date.today.to_s %>
-      </div>
-
-      <%= f.submit 'Poslat poptávku', class: 'button-primary mt-3' %>
-    <% end %>
-
-    <% if current_user&.admin? && !@place.primary %>
-      <%= button_to 'Make primary', toggle_primary_place_path(@place), class: 'button-primary mt-3' %>
-
-    <% elsif current_user&.admin? && @place.primary %>
-      <%= button_to 'Make not primary', toggle_primary_place_path(@place), class: 'button-primary mt-3' %>
-    <% end %>
-  </div>
+    <h2 class="my-3">Podobná místa</h2>
+    <div class="spaces-cards" id="index-card-grid" data-controller="search">
+      <%= render 'shared/places_card_grid' %>
+    </div>
 </div>

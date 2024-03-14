@@ -42,10 +42,19 @@ class PlacesController < ApplicationController
 
   # Shows details for a single place identified by id.
   def show
-
     authorize @place
     @order = Order.new
     @order.build_bokee
+
+    filter_ids = @place.filters.pluck(:id)
+
+
+    @places = Place.joins(:filters)
+                           .where(filters: { id: filter_ids })
+                           .where.not(id: @place.id)
+                           .distinct
+                           .limit(2)
+
   end
 
   # Renders a form for creating a new place.
@@ -95,7 +104,7 @@ class PlacesController < ApplicationController
 
   # Updates an existing place record with the submitted form data.
   def update
-    @place   = Place.find(place_id)
+    @place = Place.find(params[:id].to_i)
     authorize @place
 
     if @place.update(place_params.except(:photos))

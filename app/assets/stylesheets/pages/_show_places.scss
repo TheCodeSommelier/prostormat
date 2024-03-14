@@ -1,5 +1,42 @@
 .show-places-container {
-  padding-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+
+  .content-gallery-gap {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    padding-top: 3rem;
+  }
+
+  // .content-gallery-gap > * {
+  //   flex-basis: calc(50% - 15px)
+  // }
+
+  .star-primary {
+    padding: 10px !important;
+  }
+
+  .h1-gradient-color {
+    background: linear-gradient(120deg, $primary, $secondary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 30px;
+  }
+
+  .long-description h4 {
+    padding: 8px 5px;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 13px;
+  }
+
+  .edit-link-button {
+    @extend .button-secondary;
+    padding: 10px !important;
+    border: 2px solid #767676;
+    border-radius: 8px;
+  }
 
   .image-placeholder {
     background-color: grey;
@@ -11,21 +48,38 @@
     width: 90%;
   }
 
+  #gallery {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -15px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 90%;
+      width: 1px;
+      background-color: lightgrey;
+    }
+  }
+
   #order-form {
-    padding: 2rem;
-    width: 28%;
-    position: sticky;
-    top: 100px;
+    width: 100%;
     background-color: rgba($color: #FFF, $alpha: 1);
     border-radius: 8px;
 
+    .order-label {
+      font-weight: 500;
+      font-size: 18px;
+      margin: 15px 10px 5px;
+    }
+
     .date-input {
       &input::placeholder {
-        color: #909090; /* Change this to your desired color */
-        opacity: 1; /* Override any default opacity */
+        color: #909090;
+        opacity: 1;
       }
 
-      /* For browsers that require vendor prefixes */
       &::-webkit-input-placeholder {
         color: #909090;
       }
