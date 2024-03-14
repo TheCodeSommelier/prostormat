@@ -24,13 +24,13 @@ class PlacesController < ApplicationController
     @places = @places.search_by_query(params[:query]) if params[:query].present?
 
     # Filter by capacity 'from' and 'to'
-    if params[:max_capacity_from].present? && params[:max_capacity_to].present?
-      @places = @places.where('max_capacity >= ? AND max_capacity <= ?', params[:max_capacity_from], params[:max_capacity_to])
+    if params[:min_capacity].present?
+      @places = @places.where('max_capacity >= ?', params[:min_capacity])
     end
 
     @places = @places.order(primary: :desc)
 
-    @places = @places.page(params[:page]).per(1)
+    @places = @places.page(params[:page]).per(6)
     respond_to do |format|
       format.html # For regular HTML requests
       format.json do

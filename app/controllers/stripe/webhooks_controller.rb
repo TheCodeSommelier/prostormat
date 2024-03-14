@@ -50,7 +50,7 @@ class Stripe::WebhooksController < ApplicationController
       # upon your subscription settings. Or if the user cancels it.
       customer = User.find_by(stripe_customer_id: subscription_data.customer)
       customer.update(premium: false)
-      customer.place.update(hidden: true)
+      customer.places.first.update(hidden: true)
     end
 
     # TODO: Add mailer to notify the customer about updating the subscription
@@ -65,7 +65,7 @@ class Stripe::WebhooksController < ApplicationController
       # puts data_object
       customer = User.find_by(stripe_customer_id: subscription_data.customer)
       customer.update(premium: true)
-      customer.place.update(hidden: false)
+      customer.places.first.update(hidden: false)
       SendWelcomeEmailJob.perform_later(customer.id)
     end
 
