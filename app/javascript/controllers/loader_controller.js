@@ -48,7 +48,7 @@ export default class extends Controller {
         this.loaderMessageTarget.textContent = 'Spojuji filtry...'
       } else if (progress > 50 && progress < 75) {
         this.loaderMessageTarget.textContent = 'Ukládám popisky...'
-      } else {
+      } else if (progress > 75) {
         this.loaderMessageTarget.textContent = 'Nahrávám fotky...'
       }
 
