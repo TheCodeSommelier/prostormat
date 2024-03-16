@@ -61,4 +61,13 @@ export default class extends Controller {
   #hideLoader() {
     this.loaderContainerTarget.classList.add("d-none");
   }
+
+  handleImageLoad(event) {
+    const image  = event.target;
+    const loader = image.previousElementSibling;
+
+    loader.style.display = 'none';
+    image.style.visibility = 'visible';
+    image.style.opacity = '1';
+  }
 }

@@ -73,11 +73,14 @@
       </div>
     </div>
 
-    <div id="gallery" class="w-100">
+    <div id="gallery" class="w-100" data-controller="loader">
       <section>
         <div class="image-gallery-grid">
           <% @place.photos.each do |photo| %>
-            <%= cl_image_tag photo.key, height: 200, class: "image-card" %>
+            <div class="image-container">
+              <div class="image-loader"></div>
+              <%= cl_image_tag photo.key, height: 200, class: "image-card", data: { action: "load->loader#handleImageLoad"} %>
+            </div>
           <% end %>
         </div>
       </section>
