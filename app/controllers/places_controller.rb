@@ -66,10 +66,9 @@ class PlacesController < ApplicationController
 
   # Creates a new place record from the submitted form data.
   def create
-    params_for_place  = place_params
-    filter_ids        = place_params[:filter_ids].map(&:to_i) unless place_params[:filter_ids].nil?
-
-    @place = Place.new(params_for_place)
+    filter_ids             = place_params[:filter_ids].map(&:to_i) unless place_params[:filter_ids].nil?
+    @place                 = Place.new(place_params.except(:photos))
+    filtered_photos_params = place_params[:photos].reject(&:blank?)
     authorize @place
 
     @place.user = current_user
@@ -77,19 +76,27 @@ class PlacesController < ApplicationController
     @place.hidden = false if current_user.admin?
 
     if @place.save
-      # If filter give you shadow bugs, try deleting the ampersand infront of .each
-      filter_ids&.each do |filter_id|
-        PlaceFilter.create(place: @place, filter_id:) unless PlaceFilter.exists?(place: @place, filter_id:)
+
+      if filter_ids.present?
+        place_filters_attributes = filter_ids.map do |filter_id|
+          { place_id: @place.id, filter_id: } unless PlaceFilter.exists?(place: @place, filter_id:)
+        end.compact
+        PlaceFilter.insert_all(place_filters_attributes)
       end
+
+      @place.photos.attach(filtered_photos_params)
+
       respond_to do |fromat|
         fromat.js
         fromat.html
       end
+
       if current_user.admin?
         redirect_to root_path
       else
         redirect_to stripe_checkout_path
       end
+
     else
       flash[:alert] = @place.errors.full_messages.join(', ')
       redirect_to new_place_path

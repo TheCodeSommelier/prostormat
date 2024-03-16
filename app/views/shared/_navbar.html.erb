@@ -6,35 +6,7 @@
     <div>
       <div class="navbar-nav d-flex align-items-center me-auto">
 
-        <% if user_signed_in? && current_user.places.empty? %>
-          <div class="nav-item active d-flex justify-content-center me-2">
-            <%= link_to "Home", root_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to "Nový prostor", new_place_path, class: "nav-link me-2" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to "Prostory", places_path, class: "nav-link me-2" %>
-          </div>
-          <div class="nav-link">
-            <%= link_to "Logout", destroy_user_session_path, class: "nav-link", data: {turbo_method: :delete} %>
-          </div>
-
-        <% elsif user_signed_in? && current_user.places && current_user.premium == false %>
-          <div class="nav-item active d-flex justify-content-center me-2">
-            <%= link_to "Home", root_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to "Staňte se členy", stripe_checkout_path, class: "nav-link me-2" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to "Prostory", places_path, class: "nav-link me-2" %>
-          </div>
-          <div class="nav-link">
-            <%= link_to "Logout", destroy_user_session_path, class: "nav-link", data: {turbo_method: :delete} %>
-          </div>
-
-        <% elsif user_signed_in? && current_user.places && current_user.admin? %>
+        <% if user_signed_in? && current_user.places && current_user.admin? %>
           <div class="nav-item active d-flex justify-content-center me-2">
             <%= link_to "Home", root_path, class: "nav-link" %>
           </div>
@@ -51,7 +23,35 @@
             <%= link_to "Logout", destroy_user_session_path, class: "nav-link", data: {turbo_method: :delete} %>
           </div>
 
-        <% elsif user_signed_in? && current_user.places && current_user.premium == true %>
+        <% elsif user_signed_in? && current_user.places.empty? %>
+          <div class="nav-item active d-flex justify-content-center me-2">
+            <%= link_to "Home", root_path, class: "nav-link" %>
+          </div>
+          <div class="nav-item d-flex justify-content-center">
+            <%= link_to "Nový prostor", new_place_path, class: "nav-link me-2" %>
+          </div>
+          <div class="nav-item d-flex justify-content-center">
+            <%= link_to "Prostory", places_path, class: "nav-link me-2" %>
+          </div>
+          <div class="nav-link">
+            <%= link_to "Logout", destroy_user_session_path, class: "nav-link", data: {turbo_method: :delete} %>
+          </div>
+
+        <% elsif user_signed_in? && current_user.places.first.hidden %>
+          <div class="nav-item active d-flex justify-content-center me-2">
+            <%= link_to "Home", root_path, class: "nav-link" %>
+          </div>
+          <div class="nav-item d-flex justify-content-center">
+            <%= link_to "Zaplatit za prostor", stripe_checkout_path, class: "nav-link me-2" %>
+          </div>
+          <div class="nav-item d-flex justify-content-center">
+            <%= link_to "Prostory", places_path, class: "nav-link me-2" %>
+          </div>
+          <div class="nav-link">
+            <%= link_to "Logout", destroy_user_session_path, class: "nav-link", data: {turbo_method: :delete} %>
+          </div>
+
+        <% elsif user_signed_in? && !current_user.places.first.hidden %>
           <div class="nav-item active d-flex justify-content-center me-2">
             <%= link_to "Home", root_path, class: "nav-link" %>
           </div>
@@ -70,7 +70,7 @@
             <%= link_to "Home", root_path, class: "nav-link" %>
           </div>
           <div class="nav-item d-flex justify-content-center me-2">
-            <%= link_to "Nový prostor", new_user_registration_path, class: "nav-link" %>
+            <%= link_to "Registrace a nový prostor", new_user_registration_path, class: "nav-link" %>
           </div>
           <div class="nav-item d-flex justify-content-center me-2">
             <%= link_to "Prostory", places_path, class: "nav-link" %>

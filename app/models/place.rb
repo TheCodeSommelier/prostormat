@@ -16,7 +16,7 @@ class Place < ApplicationRecord
   # Allows for underscores, letters, numbers and spaces
   validates :place_name, format: { with: /[\p{L}\s\d_]+/u, message: 'Povolené znaky pro jméno prostoru jsou: 1. "_" 2. písmena 3. čísla 4. mezery' }
   validates :street, format: { with: /[\p{L}\s]+/u, message: 'Povolené znaky pro ulici jsou písmena a mezery' }
-  validates :short_description, length: { in: 30..100, message: 'Musí být alespoň 30 znaků dlouhá a nesmí být víc než 100 znaků dlouhá' }
+  validates :short_description, length: { in: 10..30, message: 'Musí být alespoň 10 až 30 znaků dlouhá' }
 
   validates :long_description, length: { minimum: 120, message: 'Musí být alespoň 120 znaků dlouhá' }
 
