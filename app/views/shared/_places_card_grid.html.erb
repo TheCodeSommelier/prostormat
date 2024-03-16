@@ -1,8 +1,9 @@
 <% @places.each do |place| %>
   <div class="card-index d-flex justify-content-between">
-    <div class="image-container border-side">
+    <div class="image-container border-side" data-controller="loader">
       <% if place.photos.attached? %>
-        <%= cl_image_tag place.photos.first.key, crop: :fill, class: 'image-card' %>
+        <div class="image-loader"></div>
+        <%= cl_image_tag place.photos.first.key, crop: :fill, class: 'image-card', data: { action: "load->loader#handleImageLoad"} %>
       <% end %>
     </div>
     <div class="d-flex flex-column justify-content-between w-50">
