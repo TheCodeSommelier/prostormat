@@ -4,7 +4,7 @@ class SendWelcomeEmailJob < ApplicationJob
   def perform(user_id)
     user = User.find(user_id.to_i)
     @greeting = "Vážený/á pane/paní #{user.last_name}"
-    @place = user.place
+    @place = user.places.first
 
     template_path = Rails.root.join('app', 'views', 'subscriber_mailer', 'welcome_email.html.erb')
     template      = File.read(template_path)

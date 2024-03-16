@@ -5,7 +5,7 @@ export default class extends Controller {
   async connect() {
     const publicKey    = this.element.dataset.stripePublicKey;
     const stripe       = Stripe(publicKey);
-    const clientSecret = await this.fetchClientSecret(stripe);
+    const clientSecret = await this.#fetchClientSecret(stripe);
     let elements;
 
     if (!clientSecret) {
@@ -17,10 +17,10 @@ export default class extends Controller {
     const paymentElement = elements.create("payment");
 
     paymentElement.mount("#payment-element-display");
-    this.setupForm(stripe, elements);
+    this.#setupForm(stripe, elements);
   }
 
-  async fetchClientSecret(stripe) {
+  async #fetchClientSecret(stripe) {
     try {
       const response = await fetch("create-setup-intent", {
         method: "POST",
@@ -36,7 +36,7 @@ export default class extends Controller {
     }
   }
 
-  setupForm(stripe, elements) {
+  #setupForm(stripe, elements) {
     const form = document.querySelector("#payment-form");
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -53,13 +53,13 @@ export default class extends Controller {
         const errorMessages     = document.getElementById("error-messages");
         errorMessages.innerText = error.message;
       } else if (setupIntent && setupIntent.status === "succeeded") {
-        await this.subscribeCustomer(setupIntent.payment_method);
+        await this.#subscribeCustomer(setupIntent.payment_method);
         window.location.href = window.location.href.split("?") + "complete";
       }
     });
   }
 
-  subscribeCustomer(paymentMethodId) {
+  #subscribeCustomer(paymentMethodId) {
     fetch("create-subscription", {
       method: "POST",
       headers: {

@@ -1,7 +1,9 @@
 <% @places.each do |place| %>
   <div class="card-index d-flex justify-content-between">
     <div class="image-container border-side">
-      <%= cl_image_tag place.photos.first.key, crop: :fill, class: 'image-card' %>
+      <% if place.photos.attached? %>
+        <%= cl_image_tag place.photos.first.key, crop: :fill, class: 'image-card' %>
+      <% end %>
     </div>
     <div class="d-flex flex-column justify-content-between w-50">
       <div class="d-flex flex-column">
