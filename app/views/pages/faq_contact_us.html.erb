@@ -1,0 +1,44 @@
+<div id="faq-contact-us-container" class="container">
+  <div id="faq-container">
+    <h2>Často kladené dotazy (FAQ)</h2>
+    <div class="questions">
+      <div>
+        <h3>Jak mohu vytvořit účet?</h3>
+        <p>Pro vytvoření účtu klikněte na tlačítko "Registrace" v pravém horním rohu stránky a vyplňte požadované informace. Po dokončení registrace vám bude zaslán potvrzovací email.</p>
+      </div>
+      <div>
+        <h3>Jakým způsobem mohu provést platbu?</h3>
+        <p>Přijímáme řadu platebních metod, včetně kreditních karet, debetních karet a online platebních služeb. Vyberte si z nabízených možností tu, která vám nejvíce vyhovuje.</p>
+      </div>
+      <div>
+        <h3>Mohu změnit nebo zrušit svou objednávku?</h3>
+        <p>Ano, změny nebo zrušení objednávky je možné provést do 24 hodin od jejího zadání. Pro změnu nebo zrušení vaší objednávky nás prosím kontaktujte přes formulář na našich webových stránkách.</p>
+      </div>
+      <div>
+        <h3>Jak mohu sledovat stav mé objednávky?</h3>
+        <p>Po odeslání objednávky obdržíte email s číslem pro sledování. Pomocí tohoto čísla můžete na našem webu sledovat aktuální stav vaší objednávky.</p>
+      </div>
+      <div>
+        <h3>Co dělat, pokud je produkt poškozený nebo chybí?</h3>
+        <p>Pokud obdržíte poškozený produkt nebo pokud vaší objednávce něco chybí, kontaktujte nás prosím do 48 hodin od převzetí zásilky a my se postaráme o rychlé vyřešení situace.</p>
+      </div>
+    </div>
+  </div>
+  <div id="contact-us-container">
+    <h2>Napište nám</h2>
+    <%= form_with url: contact_path, method: :post, local: true do |form| %>
+      <div class="d-flex">
+        <%= form.text_field :name, required: true, placeholder: 'Vaše jméno', class: 'form-control' %>
+        <%= form.email_field :email, required: true, placeholder: 'Váš email', class: 'form-control' %>
+      </div>
+
+      <div class="field">
+        <%= form.text_area :message, required: true, placeholder: 'Vaše zpráva', class: 'form-control' %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit 'Send', class: 'button-primary w-100' %>
+      </div>
+    <% end %>
+  </div>
+</div>

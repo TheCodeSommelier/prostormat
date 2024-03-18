@@ -48,13 +48,15 @@ class PlacesController < ApplicationController
 
     filter_ids = @place.filters.pluck(:id)
 
+    base_city_name = @place.city.split(' ').first
 
     @places = Place.joins(:filters)
-                           .where(filters: { id: filter_ids })
-                           .where.not(id: @place.id)
-                           .distinct
-                           .limit(2)
-
+                   .where(filters: { id: filter_ids })
+                   .where.not(id: @place.id)
+                   .where('city LIKE ?', "#{base_city_name}%")
+                   .order(primary: :desc)
+                   .distinct
+                   .limit(2)
   end
 
   # Renders a form for creating a new place.
