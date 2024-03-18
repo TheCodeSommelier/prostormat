@@ -15,14 +15,43 @@
 
   .star-primary {
     padding: 10px !important;
+    height: 40px;
   }
 
-  .h1-gradient-color {
-    background: linear-gradient(120deg, $primary, $secondary);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 0 0 30px;
+  .place-title-size {
+    font-size: 50px;
+  }
+
+  .address, .capacity {
+    color: rgb(84, 84, 84);
+  }
+
+  .address {
+    font-style: italic;
+  }
+
+  .rotated {
+    transform: rotate(180deg);
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .buttons-container {
+
+    .buttons-relative {
+      position: relative;
+    }
+
+    .button-absolute {
+      position: absolute;
+    }
+
+    .button-absolute.star-primary {
+      right: 50px;
+    }
+
+    .button-absolute.edit-link-button {
+      right: 0px;
+    }
   }
 
   .long-description h4 {
@@ -68,15 +97,28 @@
     }
   }
 
+  .title-order-form {
+    border-bottom: solid 1px lightgrey;
+    padding: 30px 5px 20px;
+    margin: 30px auto 20px;
+
+    img {
+      cursor: pointer;
+      transition: 0.5s ease-in-out;
+    }
+  }
+
   #order-form {
     width: 100%;
     background-color: rgba($color: #FFF, $alpha: 1);
     border-radius: 8px;
+    opacity: 0;
+    display: none;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, visibility 0s linear 0.5s;
 
-    .order-label {
-      font-weight: 500;
-      font-size: 18px;
-      margin: 15px 10px 5px;
+    .order-input {
+      margin: 10px 5px;
     }
 
     .date-input {
@@ -97,6 +139,10 @@
         color: #909090;
         opacity: 1;
       }
+    }
+
+    .submit-button-margin {
+      margin: 10px 5px;
     }
   }
 

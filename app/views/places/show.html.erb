@@ -5,66 +5,74 @@
       <div class="d-flex">
       </div>
       <div class="d-flex justify-content-between w-100">
-        <h1 class="h1-gradient-color"><%= @place.place_name %></h1>
-        <div class="d-flex">
-          <div>
+        <div class="d-flex flex-column w-100">
+          <h1 class="place-title-size"><%= @place.place_name %></h1>
+          <div class="d-flex justify-content-between">
+            <p class="address"><%= @place.street %> <%= @place.house_number %>, <%= @place.postal_code %>, <%= @place.city %></p>
+            <div class="d-flex">
+              <%= image_tag('person-grey.svg', width: 10, class: "me-2") %>
+              <p class="capacity"><%= @place.max_capacity %></p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex buttons-container">
+          <div class="buttons-relative">
             <% if current_user&.admin? && !@place.primary %>
-              <%= button_to toggle_primary_place_path(@place), method: :patch, data: { turbo: false }, class: 'button-primary star-primary', form: {class: "inline"} do %>
+              <%= button_to toggle_primary_place_path(@place), method: :patch, data: { turbo: false }, class: 'button-primary star-primary button-absolute d-flex justify-content-center align-items-center', form: {class: "inline"} do %>
                 <%= image_tag('star-solid.svg', width: 20) %>
               <% end %>
             <% elsif current_user&.admin? && @place.primary %>
-              <%= button_to toggle_primary_place_path(@place), method: :patch, data: { turbo: false }, class: 'button-primary star-primary', form: {class: "inline"} do %>
+              <%= button_to toggle_primary_place_path(@place), method: :patch, data: { turbo: false }, class: 'button-primary star-primary button-absolute', form: {class: "inline"} do %>
                 <%= image_tag('star-regular.svg', width: 20) %>
               <% end %>
             <% end %>
-          </div>
-          <div>
-            <% if @place.user == current_user || current_user&.admin? %>
-              <%= link_to edit_place_path(current_user.places.first), class: "edit-link-button ms-2" do %>
-                <%= image_tag('pen-solid.svg', width: 20) %>
+            <div>
+              <% if @place.user == current_user || current_user&.admin? %>
+                <%= link_to edit_place_path(current_user.places.first), class: "edit-link-button button-absolute" do %>
+                  <%= image_tag('pen-solid.svg', width: 20) %>
+                <% end %>
               <% end %>
-            <% end %>
+            </div>
           </div>
         </div>
       </div>
 
       <section id="basic-info mb-5">
-        <div class="d-flex justify-content-between">
-          <p><%= @place.street %> <%= @place.house_number %>, <%= @place.postal_code %>, <%= @place.city %></p>
-          <div class="d-flex">
-            <%= image_tag('person-grey.svg', width: 10, class: "me-2") %>
-            <p><%= @place.max_capacity %></p>
-          </div>
-        </div>
         <div>
-          <h4 class="mt-2"><%= @place.short_description %></h4>
+          <h4 class="mt-5"><%= @place.short_description %></h4>
         </div>
       </section>
 
-      <div id="order-form" class="mt-5">
-        <%= form_with model: [@place, @order], local: true, data: { turbo: false } do |f|%>
-          <%= f.label 'Typ akce', class: 'order-label' %>
-          <%= f.text_field :event_type, placeholder: 'Máte firemní akci nebo narozeniny?', class: 'form-control' %>
+      <div class="order-form-dropdown" data-controller="show-page">
+        <div class="title-order-form d-flex justify-content-between">
+          <h4>Poslat poptávku</h3>
+          <%= image_tag('chevron-down-solid (1).svg', width: 30, data: { action: 'click->show-page#dropDown', show_page_target: "dropDownChevron" }) %>
+        </div>
+        <div id="order-form" data-show-page-target="orderForm">
+          <%= form_with model: [@place, @order], local: true, data: { turbo: false } do |f|%>
+            <div class="d-flex">
+              <%= f.text_field :event_type, placeholder: 'Máte firemní akci nebo narozeniny?', class: 'form-control order-input' %>
 
-          <%= f.label 'Datum', class: 'order-label' %>
-          <%= f.date_field :date, placeholder: 'Jaký den', class: 'form-control date-input', min: Date.today.to_s %>
+              <%= f.date_field :date, placeholder: 'Jaký den?', class: 'form-control date-input order-input', min: Date.today.to_s %>
+            </div>
 
-          <%= f.fields_for :bokee do |field_for_bokee| %>
-            <%= field_for_bokee.label 'Celé jméno', class: 'order-label' %>
-            <%= field_for_bokee.text_field :full_name, placeholder: 'John Doe', class: 'form-control' %>
+            <%= f.fields_for :bokee do |field_for_bokee| %>
+              <div class="d-flex">
+                <%= field_for_bokee.text_field :full_name, placeholder: 'Vaše celé jméno', class: 'form-control order-input' %>
 
-            <%= field_for_bokee.label 'Email', class: 'order-label' %>
-            <%= field_for_bokee.text_field :email, placeholder: 'john@doe.com', class: 'form-control' %>
+                <%= field_for_bokee.text_field :email, placeholder: 'Váš email', class: 'form-control order-input' %>
 
-            <%= field_for_bokee.label 'Telefonní číslo', class: 'order-label' %>
-            <%= field_for_bokee.text_field :phone_number, placeholder: '+420 333 333 333', class: 'form-control' %>
+                <%= field_for_bokee.text_field :phone_number, placeholder: 'Vaše telefonní číslo', class: 'form-control order-input' %>
+              </div>
+            <% end %>
+            <div class="d-flex">
+              <%= f.text_area :message, placeholder: 'Zde dopište cokoliv je potřeba specifikovat, optat, nebo vyjasnit!', class: 'form-control message-input order-input', min: Date.today.to_s %>
+            </div>
+            <div class="d-flex">
+              <%= f.submit 'Poslat poptávku', class: 'button-primary w-100 submit-button-margin' %>
+            </div>
           <% end %>
-
-          <%= f.label 'Zpráva', class: 'order-label' %>
-          <%= f.text_area :message, placeholder: 'Chcete něco specifikovat? Máte slovo!', class: 'form-control message-input', min: Date.today.to_s %>
-
-          <%= f.submit 'Poslat poptávku', class: 'button-primary mt-3 w-100' %>
-        <% end %>
+        </div>
       </div>
 
       <div class="long-description mt-4">
