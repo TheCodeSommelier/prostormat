@@ -12,7 +12,7 @@ class TestMailer < ApplicationMailer
       to: 'poptavka@prostormat.cz',
       from: 'poptavka@prostormat.cz',
       track_opens: 'true',
-      message_stream: 'broadcast'
+      message_stream: 'outbound'
     )
   end
 end

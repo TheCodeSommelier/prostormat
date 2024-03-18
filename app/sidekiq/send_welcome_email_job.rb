@@ -6,7 +6,7 @@ class SendWelcomeEmailJob < ApplicationJob
     @greeting = "Vážený/á pane/paní #{user.last_name}"
     @place = user.places.first
 
-    template_path = Rails.root.join('app', 'views', 'subscriber_mailer', 'welcome_email.html.erb')
+    template_path = Rails.root.join('app', 'views', 'mailers', 'welcome_email.html.erb')
     template      = File.read(template_path)
     erb_template  = ERB.new(template)
     html_content  = erb_template.result(binding)
@@ -17,7 +17,7 @@ class SendWelcomeEmailJob < ApplicationJob
       from: 'poptavka@prostormat.cz',
       html_body: html_content,
       track_opens: 'true',
-      message_stream: 'broadcast'
+      message_stream: 'outbound'
     }
 
     client = Postmark::ApiClient.new(ENV.fetch('POSTMARK_API_TOKEN'))
