@@ -1,0 +1,32 @@
+#faq-contact-us-container {
+  padding: 0 9rem;
+
+  #faq-container {
+    h2 {
+      margin-top: 50px;
+      border-bottom: 1px solid lightgray;
+      padding: 0 10px 10px;
+    }
+
+    .question-title {
+      margin: 30px auto 10px;
+      padding: 0 10px;
+    }
+
+    p {
+      padding: 0 11px;
+    }
+  }
+
+  #contact-us-container {
+    margin: 30px auto;
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .message-input-container {
+      margin: 5px auto 15px;
+    }
+  }
+}
