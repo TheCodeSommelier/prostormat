@@ -37,7 +37,7 @@ class Stripe::CheckoutController < ApplicationController
 
   def success
     place = current_user.places.first
-    flash[:alert] = 'Máte zaplaceno'
+    flash[:notice] = 'Máte zaplaceno'
     redirect_to place_path(place)
   end
 
