@@ -10,6 +10,9 @@ class Place < ApplicationRecord
   has_many :filters, through: :place_filters
   has_many_attached :photos
 
+  # Callback that expires cache upon creation or editation of a place record
+  after_commit :expire_places_cache, on: %i[create update]
+
   validates :max_capacity, numericality: { only_integer: true, greater_than: 10, message: 'Kapacita musí být alespoň 10' }
   validates :postal_code, format: { with: /\A\d{3}\s\d{2}\z/, message: 'Musí být psáno ve formátu "123 22"' }
 
@@ -33,6 +36,10 @@ class Place < ApplicationRecord
   end
 
   private
+
+  def expire_places_cache
+    Rails.cache.delete('places_index')
+  end
 
   def custom_validation_presence
     fields = {

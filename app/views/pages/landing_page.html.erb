@@ -3,7 +3,6 @@
 <!-- TODO: Footer -->
 <!-- TODO: Další služby controller and model -->
 <!-- TODO: Form for we'll organize the event -->
-<!-- TODO: Moving pictures on the landing page as is on design site but constantly changing location -->
 <div id="landing-page">
   <section class="d-flex" id="main-section">
     <div class="container col-6 me-5">
@@ -83,14 +82,16 @@
     </div>
   </section>
 
-  <section class="section-sample-spaces" id="section-sample-spaces">
-    <div class="container d-flex flex-column align-items-center ">
-      <h2 class="mt-5">Naše prostory</h2>
-      <div class="spaces-cards my-4 w-100" id="index-card-grid" data-controller="search">
-        <%= render 'shared/places_card_grid' %>
+  <%= cache('our_spaces_section', expires_in: 1.hour) do %>
+    <section class="section-sample-spaces" id="section-sample-spaces">
+      <div class="container d-flex flex-column align-items-center ">
+        <h2 class="mt-5">Naše prostory</h2>
+        <div class="spaces-cards my-4 w-100" id="index-card-grid" data-controller="search">
+          <%= render 'shared/places_card_grid' %>
+        </div>
+        <%= link_to 'Všechny prostory', places_path, class: "button-secondary w-50" %>
       </div>
-      <%= link_to 'Všechny prostory', places_path, class: "button-secondary w-50" %>
-    </div>
-    <%#= button_to 'Billing', stripe_billing_path, class: 'button-primary', data: { turbo: 'false' } %>
-  </section>
+      <%#= button_to 'Billing', stripe_billing_path, class: 'button-primary', data: { turbo: 'false' } %>
+    </section>
+  <% end %>
 </div>
