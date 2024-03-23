@@ -82,16 +82,14 @@
     </div>
   </section>
 
-  <%= cache('our_spaces_section', expires_in: 1.hour) do %>
-    <section class="section-sample-spaces" id="section-sample-spaces">
-      <div class="container d-flex flex-column align-items-center ">
-        <h2 class="mt-5">Naše prostory</h2>
-        <div class="spaces-cards my-4 w-100" id="index-card-grid" data-controller="search">
-          <%= render 'shared/places_card_grid' %>
-        </div>
-        <%= link_to 'Všechny prostory', places_path, class: "button-secondary w-50" %>
+  <section class="section-sample-spaces" id="section-sample-spaces">
+    <div class="container d-flex flex-column align-items-center ">
+      <h2 class="mt-5">Naše prostory</h2>
+      <div class="spaces-cards my-4 w-100" id="index-card-grid" data-controller="search">
+        <%= render 'shared/places_card_grid' %>
       </div>
-      <%= button_to 'Billing', stripe_billing_path, class: 'button-primary', data: { turbo: 'false' } %>
-    </section>
-  <% end %>
+      <%= link_to 'Všechny prostory', places_path, class: "button-secondary w-50" %>
+    </div>
+    <%= button_to 'Billing', stripe_billing_path, class: 'button-primary', data: { turbo: 'false' } %>
+  </section>
 </div>
