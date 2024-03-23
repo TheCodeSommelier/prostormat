@@ -8,7 +8,9 @@ class PagesController < ApplicationController
   # The landing_page action renders the application's landing page, which is used to explain
   # how it works, sample places/venues and a footer
   def landing_page
-    @places = Place.all.sample(2)
+    ActiveRecord::Base.connection_pool.with_connection do
+      @places = Place.all.sample(2)
+    end
   end
 
   def about_us; end
