@@ -9,9 +9,10 @@ class PlacesController < ApplicationController
 
   # Lists all places.
   def index
-    @places  = policy_scope(Place.visible)
-    @filters = Filter.all
+    @places  = Rails.cache.fetch('places/index', expires_in: 1.hour) { Place.visible }
+    @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
 
+    policy_scope(@places)
     # Apply filters
     if params[:filters].present?
       filter_ids = params[:filters].reject(&:empty?).map(&:to_i)
