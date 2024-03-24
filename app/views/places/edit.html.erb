@@ -1,8 +1,8 @@
-<div id="new-place-form">
+<div id="new-place-form" data-controller="loader">
   <h1>Vytvořte vaše porstory</h1>
   <!-- TODO: Check the photos they need to be updatable -->
 
-  <%= form_for @place, html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form' } do |f| %>
+  <%= form_for @place, html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form', action: 'submit->loader#startLoading' } do |f| %>
 
     <div class="input-container">
       <%= f.label :place_name, 'Jak se jmenuje místo kde máte porstory?', class: 'form-label label-enter-active' %>
@@ -75,4 +75,12 @@
 
     <%= f.submit "Upravte", class: 'hidden-submit button-primary my-3 w-100' %>
   <% end %>
+
+  <div class="loader-container" data-loader-target="loaderContainer">
+    <h2 class="loader-message" data-loader-target="loaderMessage"></h2>
+    <div>
+      <div class="loader" data-loader-target="loader"></div>
+      <div class="loader-percentage" data-loader-target="percentage"></div>
+    </div>
+  </div>
 </div>

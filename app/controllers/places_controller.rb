@@ -127,6 +127,10 @@ class PlacesController < ApplicationController
     @place = Place.find(params[:id].to_i)
     authorize @place
 
+    if @place.photos.attached?
+      expire_place_show_photos_cache(@place)
+    end
+
     if @place.update(place_params.except(:photos))
       if params[:place][:photos].count > 1
         @place.photos.purge
@@ -162,6 +166,13 @@ class PlacesController < ApplicationController
   end
 
   private
+
+  def expire_place_show_photos_cache(place)
+    Rails.cache.delete([place, place.photos.first, 'card_image', place.photos.first.created_at])
+    place.photos.each do |photo|
+      Rails.cache.delete([photo, 'gallery', photo.created_at])
+    end
+  end
 
   def display_error_messages
     flash.now[:alert] = if place_params[:place_name].empty?
