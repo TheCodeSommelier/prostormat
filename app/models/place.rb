@@ -11,7 +11,7 @@ class Place < ApplicationRecord
   has_many_attached :photos
 
   # Callback that expires cache upon creation or editation of a place record
-  after_commit :expire_places_cache, on: %i[create update]
+  after_commit :expire_places_index_cache, on: %i[create update]
   after_commit :expire_place_show_cache, on: :update
 
   validates :max_capacity, numericality: { only_integer: true, greater_than: 10, message: 'Kapacita musí být alespoň 10' }
@@ -38,16 +38,12 @@ class Place < ApplicationRecord
 
   private
 
-  def expire_places_cache
-    Rails.cache.delete('places_index')
+  def expire_places_index_cache
+    Rails.cache.delete('places/index')
   end
 
   def expire_place_show_cache
     Rails.cache.delete("place_#{id}")
-    # Rails.cache.delete([self, self.photos.first, 'card_image', self.photos.first.created_at])
-    # self.photos.each do |photo|
-    #   Rails.cache.delete([photo, 'gallery', photo.created_at])
-    # end
 
     filter_ids               = self.filters.pluck(:id)
     base_city_name           = self.city.split(' ').first
