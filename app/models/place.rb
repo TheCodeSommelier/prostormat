@@ -12,6 +12,7 @@ class Place < ApplicationRecord
 
   # Callback that expires cache upon creation or editation of a place record
   after_commit :expire_places_cache, on: %i[create update]
+  after_commit :expire_place_show_cache, on: :update
 
   validates :max_capacity, numericality: { only_integer: true, greater_than: 10, message: 'Kapacita musí být alespoň 10' }
   validates :postal_code, format: { with: /\A\d{3}\s\d{2}\z/, message: 'Musí být psáno ve formátu "123 22"' }
@@ -39,6 +40,22 @@ class Place < ApplicationRecord
 
   def expire_places_cache
     Rails.cache.delete('places_index')
+  end
+
+  def expire_place_show_cache
+    Rails.cache.delete("place_#{id}")
+    Rails.cache.delete([self, 'gallery', photos.maximum(:created_at)])
+
+    filter_ids               = self.filters.pluck(:id)
+    base_city_name           = self.city.split(' ').first
+    related_places_cache_key = [
+      'related_places',
+      self.id,
+      filter_ids.sort.join('-'),
+      base_city_name,
+      Place.maximum(:updated_at)
+    ]
+    Rails.cache.delete(related_places_cache_key)
   end
 
   def custom_validation_presence

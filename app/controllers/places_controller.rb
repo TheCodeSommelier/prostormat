@@ -5,7 +5,7 @@
 # deleting places. It responds to routes defined in config/routes.rb for the Place model.
 class PlacesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show new update toggle_primary] # Skip authentication for index
-  before_action :set_place, only: %i[show edit toggle_primary]
+  before_action :set_place, only: %i[edit toggle_primary]
 
   # Lists all places.
   def index
@@ -43,21 +43,31 @@ class PlacesController < ApplicationController
 
   # Shows details for a single place identified by id.
   def show
+    @place = Rails.cache.fetch("place_#{params[:id]}") { Place.find(params[:id].to_i) }
     authorize @place
+
     @order = Order.new
     @order.build_bokee
 
-    filter_ids = @place.filters.pluck(:id)
-
+    filter_ids     = @place.filters.pluck(:id)
     base_city_name = @place.city.split(' ').first
-
-    @places = Place.joins(:filters)
-                   .where(filters: { id: filter_ids })
-                   .where.not(id: @place.id)
-                   .where('city LIKE ?', "#{base_city_name}%")
-                   .order(primary: :desc)
-                   .distinct
-                   .limit(2)
+    cache_key      = [
+      'related_places',
+      @place.id,
+      filter_ids.sort.join('-'),
+      base_city_name,
+      Place.maximum(:updated_at)
+    ]
+    @places = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
+      Place.joins(:filters)
+           .where(filters: { id: filter_ids })
+           .where.not(id: @place.id)
+           .where('city LIKE ?', "#{base_city_name}%")
+           .order(primary: :desc)
+           .distinct
+           .limit(2)
+           .to_a
+    end
   end
 
   # Renders a form for creating a new place.
