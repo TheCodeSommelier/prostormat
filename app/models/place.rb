@@ -44,7 +44,10 @@ class Place < ApplicationRecord
 
   def expire_place_show_cache
     Rails.cache.delete("place_#{id}")
-    Rails.cache.delete([self, 'gallery', photos.maximum(:created_at)])
+    # Rails.cache.delete([self, self.photos.first, 'card_image', self.photos.first.created_at])
+    # self.photos.each do |photo|
+    #   Rails.cache.delete([photo, 'gallery', photo.created_at])
+    # end
 
     filter_ids               = self.filters.pluck(:id)
     base_city_name           = self.city.split(' ').first
