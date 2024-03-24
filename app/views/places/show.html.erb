@@ -81,21 +81,24 @@
       </div>
     </div>
 
-    <div id="gallery" class="w-100" data-controller="loader">
-      <section>
-        <div class="image-gallery-grid">
-          <% @place.photos.each do |photo| %>
-            <div class="image-container">
-              <div class="image-loader"></div>
-              <%= cl_image_tag photo.key, height: 200, class: "image-card", data: { action: "load->loader#handleImageLoad"} %>
-            </div>
-          <% end %>
-        </div>
-      </section>
-    </div>
+    <% cache [@place, 'gallery', @place.photos.maximum(:created_at)] do %>
+      <div id="gallery" class="w-100" data-controller="loader">
+        <section>
+          <div class="image-gallery-grid">
+            <% @place.photos.each do |photo| %>
+              <div class="image-container">
+                <div class="image-loader"></div>
+                <%= cl_image_tag photo.key, height: 200, quality: "auto", fetch_format: "auto", class: "image-card", class: "image-card", data: { action: "load->loader#handleImageLoad"} %>
+              </div>
+            <% end %>
+          </div>
+        </section>
+      </div>
+    <% end %>
+    <% puts Rails.cache.exist?([@place, 'gallery', @place.photos.maximum(:created_at)]) %>
   </div>
   <h2 class="my-3">Podobná místa</h2>
   <div class="spaces-cards" id="index-card-grid" data-controller="search">
-    <%= render 'shared/places_card_grid' %>
+    <%= render 'shared/places_card_grid', collection: @places, cache: true %>
   </div>
 </div>

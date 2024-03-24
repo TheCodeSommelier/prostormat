@@ -3,7 +3,7 @@
     <div class="image-container border-side" data-controller="loader">
       <% if place.photos.attached? %>
         <div class="image-loader"></div>
-        <%= cl_image_tag place.photos.first.key, crop: :fill, class: 'image-card', data: { action: "load->loader#handleImageLoad"} %>
+        <%= cl_image_tag place.photos.first.key, crop: :fill, quality: "auto", fetch_format: "auto", class: 'image-card', data: { action: "load->loader#handleImageLoad"} %>
       <% end %>
     </div>
     <div class="d-flex flex-column justify-content-between w-50">
@@ -22,7 +22,7 @@
 
 
       <div class="short-desc-color-size">
-        <h5>Jaký je náš porstor</h5>
+        <h5>Jaký je náš prostor</h5>
         <p class="my-3"><%= place.short_description %></p>
       </div>
 
