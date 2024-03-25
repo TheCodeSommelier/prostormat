@@ -43,7 +43,8 @@ class Place < ApplicationRecord
   end
 
   def expire_place_show_cache
-    Rails.cache.delete("place_#{id}")
+    Rails.cache.delete("place_#{self.id}")
+    Rails.cache.delete("place_#{self.id}_address")
 
     filter_ids               = self.filters.pluck(:id)
     base_city_name           = self.city.split(' ').first
