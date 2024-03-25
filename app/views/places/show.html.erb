@@ -1,5 +1,5 @@
 <!-- TODO: Order form, email to user and martin upon submission of the order -->
-<div class="container show-places-container d-flex flex-column">
+<div class="container show-places-container d-flex flex-column" data-controller="show-page">
   <div class="content-gallery-gap d-flex justify-content-between">
     <div id="show-page-content d-flex" class="w-100">
       <div class="d-flex">
@@ -43,7 +43,7 @@
         </div>
       </section>
 
-      <div class="order-form-dropdown" data-controller="show-page">
+      <div class="order-form-dropdown">
         <div class="title-order-form d-flex justify-content-between">
           <h4>Poslat poptávku</h3>
           <%= image_tag('chevron-down-solid (1).svg', width: 30, data: { action: 'click->show-page#dropDown', show_page_target: "dropDownChevron" }) %>
@@ -79,9 +79,19 @@
         <h4>O nás</h4>
         <p><%= @place.long_description %></p>
       </div>
+
+      <% cache [@place, 'google_api_map'] do %>
+        <div class="padding-map-container">
+          <div id="map-container">
+            <% google_api = ENV.fetch('GOOGLE_MAPS_API_KEY') %>
+            <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{@place_encoded_address}&zoom=16&size=400x400&markers=color:red|#{@place_encoded_address}&key=#{google_api}&scale=2" %>
+          </div>
+        </div>
+      <% end %>
     </div>
 
-    <div id="gallery" class="w-100" data-controller="loader">
+
+    <div id="gallery" class="w-100" data-controller="loader" data-show-page-target="gallery">
       <section>
         <div class="image-gallery-grid">
           <% @place.photos.each do |photo| %>

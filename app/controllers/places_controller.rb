@@ -44,8 +44,13 @@ class PlacesController < ApplicationController
 
   # Shows details for a single place identified by id.
   def show
+    require 'cgi'
     @place = Rails.cache.fetch("place_#{params[:id]}") { Place.find(params[:id].to_i) }
     authorize @place
+
+    @place_encoded_address = Rails.cache.fetch("place_#{params[:id]}_address") do
+      CGI.escape("#{@place.street} #{@place.house_number}, #{@place.postal_code}, #{@place.city}")
+    end
 
     @order = Order.new
     @order.build_bokee
