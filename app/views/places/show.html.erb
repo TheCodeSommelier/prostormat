@@ -80,12 +80,14 @@
         <p><%= @place.long_description %></p>
       </div>
 
-      <div class="padding-map-container">
-        <div id="map-container">
-          <% google_api = ENV.fetch('GOOGLE_MAPS_API_KEY') %>
-          <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{@place_encoded_address}&zoom=16&size=400x400&markers=color:red|#{@place_encoded_address}&key=#{google_api}&scale=2" %>
+      <% cache [@place, 'google_api_map'] do %>
+        <div class="padding-map-container">
+          <div id="map-container">
+            <% google_api = ENV.fetch('GOOGLE_MAPS_API_KEY') %>
+            <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{@place_encoded_address}&zoom=16&size=400x400&markers=color:red|#{@place_encoded_address}&key=#{google_api}&scale=2" %>
+          </div>
         </div>
-      </div>
+      <% end %>
     </div>
 
 
