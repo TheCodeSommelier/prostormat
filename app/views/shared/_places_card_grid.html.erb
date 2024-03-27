@@ -2,12 +2,8 @@
   <div class="card-index d-flex justify-content-between">
     <div class="image-container border-side" data-controller="loader">
       <% if place.photos.attached? %>
-        <!-- The cache only works with the cache_key being variable. DO NOT TOUCH -->
-        <% cache_key = [place, place.photos.first, 'card_image', place.photos.first.created_at] %>
-        <% cache cache_key do %>
-          <div class="image-loader"></div>
-          <%= cl_image_tag place.photos.first.key, crop: :fill, quality: "auto", fetch_format: "auto", class: 'image-card', data: { action: "load->loader#handleImageLoad"} %>
-        <% end %>
+        <div class="image-loader"></div>
+        <%= cl_image_tag place.photos.first.key, crop: :fill, quality: "auto", fetch_format: "auto", class: 'image-card', data: { action: "load->loader#handleImageLoad"} %>
       <% end %>
     </div>
     <div class="d-flex flex-column justify-content-between w-50">

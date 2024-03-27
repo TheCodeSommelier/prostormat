@@ -19,7 +19,10 @@ class PagesController < ApplicationController
 
   def contact
     ContactEmailJob.perform_later(contact_params)
+    redirect_to root_path, notice: 'Vaše zpráva se odesílá. Brzy se vám ozveme.'
   end
+
+  def overload; end
 
   private
 

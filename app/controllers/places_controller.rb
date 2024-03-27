@@ -79,7 +79,7 @@ class PlacesController < ApplicationController
   # Renders a form for creating a new place.
   def new
     @place   = Place.new
-    @filters = Filter.all
+    @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
     authorize @place
   end
 
@@ -125,7 +125,7 @@ class PlacesController < ApplicationController
   # Renders a form for editing an existing place identified by id.
   def edit
     authorize @place
-    @filters = Filter.all
+    @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
   end
 
   # Updates an existing place record with the submitted form data.
@@ -146,7 +146,7 @@ class PlacesController < ApplicationController
       end
       redirect_to place_path(@place), notice: 'Vše je v pořádku a aktualizováno.'
     else
-      @filters = Filter.all
+      @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
       render :edit, status: :unprocessable_entity
     end
   end
@@ -208,7 +208,6 @@ class PlacesController < ApplicationController
     @place = Place.find(params[:id])
   end
 
-  # TODO: Check if we need :number_of_venues,
   def place_params
     params.require(:place).permit(:place_name, :street, :house_number, :postal_code, :city, :max_capacity,
                                   :short_description, :long_description, photos: [], filter_ids: [])

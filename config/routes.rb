@@ -12,10 +12,10 @@ Rails.application.routes.draw do
   get 'about_us', to: 'pages#about_us'
   get 'faq_contact', to: 'pages#faq_contact_us', as: 'faq_contact'
   post 'contact', to: 'pages#contact'
+  get 'overload', to: 'pages#overload'
 
   get 'admin_places', to: 'places#admin_places', as: :admin_places
   resources :places do
-    # For tax purposes "update" will "cancel" the order. Even if an order is cancelled it still needs to be in DB
     resources :orders, only: %i[create update]
     member do
       patch 'toggle_primary', to: 'places#toggle_primary', as: 'toggle_primary'
