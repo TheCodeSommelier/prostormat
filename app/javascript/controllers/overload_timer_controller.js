@@ -19,7 +19,7 @@ export default class extends Controller {
       if (timeLeft <= 0) {
         clearInterval(timerId);
         window.location.href = "/"
-        this.timerMessageTarget.textContent = "Zkuste znovu načíst stránku posím!";
+        this.timerMessageTarget.innerHTML = '<p>Pokud jste nebyli přesměrování automaticky klikněte <a href="/">zde</a></p>';
       }
     }, 1000);
   }
