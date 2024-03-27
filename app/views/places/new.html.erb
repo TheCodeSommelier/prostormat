@@ -34,16 +34,9 @@
       </div>
     </div>
 
-    <div class="d-flex input-container">
-      <div class="input-container col-6">
-        <%= f.label :max_capacity, 'Maximální kapacita', class: 'form-label label-enter-active' %>
-        <%= f.number_field :max_capacity, min: 10, step: 10, placeholder: 1300, class: 'form-input form-control input-enter-active' %>
-      </div>
-
-      <div class="input-container col-6">
-        <%= label_tag 'number_of_venues', 'Kolik máte prostorů?', class: 'form-label label-enter-active' %>
-        <%= number_field_tag :number_of_venues, nil, min: 1, step: 1, placeholder: '3', class: 'form-input form-control input-enter-active' %>
-      </div>
+    <div class="input-container">
+      <%= f.label :max_capacity, 'Maximální kapacita', class: 'form-label label-enter-active' %>
+      <%= f.number_field :max_capacity, min: 10, step: 10, placeholder: 1300, class: 'form-input form-control input-enter-active' %>
     </div>
 
     <div class="input-container d-flex flex-column mt-2">

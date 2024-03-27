@@ -2,9 +2,9 @@ class SendOrderToPlaceOwnerJob < ApplicationJob
   queue_as :mailers
 
   def perform(place_id, bokee_id, message)
-    @place          = Place.find(place_id)
+    @place          = Place.includes(:user).find(place_id)
     @bokee          = Bokee.find(bokee_id)
-    @greeting       = "Vážený/á pane/paní #{@place.owner.last_name}"
+    @greeting       = "Vážený/á pane/paní #{@place.user.last_name}"
     @order_message  = message
 
     template_path   = Rails.root.join('app', 'views', 'mailers', 'send_order_to_place_owner_mailer.html.erb')
@@ -14,7 +14,7 @@ class SendOrderToPlaceOwnerJob < ApplicationJob
 
     email = {
       subject: 'Někdo má zájem o váš prostor!',
-      to: @place.owner.email,
+      to: Rails.env.production? ? @place.user.email : 'poptavka@prostormat.cz',
       from: 'poptavka@prostormat.cz',
       html_body: html_content,
       track_opens: 'true',

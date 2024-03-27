@@ -2,9 +2,9 @@ class SendWelcomeEmailJob < ApplicationJob
   queue_as :mailers
 
   def perform(user_id)
-    user = User.find(user_id.to_i)
+    user = User.includes(:places).find(user_id.to_i)
     @greeting = "Vážený/á pane/paní #{user.last_name}"
-    @place = user.places.first
+    @place    = user.places.first
 
     template_path = Rails.root.join('app', 'views', 'mailers', 'welcome_email.html.erb')
     template      = File.read(template_path)

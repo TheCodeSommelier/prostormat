@@ -1,6 +1,12 @@
 class ContactEmailJob < ApplicationJob
   queue_as :mailers
 
+  rescue_from(StandardError) do |exception|
+    # Handle failure: log the error or notify a system administrator
+    flash.now[:alert] = 'Váš email se nepodařilo odeslat prosím zkuste to znovu...'
+    render
+  end
+
   def perform(contact_form_params)
     @name           = contact_form_params[:name]
     @customer_email = contact_form_params[:email]
