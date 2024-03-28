@@ -31,9 +31,29 @@ class PagesController < ApplicationController
   def create_bulk_order
     # Preload places and their owners based on params (filters, city, max capacity)
     # Iterate over places and build out email hashes
+    places_ids = Place.joins(:filters)
+                      .where(filters: { id: bulk_order_params[:filter_ids] })
+                      .where("city LIKE ? OR city = ?", "#{bulk_order_params[:city]}%", bulk_order_params[:city])
+                      .where('places.max_capacity >= ?', bulk_order_params[:min_capacity])
+                      .distinct
+                      .pluck(:id)
+
+
+    if verify_recaptcha
+      SendBulkOrderJob.perform_later(places_ids, bulk_order_params[:email], bulk_order_params[:name])
+      flash[:notice] = 'Zpracováváme Vaší hromadnou poptávku'
+      redirect_to root_path
+    else
+      flash.now[:alert] = 'reCAPTCHA verifikace se nepodařila. Zkuste to prosím znovu.'
+      render :new_bulk_order
+    end
   end
 
   private
+
+  def bulk_order_params
+    params.permit(:name, :email, :min_capacity, :city, filter_ids: [])
+  end
 
   def contact_params
     params.permit(:name, :email, :message)

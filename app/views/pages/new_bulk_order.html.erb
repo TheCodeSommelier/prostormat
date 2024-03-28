@@ -12,13 +12,20 @@
       </div>
     </div>
 
-    <div class="d-flex flex-column">
-      <%= f.label 'Jakou minimální kapacitu by měl prostor mít?' %>
-      <%= f.number_field :min_capacity, placeholder: 'Např. 30', class: 'form-control' %>
+    <div class="d-flex">
+      <div class="d-flex flex-column col-6">
+        <%= f.label 'Ve kterém městě vám hledáme prostor?' %>
+        <%= f.text_field :city, placeholder: 'Praha', class: 'form-control' %>
+      </div>
+
+      <div class="d-flex flex-column col-6">
+        <%= f.label 'Jakou minimální kapacitu by měl prostor mít?' %>
+        <%= f.number_field :min_capacity, placeholder: 'Např. 30', class: 'form-control' %>
+      </div>
     </div>
 
     <div class="input-container d-flex flex-column mt-2">
-      <%= label_tag nil, 'Vyberte filtry, podle nich rozešleme poptávky', class: 'form-label' %>
+      <%= label_tag nil, 'Vyberte filtry, podle nich hledáme prostory pro vás', class: 'form-label' %>
       <div class="form-filters input-container">
         <!-- If filters give you shadow bugs delete the ampersand before the each -->
         <% @filters&.each do |filter| %>
@@ -29,6 +36,8 @@
         <% end %>
       </div>
     </div>
+
+    <%= recaptcha_tags %>
 
     <%= f.submit 'Odeslat poptávku', class: 'button-primary' %>
   <% end %>
