@@ -6,7 +6,7 @@
     <%#= render 'shared/flashes' %>
 
 
-    <div class="d-flex">
+    <div class="row my-3">
       <div class="field col-6">
         <%= f.label :first_name, class: 'label-enter-active' %><br />
         <%= f.text_field :first_name, autofocus: true, class: 'form-control input-enter-active', placeholder: 'John' %>
@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="d-flex">
+    <div class="row my-3">
       <div class="field col-6">
         <%= f.label :email, class: 'label-enter-active' %><br />
         <%= f.email_field :email, autocomplete: "email", class: 'form-control input-enter-active', placeholder: 'john@doe.com' %>
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="d-flex">
+    <div class="row my-3">
       <div class="field col-6">
         <%= f.label :company_name, class: 'label-enter-active' %><br />
         <%= f.text_field :company_name, class: 'form-control input-enter-active', placeholder: 'Prostormat s.r.o.' %>
@@ -42,22 +42,24 @@
       </div>
     </div>
 
-    <div class="field">
+    <div class="field my-3">
       <%= f.label :company_address, class: 'label-enter-active' %><br />
       <%= f.text_field :company_address, class: 'form-control input-enter-active', placeholder: 'Pařížská 63, 130 00, Praha 1' %>
     </div>
 
-    <div class="field">
-      <%= f.label :password, class: 'label-enter-active' %>
-      <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-      <% end %><br />
-      <%= f.password_field :password, autocomplete: "new-password", class: 'form-control input-enter-active' %>
-    </div>
+    <div class="row my-3">
+      <div class="field my-3 col-6">
+        <%= f.label :password, class: 'label-enter-active' %>
+        <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %><br />
+        <%= f.password_field :password, autocomplete: "new-password", class: 'form-control input-enter-active', placeholder: '*******' %>
+      </div>
 
-    <div class="field">
-      <%= f.label :password_confirmation, class: 'label-enter-active' %><br />
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control input-enter-active' %>
+      <div class="field my-3 col-6">
+        <%= f.label :password_confirmation, class: 'label-enter-active' %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control input-enter-active', placeholder: '*******' %>
+      </div>
     </div>
 
     <div class="actions d-flex justify-content-between">
