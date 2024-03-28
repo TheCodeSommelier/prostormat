@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
     bokee        = Bokee.create_with(orders_params[:bokee_attributes]).find_or_create_by(email: orders_params[:bokee_attributes][:email])
     @order.bokee = bokee
 
-    if @order.save
+    if @order.save && verify_recaptcha
       SendOrderToPlaceOwnerJob.perform_later(@place.id, bokee.id, @order.message)
       redirect_to place_path(@place), notice: 'Poptávka je vytvořená. Majitel se Vám ozve.'
     else
