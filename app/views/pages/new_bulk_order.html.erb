@@ -1,5 +1,5 @@
 <div id="bulk-order-container" class="container">
-  <%= form_with  url: create_bulk_order_path, local: true do |f| %>
+  <%= form_with model: @bulk_order_form, url: create_bulk_order_path, local: true do |f| %>
     <div class="d-flex">
       <div class="d-flex flex-column col-6">
         <%= f.label 'Vaše jméno' %>
