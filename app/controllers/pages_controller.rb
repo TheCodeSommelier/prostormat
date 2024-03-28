@@ -24,6 +24,15 @@ class PagesController < ApplicationController
 
   def overload; end
 
+  def new_bulk_order
+    @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all }
+  end
+
+  def create_bulk_order
+    # Preload places and their owners based on params (filters, city, max capacity)
+    # Iterate over places and build out email hashes
+  end
+
   private
 
   def contact_params

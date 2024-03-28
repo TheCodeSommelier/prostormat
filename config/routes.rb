@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   get 'faq_contact', to: 'pages#faq_contact_us', as: 'faq_contact'
   post 'contact', to: 'pages#contact'
   get 'overload', to: 'pages#overload'
+  get 'new_bulk_order', to: 'pages#new_bulk_order', as: 'new_bulk_order'
+  post 'create_bulk_order', to: 'pages#create_bulk_order'
 
   get 'admin_places', to: 'places#admin_places', as: :admin_places
   resources :places do
