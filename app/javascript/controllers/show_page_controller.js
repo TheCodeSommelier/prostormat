@@ -3,8 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="show-page"
 export default class extends Controller {
   static targets = [ "orderForm", "dropDownChevron", "gallery" ]
-  connect() {
-  }
+
+  connect() {}
 
   dropDown() {
     if (this.orderFormTarget.style.opacity === "0" || this.orderFormTarget.style.opacity === "") {
