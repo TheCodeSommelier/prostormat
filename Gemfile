@@ -104,3 +104,6 @@ gem 'sidekiq-failures'
 
 # Allows for pagination
 gem 'kaminari'
+
+# Allows for recaptha bots catching
+gem "recaptcha"

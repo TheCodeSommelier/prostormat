@@ -32,8 +32,8 @@ class Place < ApplicationRecord
   }
   scope :visible, -> { where(hidden: false) }
 
-  def owner
-    user
+  def full_address
+    "#{street} #{house_number}, #{postal_code}, #{city}"
   end
 
   private
