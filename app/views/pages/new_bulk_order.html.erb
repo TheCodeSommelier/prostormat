@@ -1,30 +1,41 @@
 <div id="bulk-order-container" class="container">
+  <h1>Hromadná poptávka</h1>
+  <p>
+    Zde můžete vyplnit jaké místo hledáte a my už kontaktujeme místa dle vašeho výběru za vás!
+    <br>
+    Stačí jen vyplnit údaje níže, potvrdit že nejste robot a o zbytek se postarráme my.
+  </p>
   <%= form_with model: @bulk_order_form, url: create_bulk_order_path, local: true do |f| %>
-    <div class="d-flex">
-      <div class="d-flex flex-column col-6">
+    <div class="row my-3">
+      <div class="col-md-4 mb-3">
         <%= f.label 'Vaše jméno' %>
         <%= f.text_field :name, placeholder: 'Johan Hansburg', class: 'form-control' %>
       </div>
 
-      <div class="d-flex flex-column col-6">
+      <div class="col-md-4 mb-3">
         <%= f.label 'Váš email' %>
         <%= f.text_field :email, placeholder: 'john@doe.com', class: 'form-control' %>
       </div>
+
+      <div class="col-md-4 mb-3">
+        <%= f.label 'Váše telefonní číslo' %>
+        <%= f.text_field :phone_number, placeholder: '+420 111 222 333', class: 'form-control' %>
+      </div>
     </div>
 
-    <div class="d-flex">
-      <div class="d-flex flex-column col-6">
+    <div class="row my-3">
+      <div class="col-md-6 mb-3">
         <%= f.label 'Ve kterém městě vám hledáme prostor?' %>
         <%= f.text_field :city, placeholder: 'Praha', class: 'form-control' %>
       </div>
 
-      <div class="d-flex flex-column col-6">
+      <div class="col-md-6 mb-3">
         <%= f.label 'Jakou minimální kapacitu by měl prostor mít?' %>
         <%= f.number_field :min_capacity, placeholder: 'Např. 30', class: 'form-control' %>
       </div>
     </div>
 
-    <div class="input-container d-flex flex-column mt-2">
+    <div class="input-container d-flex flex-column my-3">
       <%= label_tag nil, 'Vyberte filtry, podle nich hledáme prostory pro vás', class: 'form-label' %>
       <div class="form-filters input-container">
         <!-- If filters give you shadow bugs delete the ampersand before the each -->
@@ -39,6 +50,6 @@
 
     <%= recaptcha_tags %>
 
-    <%= f.submit 'Odeslat poptávku', class: 'button-primary' %>
+    <%= f.submit 'Odeslat poptávku', class: 'button-primary my-4 w-100' %>
   <% end %>
 </div>

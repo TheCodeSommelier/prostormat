@@ -37,6 +37,8 @@ class PagesController < ApplicationController
       redirect_to new_bulk_order_path and return
     end
 
+    @bokee = Bokee.new(name: bulk_order_params[:name], email: bulk_order_params[:email], phone_number: bulk_order_params[:phone_number])
+
     places_ids = Place.joins(:filters)
                       .where(filters: { id: bulk_order_params[:filter_ids] })
                       .where("city LIKE ? OR city = ?", "#{bulk_order_params[:city]}%", bulk_order_params[:city])
@@ -44,7 +46,7 @@ class PagesController < ApplicationController
                       .distinct
                       .pluck(:id)
 
-    if verify_recaptcha
+    if verify_recaptcha && @bokee.save
       SendBulkOrderJob.perform_later(places_ids, bulk_order_params[:email], bulk_order_params[:name])
       flash[:notice] = 'Zpracováváme Vaší hromadnou poptávku'
       redirect_to root_path
@@ -57,7 +59,7 @@ class PagesController < ApplicationController
   private
 
   def bulk_order_params
-    params.require(:bulk_order_form).permit(:name, :email, :min_capacity, :city, filter_ids: [])
+    params.require(:bulk_order_form).permit(:name, :email, :phone_number, :min_capacity, :city, filter_ids: [])
   end
 
   def contact_params
