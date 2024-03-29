@@ -4,7 +4,22 @@
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
-.filter-checkbox:checked {
-  background-color: $accent;
-  border: none;
+.filters {
+  .filter-checkbox-size {
+    width: 17px;
+  }
+
+  .filters-checkboxes {
+    border: 1px solid rgb(200, 200, 200);
+    border-top: none;
+  }
+
+  .count-results-center {
+    width: 6%;
+  }
+
+  .filter-checkbox:checked {
+    background-color: $primary;
+    border: none;
+  }
 }
