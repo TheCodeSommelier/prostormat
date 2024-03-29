@@ -44,3 +44,8 @@ input {
 #checkout-container, #landing-page, #new-place-form {
   padding: 9rem;
 }
+
+::selection {
+  background-color: rgba($color: $primary, $alpha: 1);
+  color: white;
+}
