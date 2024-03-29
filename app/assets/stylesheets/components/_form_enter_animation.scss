@@ -1,0 +1,68 @@
+// Animation for labels coming in
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Animation for inputs coming in
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Animation for labels leaving
+@keyframes slideOutFromLeft {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+// Animation for inputs leaving
+@keyframes slideOutFromRight {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.label-enter-active, .input-enter-active, .label-exit-left, .input-exit-right {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+.label-enter-active {
+  animation-name: slideInFromLeft;
+}
+
+.input-enter-active {
+  animation-name: slideInFromRight;
+}
+
+.label-exit-left.active {
+  animation-name: slideOutFromLeft;
+}
+
+.input-exit-right.active {
+  animation-name: slideOutFromRight;
+}
