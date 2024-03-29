@@ -51,7 +51,7 @@
       <div class="field my-3 col-6">
         <%= f.label :password, class: 'label-enter-active' %>
         <% if @minimum_password_length %>
-        <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <em class="label-enter-active">(<%= @minimum_password_length %> characters minimum)</em>
         <% end %><br />
         <%= f.password_field :password, autocomplete: "new-password", class: 'form-control input-enter-active', placeholder: '*******' %>
       </div>

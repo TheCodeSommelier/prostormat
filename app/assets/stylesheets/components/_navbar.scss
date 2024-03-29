@@ -20,4 +20,10 @@
     display: flex;
     text-align: center;
   }
+
+  .navbar-toggler {
+    &:hover, &:focus {
+      box-shadow: 0 0 5px rgba($color: $primary, $alpha: 0.5);
+    }
+  }
 }

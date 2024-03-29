@@ -1,10 +1,15 @@
-<div class="navbar navbar-expand-sm navbar-prostormat px-5">
+<div class="navbar navbar-expand-md navbar-prostormat px-5">
   <div class="container-fluid d-flex justify-content-between">
     <%= link_to root_path, class: 'navbar-brand' do  %>
       <%= image_tag('PROSTORMAT_logo 1.svg', width: 130) %>
     <% end %>
-    <div>
-      <div class="navbar-nav d-flex align-items-center me-auto">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <div class="navbar-nav ms-auto d-flex align-items-center">
 
         <% if user_signed_in? && current_user.places && current_user.admin? %>
           <div class="nav-item active d-flex justify-content-center me-2">
