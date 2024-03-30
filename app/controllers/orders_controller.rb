@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 # OrdersController handles HTTP requests related to order operations such as
-# creating a new order, updating an existing order, or potentially canceling an order.
-# It responds to routes defined in config/routes.rb.
+# creating a new order. It responds to routes defined in config/routes.rb.
 class OrdersController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[create] # Skip authentication for create
 
@@ -28,6 +27,7 @@ class OrdersController < ApplicationController
 
   private
 
+  # Displays a an error message with the corresponding problem
   def display_error_messages
     flash.now[:alert] = if orders_params[:event_type].empty?
                           'Typ eventu nemůže být prázdný'

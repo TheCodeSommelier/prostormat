@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-# PagesController handles static pages that do not require complex logic or interaction
-# with the application's models. It's typically used for informational or "brochure" pages
-# within the application, such as the homepage, about page, contact page, etc.
+# Pages controller handles static and DB related pages.
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[landing_page about_us faq_contact_us contact overload new_bulk_order create_bulk_order] # Skip authentication for index
   # The landing_page action renders the application's landing page, which is used to explain
@@ -17,18 +15,23 @@ class PagesController < ApplicationController
 
   def faq_contact_us; end
 
+  # Sends the email from contact us form
   def contact
     ContactEmailJob.perform_later(contact_params)
     redirect_to root_path, notice: 'Vaše zpráva se odesílá. Brzy se vám ozveme.'
   end
 
+  # Static page serving as waiting room when the server/DBs are overloaded
   def overload; end
 
+  # When person wants query multiple places at once
   def new_bulk_order
     @bulk_order_form = BulkOrderForm.new
     @filters         = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all }
   end
 
+  # Takes the params from new_bulk_order form. Uses strong params. Then validates them through BulkOrderForm model.
+  # Creates a bokee, finds the ids of corresponding places and verfies captcha with bokee. If pass sends the query.
   def create_bulk_order
     @bulk_order_form = BulkOrderForm.new(bulk_order_params)
 

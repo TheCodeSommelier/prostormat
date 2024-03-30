@@ -1,5 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 
+// AJAX call that searches for palces upon key down.
+// When key is pressed ajax makes a call to the "places?query=" endpoint and retrieves records from the DB.
+// The updates the card grid with it.
+
 // Connects to data-controller="search"
 export default class extends Controller {
   static targets = ['searchTextField', 'capacityNumberField']

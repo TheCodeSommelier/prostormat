@@ -36,6 +36,12 @@ class Place < ApplicationRecord
     "#{street} #{house_number}, #{postal_code}, #{city}"
   end
 
+  def self.related_places(place, filter_ids, base_city_name)
+    joins(:filters).where(filters: { id: filter_ids }).where.not(id: place.id)
+                   .where('city LIKE ?', "#{base_city_name}%").order(primary: :desc).distinct
+                   .limit(2)
+  end
+
   private
 
   def expire_places_index_cache

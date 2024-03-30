@@ -1,5 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Currently is responsible for the dropdown of the oredr from on show page
+
 // Connects to data-controller="show-page"
 export default class extends Controller {
   static targets = [ "orderForm", "dropDownChevron", "gallery" ]

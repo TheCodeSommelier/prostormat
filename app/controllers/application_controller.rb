@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
 # Base controller with Devise authentication and Pundit authorization.
+# - Handles overloads with redirects to overload page
 # - Authenticates user before every action (Devise).
 # - Enforces authorization checks on all actions except index and landing_page (Pundit).
 # - Handles Pundit's NotAuthorizedError by redirecting to root_path with an alert.
 class ApplicationController < ActionController::Base
-  rescue_from 'ActiveRecord::ConnectionTimeoutError', with: :render_overload_page
-  rescue_from 'ActionDispatch::Http::MimeNegotiation::InvalidType', with: :render_overload_page
-  rescue_from 'PG::ConnectionBad', with: :render_overload_page
-  rescue_from 'Rack::Timeout::RequestTimeoutError', with: :render_overload_page
-  rescue_from 'Errno::ECONNREFUSED', with: :render_overload_page
+  rescue_from 'ActiveRecord::ConnectionTimeoutError', with: :render_overload_page # PostgreSQL runs out of connections
+  rescue_from 'ActionDispatch::Http::MimeNegotiation::InvalidType', with: :render_overload_page # Invalid request
+  rescue_from 'PG::ConnectionBad', with: :render_overload_page # PostgreSQL bad connection
+  rescue_from 'Rack::Timeout::RequestTimeoutError', with: :render_overload_page # Overload server
+  rescue_from 'Errno::ECONNREFUSED', with: :render_overload_page # Any app add on is not responsive
 
   before_action :authenticate_user!
   include Pundit::Authorization
