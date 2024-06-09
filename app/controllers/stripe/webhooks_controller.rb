@@ -44,7 +44,6 @@ class Stripe::WebhooksController < ApplicationController
       user.update(stripe_customer_id: customer.id)
     end
 
-    # TODO: Add mailer to notify the customer
     if event.type == 'customer.subscription.deleted'
       # handle subscription canceled automatically based
       # upon your subscription settings. Or if the user cancels it.
@@ -53,7 +52,6 @@ class Stripe::WebhooksController < ApplicationController
       customer.places.first.update(hidden: true)
     end
 
-    # TODO: Add mailer to notify the customer about updating the subscription
     if event.type == 'customer.subscription.updated'
       # handle subscription updated
       # puts data_object
@@ -69,7 +67,6 @@ class Stripe::WebhooksController < ApplicationController
       SendWelcomeEmailJob.perform_later(customer.id)
     end
 
-    # TODO: Maybe add a mailer before the subscription ends
     if event.type == 'customer.subscription.trial_will_end'
       # handle subscription trial ending
       # puts data_object

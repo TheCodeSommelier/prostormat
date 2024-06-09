@@ -5,7 +5,7 @@
 class BulkOrderForm
   include ActiveModel::Model
 
-  attr_accessor :name, :email, :city, :min_capacity
+  attr_accessor :name, :email, :city, :min_capacity, :phone_number
   attr_reader :filter_ids
 
   validates :name, presence: { message: "Prosím vyplňte vaše jméno" }

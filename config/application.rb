@@ -5,15 +5,6 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-# TODO: Footer
-# TODO: Services
-# TODO: About us page
-# TODO: Contact page and FAQs
-# TODO: Change price ID env variable to actual price ID
-# TODO: Talk with martin potentially remove bokee model to keep the cost down
-# TODO: Implement caching
-
-# TODO: Write a queue through which will all SQL queries go A stateless object
 
 module SpaceMi
   class Application < Rails::Application

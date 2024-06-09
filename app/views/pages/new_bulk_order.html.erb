@@ -1,9 +1,9 @@
 <div id="bulk-order-container" class="container">
   <h1>Hromadná poptávka</h1>
-  <p>
+  <p class="my-2">
     Zde můžete vyplnit jaké místo hledáte a my už kontaktujeme místa dle vašeho výběru za vás!
     <br>
-    Stačí jen vyplnit údaje níže, potvrdit že nejste robot a o zbytek se postarráme my.
+    Stačí jen vyplnit údaje níže, potvrdit že nejste robot a o zbytek se postaráme my.
   </p>
   <%= form_with model: @bulk_order_form, url: create_bulk_order_path, local: true do |f| %>
     <div class="row my-3">

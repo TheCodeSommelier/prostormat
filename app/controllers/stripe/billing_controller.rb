@@ -1,4 +1,4 @@
-# TODO: Check if we want cancellations?
+
 class Stripe::BillingController < ApplicationController
   def create
     session = Stripe::BillingPortal::Session.create({

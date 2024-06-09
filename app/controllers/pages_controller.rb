@@ -40,8 +40,9 @@ class PagesController < ApplicationController
       redirect_to new_bulk_order_path and return
     end
 
-    @bokee = Bokee.new(name: bulk_order_params[:name], email: bulk_order_params[:email], phone_number: bulk_order_params[:phone_number])
+    @bokee = Bokee.new(full_name: bulk_order_params[:name], email: bulk_order_params[:email], phone_number: bulk_order_params[:phone_number])
 
+    # TODO: Potentially could be in the model
     places_ids = Place.joins(:filters)
                       .where(filters: { id: bulk_order_params[:filter_ids] })
                       .where("city LIKE ? OR city = ?", "#{bulk_order_params[:city]}%", bulk_order_params[:city])
