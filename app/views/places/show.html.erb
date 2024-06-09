@@ -28,7 +28,7 @@
             <% end %>
             <div>
               <% if @place.user == current_user || current_user&.admin? %>
-                <%= link_to edit_place_path(current_user.places.first), class: "edit-link-button button-absolute" do %>
+                <%= link_to edit_place_path(@place), class: "edit-link-button button-absolute" do %>
                   <%= image_tag('pen-solid.svg', width: 20) %>
                 <% end %>
               <% end %>
