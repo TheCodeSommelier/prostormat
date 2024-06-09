@@ -1,6 +1,5 @@
 class Stripe::CheckoutController < ApplicationController
   skip_after_action :verify_authorized
-  # TODO: Handle errors upon payments
 
   def checkout; end
 

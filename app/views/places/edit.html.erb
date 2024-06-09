@@ -1,6 +1,5 @@
 <div id="new-place-form" data-controller="loader">
   <h1>Vytvořte vaše porstory</h1>
-  <!-- TODO: Check the photos they need to be updatable -->
 
   <%= form_for @place, html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form', action: 'submit->loader#startLoading' } do |f| %>
 

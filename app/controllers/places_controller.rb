@@ -7,7 +7,7 @@ class PlacesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show new update toggle_primary] # Skip authentication for index
   before_action :set_place, only: %i[edit toggle_primary]
 
-  # Lists all places.
+  # Lists and caches all visible places.
   def index
     @places  = Rails.cache.fetch('places/index', expires_in: 1.hour) { Place.visible }
     @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
@@ -44,10 +44,10 @@ class PlacesController < ApplicationController
 
   # Shows details for a single place identified by id.
   def show
-    require 'cgi'
     @place = Rails.cache.fetch("place_#{params[:id]}") { Place.find(params[:id].to_i) }
     authorize @place
 
+    # This encodes the address into a url for google maps api
     @place_encoded_address = Rails.cache.fetch("place_#{params[:id]}_address") do
       CGI.escape("#{@place.street} #{@place.house_number}, #{@place.postal_code}, #{@place.city}")
     end
@@ -57,22 +57,11 @@ class PlacesController < ApplicationController
 
     filter_ids     = @place.filters.pluck(:id)
     base_city_name = @place.city.split(' ').first
-    cache_key      = [
-      'related_places',
-      @place.id,
-      filter_ids.sort.join('-'),
-      base_city_name,
-      Place.maximum(:updated_at)
-    ]
+    cache_key      = ['related_places', @place.id, filter_ids.sort.join('-'), base_city_name, Place.maximum(:updated_at)]
+    # Caches a SQL query to retrieve places related to the show page place by filters, city.
+    # Primary places are prioritised. Also this section is limited to two places
     @places = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
-      Place.joins(:filters)
-           .where(filters: { id: filter_ids })
-           .where.not(id: @place.id)
-           .where('city LIKE ?', "#{base_city_name}%")
-           .order(primary: :desc)
-           .distinct
-           .limit(2)
-           .to_a
+      Place.related_places(@place, filter_ids, base_city_name).to_a
     end
   end
 
@@ -154,12 +143,14 @@ class PlacesController < ApplicationController
   # Deletes the place record identified by id.
   def destroy; end
 
+  # Renders out all of the places for the admin to be able to change them
   def admin_places
     authorize :place
     @places = policy_scope(Place.all)
     @places = @places.order(:place_name)
   end
 
+  # Allows admin to toggle the primary status
   def toggle_primary
     authorize @place
     if @place.primary? ? @place.update(primary: false) : @place.update(primary: true)
@@ -173,6 +164,8 @@ class PlacesController < ApplicationController
 
   private
 
+  # Cache expiration keep here, when put in the model the controller destroys photos first then tries to retrieve cache.
+  # First destroy cache then the Blobs (Photos)
   def expire_place_show_photos_cache(place)
     Rails.cache.delete([place, place.photos.first, 'card_image', place.photos.first.created_at])
     place.photos.each do |photo|

@@ -1,5 +1,8 @@
 import { Controller } from "@hotwired/stimulus";
 
+// Is responsible for creating the payment element and handling payment.
+// And after payment subscribing customer.
+
 // Connects to data-controller="stripe-checkout"
 export default class extends Controller {
   async connect() {

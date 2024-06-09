@@ -1,5 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Upon load intilizes the count down from 60 sec to 0 sec when it reaches 0 redirects to the root path
+
 // Connects to data-controller="overload-timer"
 export default class extends Controller {
   static targets = ["timerMessage", "timer"];
