@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
+  # TODO: Fix sidekiq UI
+  require 'sidekiq/web'
+  authenticate :user, ->(user) { user.dev? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -37,9 +42,4 @@ Rails.application.routes.draw do
   post 'stripe/create-subscription', to: 'stripe/checkout#create_subscription'
   post 'stripe/create-setup-intent', to: 'stripe/checkout#setup_intent'
 
-  # TODO: Fix sidekiq UI
-  require 'sidekiq/web'
-  authenticate :user, ->(user) { user.dev? } do
-    mount Sidekiq::Web => '/sidekiq'
-  end
 end

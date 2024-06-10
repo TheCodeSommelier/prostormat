@@ -72,7 +72,6 @@ class PlacesController < ApplicationController
     authorize @place
   end
 
-  # Creates a new place record from the submitted form data.
   def create
     filter_ids             = place_params[:filter_ids].map(&:to_i) unless place_params[:filter_ids].nil?
     @place                 = Place.new(place_params.except(:photos))
@@ -80,31 +79,23 @@ class PlacesController < ApplicationController
     authorize @place
 
     @place.user = current_user
-
     @place.hidden = false if current_user.admin?
 
     if @place.save
-
       if filter_ids.present?
         place_filters_attributes = filter_ids.map do |filter_id|
-          { place_id: @place.id, filter_id: } unless PlaceFilter.exists?(place: @place, filter_id:)
+          { place_id: @place.id, filter_id: filter_id } unless PlaceFilter.exists?(place: @place, filter_id: filter_id)
         end.compact
         PlaceFilter.insert_all(place_filters_attributes)
       end
 
-      @place.photos.attach(filtered_photos_params)
+      base64_encoded_photos = prepare_files_for_job(filtered_photos_params)
+      ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
 
-      respond_to do |fromat|
-        fromat.js
-        fromat.html
+      respond_to do |format|
+        format.js
+        format.html { redirect_to(current_user.admin? ? root_path : stripe_checkout_path) }
       end
-
-      if current_user.admin?
-        redirect_to root_path
-      else
-        redirect_to stripe_checkout_path
-      end
-
     else
       flash[:alert] = @place.errors.full_messages.join(', ')
       redirect_to new_place_path
@@ -163,6 +154,18 @@ class PlacesController < ApplicationController
   end
 
   private
+
+  def prepare_files_for_job(uploaded_files)
+    uploaded_files.map do |uploaded_file|
+      next if uploaded_file.blank?
+
+      {
+        filename: uploaded_file.original_filename,
+        content_type: uploaded_file.content_type,
+        base64: Base64.encode64(uploaded_file.read)
+      }
+    end.compact
+  end
 
   # Cache expiration keep here, when put in the model the controller destroys photos first then tries to retrieve cache.
   # First destroy cache then the Blobs (Photos)
