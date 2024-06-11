@@ -1,4 +1,4 @@
-url = ENV["REDISCLOUD_URL"]
+url = Rails.env.prodution? ? ENV.fetch('STACKHERO_REDIS_URL_TLS') : ENV["REDISCLOUD_URL"]
 
 if url
   Sidekiq.configure_server do |config|
