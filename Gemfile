@@ -87,7 +87,7 @@ gem 'sassc-rails'
 gem 'view_component'
 
 # Image cloud hosting
-gem 'cloudinary'
+# gem 'cloudinary'
 
 # Allows to set environment variables
 gem 'dotenv-rails'
@@ -110,3 +110,6 @@ gem "recaptcha"
 
 # Allows for image compression
 gem 'mini_magick'
+
+# Allows to store images on S3
+gem 'aws-sdk-s3', '~> 1.0'
