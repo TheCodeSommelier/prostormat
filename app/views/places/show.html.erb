@@ -101,7 +101,7 @@
             <div class="image-container">
               <% cache [photo, 'gallery', photo.created_at] do %>
                 <div class="image-loader"></div>
-                <%= cl_image_tag photo.key, height: 200, quality: "auto", fetch_format: "auto", class: "image-card", class: "image-card", data: { action: "load->loader#handleImageLoad"} %>
+                <%= image_tag photo, height: 200, quality: "auto", fetch_format: "auto", class: "image-card", class: "image-card", data: { action: "load->loader#handleImageLoad"} %>
               <% end %>
             </div>
           <% end %>

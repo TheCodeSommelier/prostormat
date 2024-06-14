@@ -3,7 +3,7 @@
     <div class="image-container border-side" data-controller="loader">
       <% if place.photos.attached? %>
         <div class="image-loader"></div>
-        <%= cl_image_tag place.photos.first.key, crop: :fill, quality: "auto", fetch_format: "auto", class: 'image-card', data: { action: "load->loader#handleImageLoad"} %>
+        <%= image_tag place.photos.first, crop: :fill, quality: "auto", fetch_format: "auto", class: 'image-card', data: { action: "load->loader#handleImageLoad"} %>
       <% end %>
     </div>
     <div class="d-flex flex-column justify-content-between w-50">
