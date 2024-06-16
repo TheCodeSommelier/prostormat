@@ -29,6 +29,8 @@ class Place < ApplicationRecord
   validate :must_have_at_least_one_filter
   validate :custom_validation_presence
 
+  validate :validate_photo_size
+
   # This is a case insesitive query, for the search on the index page
   scope :search_by_query, lambda { |query|
     where('LOWER(city) LIKE LOWER(?) OR LOWER(street) LIKE LOWER(?)', "%#{query}%", "%#{query}%")
@@ -48,6 +50,12 @@ class Place < ApplicationRecord
   end
 
   private
+
+  def validate_photo_size
+    return unless photos.any? { |photo| photo.blob.byte_size >= 7.megabytes } && photos.count >= 6
+
+    errors.add(:photos, message: 'Každá fotka musí být pod 3mb')
+  end
 
   def expire_places_index_cache
     Rails.cache.delete('places/index')

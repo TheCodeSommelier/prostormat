@@ -80,8 +80,9 @@ class PlacesController < ApplicationController
 
     @place.user = current_user
     @place.hidden = false if current_user.admin?
+    p "🔥 place #{@place.id}"
 
-    if @place.save
+    if check_photo_sizes? && @place.save
       if filter_ids.present?
         place_filters_attributes = filter_ids.map do |filter_id|
           { place_id: @place.id, filter_id: filter_id } unless PlaceFilter.exists?(place: @place, filter_id: filter_id)
@@ -91,6 +92,13 @@ class PlacesController < ApplicationController
 
       base64_encoded_photos = prepare_files_for_job(filtered_photos_params)
       ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
+
+      params[:place][:photos].each do |photo|
+        size_in_megabytes = photo.size.to_f / (1024 * 1024)
+        if size_in_megabytes > 5
+          p "🔥 place photo too big #{size_in_megabytes > 5}"
+        end
+      end
 
       respond_to do |format|
         format.js
@@ -144,16 +152,27 @@ class PlacesController < ApplicationController
   # Allows admin to toggle the primary status
   def toggle_primary
     authorize @place
-    if @place.primary? ? @place.update(primary: false) : @place.update(primary: true)
-      flash[:notice] = 'Primary status of the place was successfully toggled.'
-      redirect_to place_path(@place)
-    else
-      flash[:notice] = 'There was an issue toggling the primary status of the place. Try again...'
-      redirect_to place_path(@place)
-    end
+    flash[:notice] = if @place.primary? ? @place.update(primary: false) : @place.update(primary: true)
+                       "Primary status of the place was successfully toggled to #{@place.primary}."
+                     else
+                       'There was an issue toggling the primary status of the place. Try again...'
+                     end
+    redirect_to place_path(@place)
   end
 
   private
+
+  def check_photo_sizes?
+    @place.errors.add(:photos, message: 'Fotky musí být uploadovány!') and return false unless params[:place][:photos].present?
+
+    photos_over_5mb = params[:place][:photos].any? do |photo|
+      size_in_megabytes = photo.size.to_f / (1024 * 1024)
+      size_in_megabytes > 5
+    end
+    @place.errors.add(:photos, message: 'Každá fotka musí být pod 5MB') and return false if photos_over_5mb
+
+    true
+  end
 
   def prepare_files_for_job(uploaded_files)
     uploaded_files.map do |uploaded_file|
