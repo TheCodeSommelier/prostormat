@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :places do
     resources :orders, only: %i[create update]
     member do
+      patch 'transfer', to: 'places#transfer', as: :transfer
       patch 'toggle_primary', to: 'places#toggle_primary', as: 'toggle_primary'
     end
   end
@@ -41,5 +42,4 @@ Rails.application.routes.draw do
   post 'stripe/billing', to: 'stripe/billing#create'
   post 'stripe/create-subscription', to: 'stripe/checkout#create_subscription'
   post 'stripe/create-setup-intent', to: 'stripe/checkout#setup_intent'
-
 end

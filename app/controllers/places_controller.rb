@@ -5,7 +5,7 @@
 # deleting places. It responds to routes defined in config/routes.rb for the Place model.
 class PlacesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[index show new update toggle_primary] # Skip authentication for index
-  before_action :set_place, only: %i[edit toggle_primary]
+  before_action :set_place, only: %i[edit toggle_primary transfer]
 
   # Lists and caches all visible places.
   def index
@@ -25,9 +25,7 @@ class PlacesController < ApplicationController
     @places = @places.search_by_query(params[:query]) if params[:query].present?
 
     # Filter by capacity 'from' and 'to'
-    if params[:min_capacity].present?
-      @places = @places.where('max_capacity >= ?', params[:min_capacity])
-    end
+    @places = @places.where('max_capacity >= ?', params[:min_capacity]) if params[:min_capacity].present?
 
     @places = @places.order(primary: :desc)
 
@@ -57,7 +55,8 @@ class PlacesController < ApplicationController
 
     filter_ids     = @place.filters.pluck(:id)
     base_city_name = @place.city.split(' ').first
-    cache_key      = ['related_places', @place.id, filter_ids.sort.join('-'), base_city_name, Place.maximum(:updated_at)]
+    cache_key      = ['related_places', @place.id, filter_ids.sort.join('-'), base_city_name,
+                      Place.maximum(:updated_at)]
     # Caches a SQL query to retrieve places related to the show page place by filters, city.
     # Primary places are prioritised. Also this section is limited to two places
     @places = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
@@ -85,7 +84,7 @@ class PlacesController < ApplicationController
     if check_photo_sizes? && @place.save
       if filter_ids.present?
         place_filters_attributes = filter_ids.map do |filter_id|
-          { place_id: @place.id, filter_id: filter_id } unless PlaceFilter.exists?(place: @place, filter_id: filter_id)
+          { place_id: @place.id, filter_id: } unless PlaceFilter.exists?(place: @place, filter_id:)
         end.compact
         PlaceFilter.insert_all(place_filters_attributes)
       end
@@ -95,9 +94,7 @@ class PlacesController < ApplicationController
 
       params[:place][:photos].each do |photo|
         size_in_megabytes = photo.size.to_f / (1024 * 1024)
-        if size_in_megabytes > 5
-          p "🔥 place photo too big #{size_in_megabytes > 5}"
-        end
+        p "🔥 place photo too big #{size_in_megabytes > 5}" if size_in_megabytes > 5
       end
 
       respond_to do |format|
@@ -121,9 +118,7 @@ class PlacesController < ApplicationController
     @place = Place.find(params[:id].to_i)
     authorize @place
 
-    if @place.photos.attached?
-      expire_place_show_photos_cache(@place)
-    end
+    expire_place_show_photos_cache(@place) if @place.photos.attached?
 
     if @place.update(place_params.except(:photos))
       if params[:place][:photos].count > 1
@@ -160,10 +155,32 @@ class PlacesController < ApplicationController
     redirect_to place_path(@place)
   end
 
+  # Transfers the place to a new user
+  def transfer
+    authorize @place
+    other_user_email = transfer_params[:user_email]
+    other_user = User.find_by(email: other_user_email)
+
+    if other_user
+      hidden_status = other_user.premium ? false : true
+      @place.update_columns(user_id: other_user.id, hidden: hidden_status, updated_at: DateTime.now)
+      redirect_to admin_places_path, notice: "Prostor #{@place.place_name} je převedený #{@place.user.email}"
+    else
+      redirect_to admin_places_path, alert: 'Prostor se nepodařilo převést. Uživatel nemá vytvořený účet.'
+    end
+  end
+
   private
 
+  def transfer_params
+    params.permit(:user_email)
+  end
+
   def check_photo_sizes?
-    @place.errors.add(:photos, message: 'Fotky musí být uploadovány!') and return false unless params[:place][:photos].present?
+    unless params[:place][:photos].present?
+      @place.errors.add(:photos,
+                        message: 'Fotky musí být uploadovány!') and return false
+    end
 
     photos_over_5mb = params[:place][:photos].any? do |photo|
       size_in_megabytes = photo.size.to_f / (1024 * 1024)

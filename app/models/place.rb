@@ -14,11 +14,14 @@ class Place < ApplicationRecord
   after_commit :expire_places_index_cache, on: %i[create update]
   after_commit :expire_place_show_cache, on: :update
 
-  validates :max_capacity, numericality: { only_integer: true, greater_than: 10, message: 'Kapacita musí být alespoň 10' }
+  validates :max_capacity,
+            numericality: { only_integer: true, greater_than: 10, message: 'Kapacita musí být alespoň 10' }
   validates :postal_code, format: { with: /\A\d{3}\s\d{2}\z/, message: 'Musí být psáno ve formátu "123 22"' }
 
   # Regexp allows for underscores, letters, numbers and spaces
-  validates :place_name, format: { with: /[\p{L}\s\d_]+/u, message: 'Povolené znaky pro jméno prostoru jsou: 1. "_" 2. písmena 3. čísla 4. mezery' }
+  validates :place_name,
+            format: { with: /[\p{L}\s\d_]+/u,
+                      message: 'Povolené znaky pro jméno prostoru jsou: 1. "_" 2. písmena 3. čísla 4. mezery' }
 
   # Regexp allows for letters and spaces
   validates :street, format: { with: /[\p{L}\s]+/u, message: 'Povolené znaky pro ulici jsou písmena a mezery' }
@@ -62,15 +65,15 @@ class Place < ApplicationRecord
   end
 
   def expire_place_show_cache
-    Rails.cache.delete("place_#{self.id}")
-    Rails.cache.delete("place_#{self.id}_address")
+    Rails.cache.delete("place_#{id}")
+    Rails.cache.delete("place_#{id}_address")
     Rails.cache.delete([self, 'google_api_map'])
 
-    filter_ids               = self.filters.pluck(:id)
-    base_city_name           = self.city.split(' ').first
+    filter_ids               = filters.pluck(:id)
+    base_city_name           = city.split(' ').first
     related_places_cache_key = [
       'related_places',
-      self.id,
+      id,
       filter_ids.sort.join('-'),
       base_city_name,
       Place.maximum(:updated_at)
@@ -89,9 +92,7 @@ class Place < ApplicationRecord
       long_description: 'Dlouhý popis'
     }
     fields.each do |field, field_name|
-      if self.send(field).blank?
-        errors.add(field_name, 'pole nemůže být prázdné.')
-      end
+      errors.add(field_name, 'pole nemůže být prázdné.') if send(field).blank?
     end
   end
 

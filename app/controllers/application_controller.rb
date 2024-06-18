@@ -33,6 +33,7 @@ class ApplicationController < ActionController::Base
   private
 
   def render_overload_page
-    redirect_to overload_path, alert: 'Omlouváme se, ale v důsledku vysokého provozu momentálně nemůžeme zpracovat vaši žádost. Zkuste to prosím později.'
+    redirect_to overload_path,
+                alert: 'Omlouváme se, ale v důsledku vysokého provozu momentálně nemůžeme zpracovat vaši žádost. Zkuste to prosím později.'
   end
 end
