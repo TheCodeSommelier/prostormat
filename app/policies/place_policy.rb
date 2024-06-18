@@ -27,6 +27,10 @@ class PlacePolicy < ApplicationPolicy
     user.admin?
   end
 
+  def transfer?
+    user.admin?
+  end
+
   private
 
   def place_belongs_to_user?

@@ -41,7 +41,7 @@ class ImageProcessingJob < ApplicationJob
     processed_image.write(temp_file.path)
     temp_file.rewind
 
-    place.photos.attach(io: temp_file, filename: filename, content_type: content_type)
+    place.photos.attach(io: temp_file, filename:, content_type:)
 
     temp_file.close
     temp_file.unlink

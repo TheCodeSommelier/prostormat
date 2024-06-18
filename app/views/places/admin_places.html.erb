@@ -1,9 +1,10 @@
 <div id="admin-places">
-  <ul>
+  <ul data-controller="modal">
     <% @places.each do |place| %>
       <li>
-        <%= link_to place.place_name, place_path(place), class: 'my-3' %>
+        <%= link_to place.place_name, place_path(place), class: 'my-3' %> Belogs to: <%= place.user.email %><%= button_tag 'Transfer place to a new user', type: 'button', data: { action: 'click->modal#showModal', place_id: place.id }, class: "button-primary ms-2" %>
       </li>
     <% end %>
+    <%= render 'shared/transfer_place_modal' %>
   </ul>
 </div>

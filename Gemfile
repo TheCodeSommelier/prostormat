@@ -106,7 +106,7 @@ gem 'sidekiq-failures'
 gem 'kaminari'
 
 # Allows for recaptha bots catching
-gem "recaptcha"
+gem 'recaptcha'
 
 # Allows for image compression
 gem 'mini_magick'
