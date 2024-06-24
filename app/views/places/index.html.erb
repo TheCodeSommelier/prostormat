@@ -3,27 +3,40 @@
   <h1 class="test"></h1>
   <h1 class="my-4">Nejlepší prostory pro váš event!</h1>
   <div>
-    <div class="filters d-flex flex-column align-items-center">
-      <h4>Filtrujte</h4>
-      <div>
-        <%= form_with url: places_path, method: :get, data: { turbo_frame: "places_list"}, class: "d-flex justify-content-center p-2" do |form| %>
+    <%= form_with url: places_path, method: :get, data: { turbo_frame: "places_list" }, class: "d-flex flex-column justify-content-center p-2" do |form| %>
+      <div class="d-flex w-100 mb-2">
+        <%= text_field_tag :query,
+              params[:query],
+              placeholder: "Praha 1, Ostrava, Pařížská atd...",
+              class: "form-control search-bar-border-radius me-2",
+              data: { search_target: "searchTextField", action: "input->search#startSearch" } %>
+
+        <%= number_field_tag :min_capacity,
+            params[:min_capacity],
+            placeholder: 'Minimální kapacita, např. 100',
+            class: 'form-control',
+            data: { search_target: "capacityNumberField", action: "input->search#startSearch" } %>
+      </div>
+
+      <div class="filters d-flex flex-column align-items-center">
+        <div class="d-flex justify-content-center p-2">
           <% @filters.each do |filter| %>
-            <div class="d-flex">
+            <div class="d-flex me-2">
               <div>
-                <%= check_box_tag "filters[]", filter.id, params[:filters]&.include?(filter.id.to_s), id: "filters_#{filter.id}", onchange: "this.form.requestSubmit();", class: 'me-2 form-check-input' %>
+                <%= check_box_tag "filters[]", filter.id, params[:filters]&.include?(filter.id.to_s), id: "filters_#{filter.id}", class: 'me-2 form-check-input' %>
               </div>
-              <div class="me-2">
-                <%= label_tag "filters[#{filter.id}]", filter.name.capitalize %>
+              <div>
+                <%= label_tag "filters_#{filter.id}", filter.name.capitalize %>
               </div>
             </div>
           <% end %>
-        <% end %>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="mb-5">
-    <%= render 'shared/search_and_filter_capacity' %>
+      <div class="w-100 mt-2">
+        <%= form.submit 'Vyhledat', class: "button-primary w-100" %>
+      </div>
+    <% end %>
   </div>
 
   <div class="spaces-cards" id="index-card-grid" data-controller="search">
