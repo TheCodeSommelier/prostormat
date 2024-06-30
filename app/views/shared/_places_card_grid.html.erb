@@ -1,37 +1,35 @@
 <% @places.each do |place| %>
-  <div class="card-index d-flex justify-content-between">
-    <div class="image-container border-side" data-controller="loader">
-      <% if place.photos.attached? %>
-        <div class="image-loader"></div>
-        <%= image_tag place.photos.first, crop: :fill, quality: "auto", fetch_format: "auto", class: 'image-card', data: { action: "load->loader#handleImageLoad"} %>
-      <% end %>
-    </div>
-    <div class="d-flex flex-column justify-content-between w-50">
-      <div class="d-flex flex-column">
-        <div class="d-flex justify-content-between">
-          <p class="place-city-color-size"><%= place.city %></p>
-          <div class="d-flex align-items-center">
-            <%= image_tag('person-grey.svg', width: 10, class: "person-icon-margin-right") %>
-            <p><%= place.max_capacity %></p>
-          </div>
-        </div>
-        <div class="address">
-          <p><%= place.street %> <%= place.house_number %>, <%= place.city %></p>
-        </div>
+  <div class="place-card">
+    <%= link_to place_path(place) do %>
+      <div class="photo-container" style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0), rgba(0, 0, 0, 0.5)), url('<%= place.photos.first.url %>'); height: 240px; width: 100%; background-repeat: no-repeat; background-position: center; background-size: cover;">
+        <p class="place-name"><%= place.place_name %></p>
+        <p class="place-short-desc"><%= place.short_description.truncate(35) %></p>
       </div>
-
-
-      <div class="short-desc-color-size">
-        <h5>Jaký je náš prostor</h5>
-        <p class="my-3"><%= place.short_description %></p>
+    <% end %>
+    <div class="capacity-container">
+      <div class="capacity-icon-container">
+        <div class="capacity-icon">
+          <%= raw File.read(Rails.root.join('app', 'assets', 'images', "capacity.svg")) %>
+        </div>
+        <p class="capacity"><%= place.max_capacity %></p>
       </div>
-
-      <div class="d-flex align-items-end justify-content-between">
-        <h4 class="card-title-width"><%= place.place_name.truncate(18) %></h4>
+      <div class="show-page-link">
         <%= link_to place_path(place) do %>
-          <%= image_tag('arrow_right.svg', width: 25) %>
+          <%= raw File.read(Rails.root.join('app', 'assets', 'images', "arrow_right.svg")) %>
         <% end %>
       </div>
+    </div>
+    <div class="address-container">
+      <div class="outline-map-pin"><%= raw File.read(Rails.root.join('app', 'assets', 'images', "map_pin_oultine.svg")) %></div>
+      <p class="address"><%= place.full_address %></p>
+    </div>
+    <hr class="divider" />
+    <div class="filter-icons">
+      <% place.filters.limit(3).each do |filter| %>
+        <div class="filter-icon">
+          <%= raw File.read(Rails.root.join('app', 'assets', 'images', "#{filter.name}.svg")) %>
+        </div>
+      <% end %>
     </div>
   </div>
 <% end %>

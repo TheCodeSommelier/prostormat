@@ -113,3 +113,5 @@ gem 'mini_magick'
 
 # Allows to store images on S3
 gem 'aws-sdk-s3', '~> 1.0'
+
+gem 'ngrok'

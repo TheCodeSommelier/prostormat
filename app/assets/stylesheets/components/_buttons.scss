@@ -3,18 +3,18 @@
   justify-content: center;
   align-self: center;
   background-color: $primary;
-  color: rgb(244, 237, 253);
-  border-radius: 8px;
+  color: #FFF;
+  border-radius: 100px;
   padding: 9px 27px;
   border: none;
   font-size: 17px;
   font-weight: 500;
   text-decoration: none;
-  transition: ease-in-out 0.5s !important;
+  transition: ease-in-out 0.3s !important;
 
   &:hover {
-    transition: ease-in-out 0.5s !important;
-    box-shadow: 0 20px 40px rgba($color: $primary, $alpha: 1.0);
+    transition: ease-in-out 0.3s !important;
+    border-top: 5px solid $secondary;
   }
 }
 

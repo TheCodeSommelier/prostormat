@@ -1,58 +1,104 @@
-.card-index {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid lightgrey;
-  height: 300px;
-  width: 100%;
-  background-color: #fff;
+.place-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #D7E1EA;
+  border-radius: 21px;
+  width: 247px;
+
+  .divider {
+    border: 2px #E2E2E2 solid;
+    margin: 0.5rem 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.photo-container {
+  border-radius: 21px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 15px;
+
+  .place-name {
+    font-size: 21px;
+    font-weight: 700;
+    color: #FFF;
+  }
+
+  .place-short-desc {
+    font-size: 12px;
+    color: #FFF;
+    margin-top: 5px;
+  }
+}
+
+.capacity-container {
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #D7E1EA;
+  border-radius: 21px;
+  box-shadow: -8px 10px 64px -15px rgba($color: #000000, $alpha: 0.3);
+
+  .capacity-icon-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .capacity-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+  }
+
+  .capacity {
+    font-size: 14px;
+    margin-left: 5px;
+  }
+
+  .show-page-link svg {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.address-container {
+  display: flex;
+  align-items: center;
+  margin: 15px 20px 0;
+
+  & .outline-map-pin {
+    display: flex;
+    align-items: center;
+  }
 
   .address {
-    font-style: italic;
-    color: lightgrey;
     font-size: 13px;
+    margin-left: 10px;
   }
+}
 
-  .card-title-width {
-    width: 75%;
-  }
+.filter-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
 
-  .border-side {
-    position: relative;
-  }
-
-  .border-side::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%; /* centers the pseudo-element vertically */
-    transform: translateY(-50%); /* centers the pseudo-element vertically */
-    height: 75%; /* this is the height of your border */
-    width: 1px; /* this is the width of your border */
-    background-color: lightgrey;
-  }
-
-  .image-container {
-    position: relative;
-    width: 45%;
-    padding-right: 30px;
-
-    .image-card {
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0s, opacity 0.5s linear;
-      width: 100%;
-      height: 100%;
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-    }
-  }
-
-  .place-city-color-size {
-    font-size: 18px;
-  }
-
-  .short-desc-color-size {
-    width: 100%;
-    color: $font-color;
-  }
+.filter-icon {
+  width: 40px;
+  height: 40px;
+  background-color: $font-color;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 15px 15px;
 }
