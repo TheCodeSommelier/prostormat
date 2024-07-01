@@ -15,10 +15,14 @@
     opacity: 0;
   }
 
-  .form-label {
+  .form-label, .photos-label {
     font-size: 18px;
     margin-bottom: 0.25rem;
     margin-top: 1rem;
+  }
+
+  .photos-label {
+    margin-top: 0;
   }
 
   .long-description-text-area-height {

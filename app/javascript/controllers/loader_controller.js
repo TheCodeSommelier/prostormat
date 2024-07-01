@@ -5,7 +5,6 @@ export default class extends Controller {
   static targets = ["form", "loader", "percentage", "loaderContainer", "loaderMessage" ];
 
   connect() {
-    console.log("Hi from loader")
     this.#hideLoader()
   }
 
