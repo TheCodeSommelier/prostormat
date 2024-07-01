@@ -6,7 +6,7 @@ export default class extends Controller {
   static values = { max: Number };
 
   connect() {
-    this.updateCounter();
+    this.#updateCounter();
   }
 
   #updateCounter() {
@@ -15,9 +15,7 @@ export default class extends Controller {
       const maxChars = this.maxValue;
       const charCount = textarea.value.length;
       counter.textContent = `${charCount}/${maxChars}`;
-      this.#counter(textarea, charCount, maxChars, counter)
-
-
+      this.#counter(textarea, charCount, maxChars, counter);
     });
   }
 

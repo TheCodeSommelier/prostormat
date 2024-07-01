@@ -25,7 +25,15 @@ class PlacesController < ApplicationController
     @places = @places.search_by_query(params[:query]) if params[:query].present?
 
     # Filter by capacity 'from' and 'to'
-    @places = @places.where('max_capacity >= ?', params[:min_capacity]) if params[:min_capacity].present?
+    @places = if !params[:min_capacity].present? && params[:max_capacity].present?
+                @places.where('max_capacity <= ?', params[:max_capacity])
+              elsif params[:min_capacity].present? && params[:max_capacity].present?
+                @places.where('max_capacity >= ? AND max_capacity <= ?', params[:min_capacity], params[:max_capacity])
+              elsif params[:min_capacity].present?
+                @places.where('max_capacity >= ?', params[:min_capacity])
+              else
+                @places
+              end
 
     @places = @places.order(primary: :desc)
 
@@ -79,7 +87,6 @@ class PlacesController < ApplicationController
 
     @place.user = current_user
     @place.hidden = false if current_user.admin?
-    p "🔥 place #{@place.id}"
 
     if check_photo_sizes? && @place.save
       if filter_ids.present?
@@ -92,18 +99,14 @@ class PlacesController < ApplicationController
       base64_encoded_photos = prepare_files_for_job(filtered_photos_params)
       ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
 
-      params[:place][:photos].each do |photo|
-        size_in_megabytes = photo.size.to_f / (1024 * 1024)
-        p "🔥 place photo too big #{size_in_megabytes > 5}" if size_in_megabytes > 5
-      end
-
       respond_to do |format|
         format.js
         format.html { redirect_to(current_user.admin? ? root_path : stripe_checkout_path) }
       end
     else
-      flash[:alert] = @place.errors.full_messages.join(', ')
-      redirect_to new_place_path
+      @filters = Filter.all.to_a
+      flash.now[:alert] = @place.errors.full_messages.join(', ')
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -121,15 +124,19 @@ class PlacesController < ApplicationController
     expire_place_show_photos_cache(@place) if @place.photos.attached?
 
     if @place.update(place_params.except(:photos))
-      if params[:place][:photos].count > 1
+      flash_message = params[:change_pics] ? 'Vše je v pořádku a aktualizováno. Dejte nám chvíli na nahrání vyšich fotek a znovu načtěte stránku.' : 'Vše je v pořádku a aktualizováno.'
+      if params[:change_pics]
         @place.photos.purge
-        params[:place][:photos].each do |photo|
-          @place.photos.attach(photo)
+        if check_photo_sizes?
+          filtered_photos_params = place_params[:photos].reject(&:blank?)
+          base64_encoded_photos = prepare_files_for_job(filtered_photos_params)
+          ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
         end
       end
-      redirect_to place_path(@place), notice: 'Vše je v pořádku a aktualizováno.'
+      redirect_to place_path(@place), notice: flash_message
     else
       @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
+      flash.now[:alert] = "Bohužel Váš prostor se nepodařilo aktualizovat z důvodu: #{@place.errors.full_messages.join(', ')}"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -177,16 +184,16 @@ class PlacesController < ApplicationController
   end
 
   def check_photo_sizes?
-    unless params[:place][:photos].present?
+    unless params[:place][:photos].reject(&:blank?).count >= 3
       @place.errors.add(:photos,
-                        message: 'Fotky musí být uploadovány!') and return false
+                        message: 'Alespoň 3 fotky musí být uploadovány!') and return false
     end
 
-    photos_over_5mb = params[:place][:photos].any? do |photo|
+    photos_oversize = params[:place][:photos].any? do |photo|
       size_in_megabytes = photo.size.to_f / (1024 * 1024)
-      size_in_megabytes > 5
+      size_in_megabytes > 7
     end
-    @place.errors.add(:photos, message: 'Každá fotka musí být pod 5MB') and return false if photos_over_5mb
+    @place.errors.add(:photos, message: 'Každá fotka musí být pod 7MB') and return false if photos_oversize
 
     true
   end

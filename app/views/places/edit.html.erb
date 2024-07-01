@@ -1,7 +1,7 @@
 <div id="new-place-form" data-controller="loader">
   <h1>Vytvořte vaše porstory</h1>
 
-  <%= form_for @place, html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form', action: 'submit->loader#startLoading' } do |f| %>
+  <%= form_for @place, html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form edit-page', action: 'submit->loader#startLoading' } do |f| %>
 
     <div class="input-container">
       <%= f.label :place_name, 'Jak se jmenuje místo kde máte porstory?', class: 'form-label label-enter-active' %>
@@ -34,14 +34,9 @@
     </div>
 
     <div class="d-flex input-container">
-      <div class="input-container col-6">
+      <div class="input-container w-100">
         <%= f.label :max_capacity, 'Maximální kapacita', class: 'form-label label-enter-active' %>
         <%= f.number_field :max_capacity, min: 10, step: 10, placeholder: 1300, class: 'form-input form-control input-enter-active' %>
-      </div>
-
-      <div class="input-container col-6">
-        <%= label_tag 'number_of_venues', 'Kolik máte prostorů?', class: 'form-label label-enter-active' %>
-        <%= number_field_tag :number_of_venues, nil, min: 1, step: 1, placeholder: '3', class: 'form-input form-control input-enter-active' %>
       </div>
     </div>
 
@@ -57,19 +52,29 @@
       </div>
     </div>
 
-    <div class="input-container">
-      <%= f.label :photos, 'Přidejte fotky', class: 'form-label label-enter-active' %>
-      <%= f.file_field :photos, as: :files, multiple: true, class: 'form-input form-control input-enter-active' %>
+
+
+    <div class="input-container photos-input-container" >
+      <div class="d-flex align-items-center justify-content-between form-label">
+        <%= f.label :photos, 'Přidejte fotky', class: 'form-label label-enter-active', style: "color: lightgrey;" %>
+        <div class="d-flex align-items-center">
+          <%= check_box_tag 'change_pics', '1', false, class: "form-input form-check-input filter-checkbox", data: { action: "change->edit-page#enablePhotoInput" } %>
+          <%= label_tag 'change_pics', 'Chci změnit fotky', class: "pics-checkbox-label" %>
+        </div>
+      </div>
+      <%= f.file_field :photos, as: :files, multiple: true, required: true, class: 'form-input form-control input-enter-active', disabled: true, data: { edit_page_target: "photosInput" } %>
     </div>
 
-    <div class="input-container">
+    <div class="input-container" data-controller="char-counter" data-char-counter-max-value="50">
       <%= f.label :short_description, 'Popište nám váš prostor, stačí krátce.', class: 'form-label label-enter-active' %>
-      <%= f.text_area :short_description, placeholder: 'Je moderní, minimalistický... A teď vy...', class: 'form-input form-control input-enter-active' %>
+      <%= f.text_area :short_description, placeholder: 'Je moderní, minimalistický... A teď vy...', class: 'form-input form-control input-enter-active', data: { action: 'input->char-counter#count', char_counter_target: 'textarea' } %>
+      <div data-char-counter-target="counter" class="char-counter">0/50</div>
     </div>
 
-    <div class="input-container">
+    <div class="input-container" data-controller="char-counter" data-char-counter-max-value="120">
       <%= f.label :long_description, 'Popište nám váš prostor, jdeme do detailů.', class: 'form-label label-enter-active' %>
-      <%= f.text_area :long_description, placeholder: 'Pokud máte více prostorů v rámci vašeho komplexu povězte nám o nich...', height: 400, class: 'form-input form-control input-enter-active long-description-text-area-height' %>
+      <%= f.text_area :long_description, placeholder: 'Pokud máte více prostorů v rámci vašeho komplexu povězte nám o nich...', height: 400, class: 'form-input form-control input-enter-active long-description-text-area-height', data: { action: 'input->char-counter#count', char_counter_target: 'textarea' } %>
+      <div data-char-counter-target="counter" class="char-counter">Musí být přes 120 znaků máte 0</div>
     </div>
 
     <%= f.submit "Upravte", class: 'hidden-submit button-primary my-3 w-100' %>

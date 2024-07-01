@@ -7,7 +7,7 @@ class PagesController < ApplicationController
   # how it works, sample places/venues and a footer
   def landing_page
     @places = Rails.cache.fetch('sample_places', expires_in: 1.hour) do
-      Place.all.sample(2)
+      Place.all.sample(4)
     end
   end
 
