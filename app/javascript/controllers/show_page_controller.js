@@ -4,7 +4,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="show-page"
 export default class extends Controller {
-  static targets = [ "orderForm", "dropDownChevron", "gallery" ]
+  static targets = [ "orderForm", "dropDownChevron", "pictureModal", "pictureModalContainer", "overlay" ]
 
   connect() {}
 
@@ -30,5 +30,22 @@ export default class extends Controller {
         this.galleryTarget.classList.remove("align-items-start")
       }, 500);
     }
+  }
+
+  showPictureModal(event) {
+    const photoUrl = event.target.dataset.photoUrl;
+    this.overlayTarget.style.opacity = 1;
+    this.overlayTarget.style.display = "block";
+    this.pictureModalContainerTarget.style.display = "block";
+    this.pictureModalContainerTarget.style.opacity = 1;
+    this.pictureModalTarget.style.backgroundImage = `url('${photoUrl}')`;
+  }
+
+  hidePictureModal() {
+    this.overlayTarget.style.opacity = 0;
+    this.overlayTarget.style.display = "none";
+    this.pictureModalContainerTarget.style.opacity = 0;
+    this.pictureModalContainerTarget.style.display = "none";
+    this.pictureModalTarget.style.backgroundImage = "";
   }
 }

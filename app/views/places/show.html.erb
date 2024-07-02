@@ -75,10 +75,21 @@
         </div>
         <div class="gallery">
           <% @place.photos.each do |photo| %>
-            <div class="photo" style="background: url('<%= photo.url %>'); background-repeat: no-repeat; background-position: center; background-size: cover;"></div>
+            <div
+              class="photo"
+              data-photo-url="<%= photo.url %>"
+              data-show-page-target="picture"
+              data-action="click->show-page#showPictureModal"
+              style="background: url('<%= photo.url %>'); background-repeat: no-repeat; background-position: center; background-size: cover;"
+            >
+            </div>
           <% end %>
         </div>
       </div>
     </div>
   </section>
+  <div class="modal-overlay" style="display: none;" data-show-page-target="overlay" data-action="click->show-page#hidePictureModal"></div>
+  <div class="modal-photo-container" style="display: none;" data-show-page-target="pictureModalContainer">
+    <div class="photo-modal" data-show-page-target="pictureModal"></div>
+  </div>
 </div>
