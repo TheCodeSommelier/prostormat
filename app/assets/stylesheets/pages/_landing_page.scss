@@ -102,7 +102,7 @@
     }
 
     .shape, .square {
-      background-color: #f1f1f1;
+      background-color: $darker-grey;
       padding: 30px;
       border-radius: 15px;
       width: 300px;
@@ -139,7 +139,7 @@
   }
 
   .section-sample-spaces {
-    background-color: #F1F1F1;
+    background-color: $darker-grey;
     width: 100%;
     display: flex;
     justify-content: center;
