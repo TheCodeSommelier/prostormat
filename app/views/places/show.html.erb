@@ -68,7 +68,17 @@
         </div>
         <p class="description-content"><%= @place.long_description %></p>
       </div>
-      <div class="gallery-container show-section-container"></div>
+      <div class="gallery-container show-section-container">
+        <div class="section-title">
+          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'pallete.svg')) %></div>
+          <h2>Galerie</h2>
+        </div>
+        <div class="gallery">
+          <% @place.photos.each do |photo| %>
+            <div class="photo" style="background: url('<%= photo.url %>'); background-repeat: no-repeat; background-position: center; background-size: cover;"></div>
+          <% end %>
+        </div>
+      </div>
     </div>
   </section>
 </div>

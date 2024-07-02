@@ -176,4 +176,26 @@
   }
 
   // Gallery
+  .gallery {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow-x: auto;
+    padding: 15px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .photo {
+    min-width: 205px;
+    height: 241px;
+    border-radius: 20px;
+    margin-right: 10px;
+    background-size: cover;
+    background-position: center;
+    scroll-snap-align: start;
+  }
+
+  .photo:last-child {
+    margin-right: 0;
+  }
 }
