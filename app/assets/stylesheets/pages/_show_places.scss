@@ -1,4 +1,42 @@
 .show-places-container {
+  // Show page utility styles
+  .section-sign {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: $darker-grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & svg {
+      width: 50%;
+    }
+
+    & path {
+      fill: $font-color;
+    }
+  }
+
+  .show-section-container {
+    background-color: #FFF;
+    border-radius: 40px;
+    padding: 15px;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $light-border-color;
+    padding: 15px;
+  }
+
+  .section-title h2 {
+    font-weight: 400;
+    font-size: 26px;
+    margin-left: 15px;
+  }
+
   // Main section
   .title, .subtitle {
     color: #FFF;
@@ -46,21 +84,20 @@
   // Content section
   #content {
     display: flex;
-    gap: 30px;
+    gap: 24px;
     background-color: $darker-grey;
     padding-top: 50px;
   }
 
   .form-map-column, .desc-gallery-column {
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
   // Order creation form
   .order-form-container {
-    background-color: #FFF;
-    border-radius: 40px;
-    padding: 15px;
-
     .button-primary {
       width: 95%;
     }
@@ -68,37 +105,6 @@
     form {
       margin-top: 15px;
     }
-  }
-
-  .order-title {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid $light-border-color;
-    padding: 15px;
-  }
-
-  .section-sign {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: $darker-grey;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    & svg {
-      width: 50%;
-    }
-
-    & path {
-      fill: $font-color;
-    }
-  }
-
-  .order-title h2 {
-    font-weight: 400;
-    font-size: 26px;
-    margin-left: 15px;
   }
 
   .order-form {
@@ -134,8 +140,40 @@
   }
 
   // Map
+  .full-address-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 15px;
+  }
+
+  .full-address-content {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 2px solid $primary;
+  }
+
+  .full-address-content svg {
+    margin-right: 8px;
+  }
+
+  .full-address {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  #map-container {
+    border-radius: 0 0 21px 21px;
+  }
 
   // Place description
+  .description-content {
+    line-height: 25px;
+    font-size: 17px;
+    padding: 15px;
+    color: $font-color;
+  }
 
   // Gallery
 }

@@ -15,8 +15,8 @@
   </section>
   <section id="content" class="content-container">
     <div class="form-map-column">
-      <div class="order-form-container">
-        <div class="order-title">
+      <div class="order-form-container show-section-container">
+        <div class="section-title">
           <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'envelope.svg')) %></div>
           <h2>Zpráva pro majitele</h2>
         </div>
@@ -41,21 +41,34 @@
           <%= f.submit 'Poslat poptávku', class: 'button-primary' %>
         <% end %>
       </div>
-      <div class="map-container"></div>
+      <div class="show-section-container">
+        <div class="section-title">
+          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'map_pin.svg')) %></div>
+          <h2>Kde se nacházíme?</h2>
+        </div>
+        <div class="full-address-container">
+          <div class="full-address-content">
+            <%= raw File.read(Rails.root.join('app', 'assets', 'images', 'map_pin_outline.svg')) %>
+            <p class="full-address"><%= @place.full_address %></p>
+          </div>
+        </div>
+        <% cache [@place, 'google_api_map'] do %>
+          <div id="map-container">
+            <% google_api = ENV.fetch('GOOGLE_MAPS_API_KEY') %>
+            <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{@place_encoded_address}&zoom=16&size=400x400&markers=color:red|#{@place_encoded_address}&key=#{google_api}&scale=2" %>
+          </div>
+        <% end %>
+      </div>
     </div>
     <div class="desc-gallery-column">
-      <div class="long-desc-container"></div>
-      <div class="gallery-container"></div>
+      <div class="long-desc-container show-section-container">
+        <div class="section-title">
+          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'paragraph.svg')) %></div>
+          <h2>Popis</h2>
+        </div>
+        <p class="description-content"><%= @place.long_description %></p>
+      </div>
+      <div class="gallery-container show-section-container"></div>
     </div>
   </section>
 </div>
-
-
-<%# cache [@place, 'google_api_map'] do %>
-  <%# <div class="padding-map-container">
-    <div id="map-container"> %>
-      <%# google_api = ENV.fetch('GOOGLE_MAPS_API_KEY') %>
-      <%#= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{@place_encoded_address}&zoom=16&size=400x400&markers=color:red|#{@place_encoded_address}&key=#{google_api}&scale=2" %>
-    <%# </div>
-  </div> %>
-<%# end %>
