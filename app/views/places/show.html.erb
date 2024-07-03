@@ -52,12 +52,9 @@
             <p class="full-address"><%= @place.full_address %></p>
           </div>
         </div>
-        <% cache [@place, 'google_api_map'] do %>
-          <div id="map-container">
-            <% google_api = ENV.fetch('GOOGLE_MAPS_API_KEY') %>
-            <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{@place_encoded_address}&zoom=16&size=400x400&markers=color:red|#{@place_encoded_address}&key=#{google_api}&scale=2" %>
-          </div>
-        <% end %>
+        <div id="map-container" data-show-page-target="mapContainer">
+          <%= image_tag("https://api.mapbox.com/styles/v1/prostormat/cly4po3z400ap01nwew8ygqek/static/#{@marker_overlay}/#{@place.longitude},#{@place.latitude},15/450x450@2x?access_token=#{ENV.fetch('MAPBOX_API_KEY')}") %>
+        </div>
       </div>
     </div>
     <div class="desc-gallery-column">

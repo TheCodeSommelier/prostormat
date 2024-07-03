@@ -11,6 +11,9 @@
 /* This is where bootstrap comes from */
 @import 'bootstrap';
 
+/* This line imports stuff ncessary for mapbox api to work */
+@import url("https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css");
+
 
 // Margin reset
 h1, h2, h3, h4, h5, h6, p {

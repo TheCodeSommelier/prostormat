@@ -165,6 +165,14 @@
 
   #map-container {
     border-radius: 0 0 21px 21px;
+    margin-top: 15px;
+
+    & img {
+      width: 100%;
+      object-fit: fill;
+      object-position: center;
+      border-radius: 0 0 21px 21px;
+    }
   }
 
   // Place description
