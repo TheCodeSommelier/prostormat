@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import FormUtils from "../modules/form_utils";
+import FormUtils from "modules/form_utils";
 
 // Connects to data-controller="filter-select"
 export default class extends Controller {
