@@ -11,6 +11,9 @@
 /* This is where bootstrap comes from */
 @import 'bootstrap';
 
+/* This line imports stuff ncessary for mapbox api to work */
+@import url("https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.css");
+
 
 // Margin reset
 h1, h2, h3, h4, h5, h6, p {
@@ -42,6 +45,7 @@ input, textarea, select, .form-input, .custom-select {
   padding: 10px 15px;
   border: none;
   border-bottom: 3px solid $primary;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .custom-select {
@@ -84,6 +88,10 @@ input, textarea, select, .form-input, .custom-select {
     font-size: 17px;
     transition: 0.3s ease-in-out;
   }
+}
+
+.content-container {
+  padding: 0 17rem;
 }
 
 #checkout-container, #new-place-form {

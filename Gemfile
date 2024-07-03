@@ -115,3 +115,9 @@ gem 'mini_magick'
 gem 'aws-sdk-s3', '~> 1.0'
 
 gem 'ngrok'
+
+# Allows for geocoding addresses
+gem 'geocoder'
+
+# Allows for direct api calls
+gem 'httparty'

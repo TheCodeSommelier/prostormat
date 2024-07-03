@@ -1,184 +1,246 @@
 .show-places-container {
-  display: flex;
-  justify-content: space-between;
-
-  .content-gallery-gap {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-    padding-top: 3rem;
-  }
-
-  // .content-gallery-gap > * {
-  //   flex-basis: calc(50% - 15px)
-  // }
-
-  .star-primary {
-    padding: 10px !important;
+  // Show page utility styles
+  .section-sign {
+    width: 40px;
     height: 40px;
-  }
-
-  .place-title-size {
-    font-size: 50px;
-  }
-
-  .address, .capacity {
-    color: rgb(84, 84, 84);
-  }
-
-  .address {
-    font-style: italic;
-  }
-
-  .rotated {
-    transform: rotate(180deg);
-    transition: transform 0.5s ease-in-out;
-  }
-
-  .buttons-container {
-
-    .buttons-relative {
-      position: relative;
-    }
-
-    .button-absolute {
-      position: absolute;
-    }
-
-    .button-absolute.star-primary {
-      right: 50px;
-    }
-
-    .button-absolute.edit-link-button {
-      right: 0px;
-    }
-  }
-
-  .long-description h4 {
-    padding: 8px 5px;
-    border-bottom: 1px solid lightgrey;
-    margin-bottom: 13px;
-  }
-
-  .edit-link-button {
-    @extend .button-secondary;
-    padding: 10px !important;
-    border: 2px solid #767676;
-    border-radius: 8px;
-  }
-
-  #gallery {
-    position: relative;
+    border-radius: 50%;
+    background-color: $darker-grey;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
 
-    #gallery.align-items-start {
-      align-items: flex-start;
+    & svg {
+      width: 50%;
     }
 
-    &::before {
-      content: '';
-      position: absolute;
-      left: -15px;
-      top: 50%;
-      transform: translateY(-50%);
-      height: 90%;
-      width: 1px;
-      background-color: lightgrey;
-    }
-
-    .image-container {
-      position: relative;
-    }
-
-    .image-card {
-      visibility: hidden;
-      opacity: 0;
-      transition: visibility 0s, opacity 0.5s linear;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    & path {
+      fill: $font-color;
     }
   }
 
-  .title-order-form {
-    border-bottom: solid 1px lightgrey;
-    padding: 30px 5px 20px;
-    margin: 30px auto 20px;
-
-    img {
-      cursor: pointer;
-      transition: 0.5s ease-in-out;
-    }
+  .show-section-container {
+    background-color: #FFF;
+    border-radius: 40px;
+    padding: 15px;
   }
 
-  #order-form {
-    width: 100%;
-    background-color: rgba($color: #FFF, $alpha: 1);
-    border-radius: 8px;
-    opacity: 0;
-    display: none;
-    visibility: hidden;
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, visibility 0s linear 0.5s;
-
-    .order-input {
-      margin: 10px 5px;
-    }
-
-    .date-input {
-      &input::placeholder {
-        color: #909090;
-        opacity: 1;
-      }
-
-      &::-webkit-input-placeholder {
-        color: #909090;
-      }
-
-      &:-ms-input-placeholder {
-        color: #909090;
-      }
-
-      &::-moz-placeholder {
-        color: #909090;
-        opacity: 1;
-      }
-    }
-
-    .submit-button-margin {
-      margin: 10px 5px;
-    }
+  .section-title {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $light-border-color;
+    padding: 15px;
   }
 
-  .padding-map-container {
+  .section-title h2 {
+    font-weight: 400;
+    font-size: 26px;
+    margin-left: 15px;
+  }
+
+  // Main section
+  .title, .subtitle {
+    color: #FFF;
+    margin-left: 15px;
+  }
+
+  .subtitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 20px 15px;
+    width: 75%;
+  }
+
+  #main-photo {
+    height: 600px;
     display: flex;
     align-items: flex-end;
-    padding: 5px;
-    border: solid 1px lightgrey;
-    border-radius: 8px;
-    margin-top: 20px;
+    justify-content: flex-start;
+  }
 
-    #map-container {
-      position: relative;
-      width: 100%;
-      max-height: 600px;
-      padding-top: 100%; /* Adjust this to match the map's aspect ratio */
-      overflow: hidden;
-      border-radius: 9px;
+  .main-content-container {
+    margin-bottom: 30px;
+  }
 
-      img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
+  .filters {
+    display: flex;
+    align-items: center;
+  }
+
+  .filter-sign {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 5px solid white;
+    margin: auto 15px;
+
+    & svg {
+      width: 60%;
     }
   }
 
-  .sections-spacing {
-    gap: 13px;
+  // Content section
+  #content {
+    display: flex;
+    gap: 24px;
+    background-color: $darker-grey;
+    padding-top: 50px;
+  }
+
+  .form-map-column, .desc-gallery-column {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  // Order creation form
+  .order-form-container {
+    .button-primary {
+      width: 95%;
+    }
+
+    form {
+      margin-top: 15px;
+    }
+  }
+
+  .order-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .bokee-info,
+  .event-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .bokee-info input,
+  .event-info input {
+    flex: 1;
+    margin: 0 10px;
+    min-width: 0;
+  }
+
+  .event-details-textarea {
+    width: calc(100% - 20px);
+    margin: 10px;
+  }
+
+  .button-primary {
+    width: calc(100% - 20px);
+    margin: 20px 10px;
+  }
+
+  // Map
+  .full-address-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 15px;
+  }
+
+  .full-address-content {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 2px solid $primary;
+  }
+
+  .full-address-content svg {
+    margin-right: 8px;
+  }
+
+  .full-address {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  #map-container {
+    border-radius: 0 0 21px 21px;
+    margin-top: 15px;
+    cursor: pointer;
+
+    & img {
+      width: 100%;
+      height: auto;
+      object-fit: fill;
+      object-position: center;
+      border-radius: 0 0 21px 21px;
+    }
+  }
+
+  // Place description
+  .description-content {
+    line-height: 25px;
+    font-size: 17px;
+    padding: 15px;
+    color: $font-color;
+  }
+
+  // Gallery
+  .gallery {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow-x: auto;
+    padding: 15px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .photo {
+    min-width: 205px;
+    height: 241px;
+    border-radius: 20px;
+    margin-right: 10px;
+    background-size: cover;
+    background-position: center;
+    scroll-snap-align: start;
+  }
+
+  .photo:last-child {
+    margin-right: 0;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 3;
+    transition: 0.3s ease;
+  }
+
+  .modal-photo-container {
+    position: fixed;
+    height: 600px;
+    width: 650px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    border-radius: 40px;
+    background-color: #FFF;
+    z-index: 4;
+    transition: 0.3s ease;
+  }
+
+  .photo-modal {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 40px;
+    transition: 0.3s ease-in-out;
   }
 }

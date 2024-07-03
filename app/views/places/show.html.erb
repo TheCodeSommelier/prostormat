@@ -1,117 +1,96 @@
 <!-- TODO: Order form, email to user and martin upon submission of the order -->
-<div class="container show-places-container d-flex flex-column" data-controller="show-page">
-  <div class="content-gallery-gap d-flex justify-content-between">
-    <div id="show-page-content d-flex" class="w-100">
-      <div class="d-flex">
-      </div>
-      <div class="d-flex justify-content-between w-100">
-        <div class="d-flex flex-column w-100">
-          <h1 class="place-title-size"><%= @place.place_name %></h1>
-          <div class="d-flex justify-content-between">
-            <p class="address"><%= @place.street %> <%= @place.house_number %>, <%= @place.postal_code %>, <%= @place.city %></p>
-            <div class="d-flex">
-              <%= image_tag('person-grey.svg', width: 10, class: "me-2") %>
-              <p class="capacity"><%= @place.max_capacity %></p>
-            </div>
+<div class="show-places-container" data-controller="show-page">
+  <section id="main-photo" class="content-container" style="background: url('<%= url_for(@place.photos.first) %>'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+    <div class="main-content-container">
+      <h1 class="title"><%= @place.place_name %></h1>
+      <p class="subtitle"><%= @place.short_description %></p>
+      <div class="filters">
+        <% @place.filters.each do |filter| %>
+          <div class="filter-sign">
+            <%= raw File.read(Rails.root.join('app', 'assets', 'images', "#{filter.name}.svg")) %>
           </div>
-        </div>
-        <div class="d-flex buttons-container">
-          <div class="buttons-relative">
-            <% if current_user&.admin? && !@place.primary %>
-              <%= button_to toggle_primary_place_path(@place), method: :patch, data: { turbo: false }, class: 'button-primary star-primary button-absolute d-flex justify-content-center align-items-center', form: {class: "inline"} do %>
-                <%= image_tag('star-solid.svg', width: 20) %>
-              <% end %>
-            <% elsif current_user&.admin? && @place.primary %>
-              <%= button_to toggle_primary_place_path(@place), method: :patch, data: { turbo: false }, class: 'button-primary star-primary button-absolute', form: {class: "inline"} do %>
-                <%= image_tag('star-regular.svg', width: 20) %>
-              <% end %>
-            <% end %>
-            <div>
-              <% if @place.user == current_user || current_user&.admin? %>
-                <%= link_to edit_place_path(@place), class: "edit-link-button button-absolute" do %>
-                  <%= image_tag('pen-solid.svg', width: 20) %>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        </div>
+        <% end %>
       </div>
-
-      <section id="basic-info mb-5">
-        <div>
-          <h4 class="mt-5"><%= @place.short_description %></h4>
+    </div>
+  </section>
+  <section id="content" class="content-container">
+    <div class="form-map-column">
+      <div class="order-form-container show-section-container">
+        <div class="section-title">
+          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'envelope.svg')) %></div>
+          <h2>Zpráva pro majitele</h2>
         </div>
-      </section>
-
-      <div class="order-form-dropdown">
-        <div class="title-order-form d-flex justify-content-between">
-          <h4>Poslat poptávku</h3>
-          <%= image_tag('chevron-down-solid (1).svg', width: 30, data: { action: 'click->show-page#dropDown', show_page_target: "dropDownChevron" }) %>
-        </div>
-        <div id="order-form" data-show-page-target="orderForm">
-          <%= form_with model: [@place, @order], local: true, data: { turbo: false } do |f|%>
-            <div class="d-flex">
-              <%= f.text_field :event_type, placeholder: 'Máte firemní akci nebo narozeniny?', class: 'form-control order-input' %>
-
-              <%= f.date_field :date, placeholder: 'Jaký den?', class: 'form-control date-input order-input', min: Date.today.to_s %>
-            </div>
-
+        <%= form_with model: [@place, @order], local: true, data: { turbo: false }, class: "order-form" do |f|%>
+          <div class="bokee-info">
             <%= f.fields_for :bokee do |field_for_bokee| %>
-              <div class="d-flex">
-                <%= field_for_bokee.text_field :full_name, placeholder: 'Vaše celé jméno', class: 'form-control order-input' %>
+              <%= field_for_bokee.text_field :full_name, placeholder: 'Celé jméno' %>
 
-                <%= field_for_bokee.text_field :email, placeholder: 'Váš email', class: 'form-control order-input' %>
+              <%= field_for_bokee.text_field :email, placeholder: 'Email' %>
 
-                <%= field_for_bokee.text_field :phone_number, placeholder: 'Vaše telefonní číslo', class: 'form-control order-input' %>
-              </div>
+              <%= field_for_bokee.text_field :phone_number, placeholder: 'Mobil' %>
             <% end %>
-            <div class="d-flex">
-              <%= f.text_area :message, placeholder: 'Zde dopište cokoliv je potřeba specifikovat, optat, nebo vyjasnit!', class: 'form-control message-input order-input', min: Date.today.to_s %>
-            </div>
+          </div>
 
-            <div class="g-recaptcha ms-2" data-sitekey="<%= ENV.fetch('RECAPTCHA_SITE_KEY') %>"></div>
+          <div class="event-info">
+            <%= f.text_field :event_type, placeholder: 'Typ události' %>
+            <%= f.date_field :date, placeholder: 'Jaký den?', min: Date.today.to_s %>
+          </div>
 
-            <div class="d-flex">
-              <%= f.submit 'Poslat poptávku', class: 'button-primary w-100 submit-button-margin' %>
-            </div>
-          <% end %>
+          <%= f.text_area :message, placeholder: 'Zde dopište cokoliv je potřeba specifikovat, optat, nebo vyjasnit!', class: "event-details-textarea", min: Date.today.to_s %>
+          <div class="g-recaptcha ms-2" data-sitekey="<%= ENV.fetch('RECAPTCHA_SITE_KEY') %>"></div>
+          <%= f.submit 'Poslat poptávku', class: 'button-primary' %>
+        <% end %>
+      </div>
+      <div class="show-section-container">
+        <div class="section-title">
+          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'map_pin.svg')) %></div>
+          <h2>Kde se nacházíme?</h2>
         </div>
-      </div>
-
-      <div class="long-description mt-4">
-        <h4>O nás</h4>
-        <p><%= @place.long_description %></p>
-      </div>
-
-      <% cache [@place, 'google_api_map'] do %>
-        <div class="padding-map-container">
-          <div id="map-container">
-            <% google_api = ENV.fetch('GOOGLE_MAPS_API_KEY') %>
-            <%= image_tag "https://maps.googleapis.com/maps/api/staticmap?center=#{@place_encoded_address}&zoom=16&size=400x400&markers=color:red|#{@place_encoded_address}&key=#{google_api}&scale=2" %>
+        <div class="full-address-container">
+          <div class="full-address-content">
+            <%= raw File.read(Rails.root.join('app', 'assets', 'images', 'map_pin_outline.svg')) %>
+            <p class="full-address"><%= @place.full_address %></p>
           </div>
         </div>
-      <% end %>
+        <div id="map-container" data-show-page-target="mapContainer" data-action="click->show-page#openMaps">
+          <%= image_tag("https://api.mapbox.com/styles/v1/prostormat/cly4po3z400ap01nwew8ygqek/static/#{@marker_overlay}/#{@place.longitude},#{@place.latitude},15/450x450@2x?access_token=#{ENV.fetch('MAPBOX_API_KEY')}") %>
+        </div>
+      </div>
     </div>
-
-
-    <div id="gallery" class="w-100" data-controller="loader" data-show-page-target="gallery">
-      <section>
-        <div class="image-gallery-grid">
+    <div class="desc-gallery-column">
+      <div class="long-desc-container show-section-container">
+        <div class="section-title">
+          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'paragraph.svg')) %></div>
+          <h2>Popis</h2>
+        </div>
+        <p class="description-content"><%= @place.long_description %></p>
+      </div>
+      <div class="gallery-container show-section-container">
+        <div class="section-title">
+          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'pallete.svg')) %></div>
+          <h2>Galerie</h2>
+        </div>
+        <div class="gallery">
           <% @place.photos.each do |photo| %>
-            <div class="image-container">
-              <% cache [photo, 'gallery', photo.created_at] do %>
-                <div class="image-loader"></div>
-                <%= image_tag photo, height: 200, quality: "auto", fetch_format: "auto", class: "image-card", class: "image-card", data: { action: "load->loader#handleImageLoad"} %>
-              <% end %>
+            <div
+              class="photo"
+              data-photo-url="<%= photo.url %>"
+              data-show-page-target="picture"
+              data-action="click->show-page#showPictureModal"
+              style="background: url('<%= photo.url %>'); background-repeat: no-repeat; background-position: center; background-size: cover;"
+            >
             </div>
           <% end %>
         </div>
-      </section>
+      </div>
     </div>
-
+  </section>
+  <div class="modal-overlay" style="display: none;" data-show-page-target="overlay" data-action="click->show-page#hidePictureModal"></div>
+  <div class="modal-photo-container" style="display: none;" data-show-page-target="pictureModalContainer">
+    <div class="photo-modal" data-show-page-target="pictureModal"></div>
   </div>
-  <h2 class="my-3">Podobná místa</h2>
-  <div class="spaces-cards" id="index-card-grid" data-controller="search">
-    <%= render 'shared/places_card_grid', collection: @places, cache: true %>
-  </div>
+  <script>
+    window.lat = "<%= j @place.latitude %>"
+    window.lng = "<%= j @place.longitude %>"
+  </script>
 </div>

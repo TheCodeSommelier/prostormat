@@ -4,9 +4,14 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="show-page"
 export default class extends Controller {
-  static targets = [ "orderForm", "dropDownChevron", "gallery" ]
+  static targets = [ "orderForm", "dropDownChevron", "pictureModal", "pictureModalContainer", "overlay", "mapContainer" ]
+  static values = {
+    apiKey: String,
+    markers: Object
+  }
 
-  connect() {}
+  connect() {
+  }
 
   dropDown() {
     if (this.orderFormTarget.style.opacity === "0" || this.orderFormTarget.style.opacity === "") {
@@ -30,5 +35,33 @@ export default class extends Controller {
         this.galleryTarget.classList.remove("align-items-start")
       }, 500);
     }
+  }
+
+  showPictureModal(event) {
+    const photoUrl = event.target.dataset.photoUrl;
+    this.overlayTarget.style.opacity = 1;
+    this.overlayTarget.style.display = "block";
+    this.pictureModalContainerTarget.style.display = "block";
+    this.pictureModalContainerTarget.style.opacity = 1;
+    this.pictureModalTarget.style.backgroundImage = `url('${photoUrl}')`;
+  }
+
+  hidePictureModal() {
+    this.overlayTarget.style.opacity = 0;
+    this.overlayTarget.style.display = "none";
+    this.pictureModalContainerTarget.style.opacity = 0;
+    this.pictureModalContainerTarget.style.display = "none";
+    this.pictureModalTarget.style.backgroundImage = "";
+  }
+
+  openMaps() {
+    const userChoice = confirm("Do you want to open the address in Google Maps?");
+    const latitude = window.lat;
+    const longitude = window.lng;
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+    // Make a modal to check weather the user wants apple or google maps
+    // const appleMapsUrl = `http://maps.apple.com/?ll=${latitude},${longitude}`;
+
+    if (userChoice) window.open(googleMapsUrl, '_blank');
   }
 }

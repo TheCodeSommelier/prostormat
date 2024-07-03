@@ -65,6 +65,8 @@ class PlacesController < ApplicationController
     base_city_name = @place.city.split(' ').first
     cache_key      = ['related_places', @place.id, filter_ids.sort.join('-'), base_city_name,
                       Place.maximum(:updated_at)]
+
+    @marker_overlay = "pin-s-l+26A387(#{@place.longitude},#{@place.latitude})"
     # Caches a SQL query to retrieve places related to the show page place by filters, city.
     # Primary places are prioritised. Also this section is limited to two places
     @places = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
