@@ -53,4 +53,15 @@ export default class extends Controller {
     this.pictureModalContainerTarget.style.display = "none";
     this.pictureModalTarget.style.backgroundImage = "";
   }
+
+  openMaps() {
+    const userChoice = confirm("Do you want to open the address in Google Maps?");
+    const latitude = window.lat;
+    const longitude = window.lng;
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+    // Make a modal to check weather the user wants apple or google maps
+    // const appleMapsUrl = `http://maps.apple.com/?ll=${latitude},${longitude}`;
+
+    if (userChoice) window.open(googleMapsUrl, '_blank');
+  }
 }
