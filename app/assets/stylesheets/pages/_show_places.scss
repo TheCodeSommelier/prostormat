@@ -203,6 +203,7 @@
     background-size: cover;
     background-position: center;
     scroll-snap-align: start;
+    cursor: pointer;
   }
 
   .photo:last-child {
@@ -211,6 +212,7 @@
 
   .modal-overlay {
     position: fixed;
+    cursor: pointer;
     top: 0;
     left: 0;
     width: 100%;
