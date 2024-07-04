@@ -111,7 +111,7 @@
             <% end %>
           </div>
           <div class="nav-item d-flex justify-content-center">
-            <%= link_to place_path(current_user.places.first), class: "button-primary button-margin" do %>
+            <%= link_to place_path(current_user.places.first.slug), class: "button-primary button-margin" do %>
               <div>
                 <i class="fa-solid fa-sign-hanging"></i>
                 Můj prostor

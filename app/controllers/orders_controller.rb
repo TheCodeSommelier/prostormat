@@ -19,9 +19,9 @@ class OrdersController < ApplicationController
 
     if @order.save && verify_recaptcha
       SendOrderToPlaceOwnerJob.perform_later(@place.id, bokee.id, @order.message)
-      redirect_to place_path(@place), notice: 'Poptávka je vytvořená. Majitel se Vám ozve.'
+      redirect_to place_path(@place.slug), notice: 'Poptávka je vytvořená. Majitel se Vám ozve.'
     else
-      redirect_to place_path(@place), alert: display_error_messages
+      redirect_to place_path(@place.slug), alert: display_error_messages
     end
   end
 

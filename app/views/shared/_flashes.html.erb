@@ -2,7 +2,7 @@
   <div class="alert alert-dismissible fade show m-1 flash-notice-container" role="alert">
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     <% notice.split(', ').each do |msg| %>
-      <p><%= msg %></p>
+      <p><%= msg.html_safe %></p>
     <% end %>
   </div>
 <% end %>
@@ -14,7 +14,7 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     <%= alert %>
     <% alert.split(', ').each do |msg| %>
-      <li><%= msg %></li>
+      <li><%= msg.html_safe %></li>
     <% end %>
   </div>
 <% end %>

@@ -50,11 +50,11 @@ class PlacesController < ApplicationController
 
   # Shows details for a single place identified by id.
   def show
-    @place = Rails.cache.fetch("place_#{params[:id]}") { Place.find(params[:id].to_i) }
+    @place = Rails.cache.fetch("place_#{params[:slug]}") { Place.find_by(slug: params[:slug]) }
     authorize @place
 
     # This encodes the address into a url for google maps api
-    @place_encoded_address = Rails.cache.fetch("place_#{params[:id]}_address") do
+    @place_encoded_address = Rails.cache.fetch("place_#{params[:slug]}_address") do
       CGI.escape("#{@place.street} #{@place.house_number}, #{@place.postal_code}, #{@place.city}")
     end
 
@@ -135,10 +135,11 @@ class PlacesController < ApplicationController
           ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
         end
       end
-      redirect_to place_path(@place), notice: flash_message
+      redirect_to place_path(@place.slug), notice: flash_message
     else
       @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
-      flash.now[:alert] = "Bohužel Váš prostor se nepodařilo aktualizovat z důvodu: #{@place.errors.full_messages.join(', ')}"
+      flash.now[:alert] =
+        "Bohužel Váš prostor se nepodařilo aktualizovat z důvodu: #{@place.errors.full_messages.join(', ')}"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -161,7 +162,7 @@ class PlacesController < ApplicationController
                      else
                        'There was an issue toggling the primary status of the place. Try again...'
                      end
-    redirect_to place_path(@place)
+    redirect_to place_path(@place.slug)
   end
 
   # Transfers the place to a new user
@@ -246,11 +247,11 @@ class PlacesController < ApplicationController
   end
 
   def set_place
-    @place = Place.find(params[:id])
+    @place = Place.find_by(slug: params[:slug])
   end
 
   def place_params
-    params.require(:place).permit(:place_name, :street, :house_number, :postal_code, :city, :max_capacity,
+    params.require(:place).permit(:slug, :place_name, :street, :house_number, :postal_code, :city, :max_capacity,
                                   :short_description, :long_description, photos: [], filter_ids: [])
   end
 end

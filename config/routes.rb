@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
   # TODO: Fix sidekiq UI
@@ -22,7 +24,7 @@ Rails.application.routes.draw do
   post 'create_bulk_order', to: 'pages#create_bulk_order'
 
   get 'admin_places', to: 'places#admin_places', as: :admin_places
-  resources :places do
+  resources :places, param: :slug do
     resources :orders, only: %i[create update]
     member do
       patch 'transfer', to: 'places#transfer', as: :transfer

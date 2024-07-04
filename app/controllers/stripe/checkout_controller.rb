@@ -1,48 +1,52 @@
-class Stripe::CheckoutController < ApplicationController
-  skip_after_action :verify_authorized
+# frozen_string_literal: true
 
-  def checkout; end
+module Stripe
+  class CheckoutController < ApplicationController
+    skip_after_action :verify_authorized
 
-  def setup_intent
-    setup_intent = Stripe::SetupIntent.create({
-                                                payment_method_types: ['card']
-                                              })
+    def checkout; end
 
-    render json: { clientSecret: setup_intent.client_secret }
-  end
+    def setup_intent
+      setup_intent = Stripe::SetupIntent.create({
+                                                  payment_method_types: ['card']
+                                                })
 
-  def create_subscription
-    customer_id = current_user.stripe_customer_id
-    payment_method_id = params[:payment_method_id]
+      render json: { clientSecret: setup_intent.client_secret }
+    end
 
-    Stripe::PaymentMethod.attach(
-      payment_method_id,
-      { customer: customer_id }
-    )
+    def create_subscription
+      customer_id = current_user.stripe_customer_id
+      payment_method_id = params[:payment_method_id]
 
-    Stripe::Customer.update(
-      customer_id, {
-        invoice_settings: { default_payment_method: payment_method_id }
-      }
-    )
+      Stripe::PaymentMethod.attach(
+        payment_method_id,
+        { customer: customer_id }
+      )
 
-    Stripe::Subscription.create({
-                                  customer: customer_id,
-                                  items: [{ price: Rails.application.config.x.stripe.price_id }],
-                                  currency: 'czk',
-                                  expand: ['latest_invoice.payment_intent']
-                                })
-  end
+      Stripe::Customer.update(
+        customer_id, {
+          invoice_settings: { default_payment_method: payment_method_id }
+        }
+      )
 
-  def success
-    place = current_user.places.first
-    flash[:notice] = 'Máte zaplaceno'
-    redirect_to place_path(place)
-  end
+      Stripe::Subscription.create({
+                                    customer: customer_id,
+                                    items: [{ price: Rails.application.config.x.stripe.price_id }],
+                                    currency: 'czk',
+                                    expand: ['latest_invoice.payment_intent']
+                                  })
+    end
 
-  def cancel
-    place = current_user.places.first
-    flash[:alert] = 'Něco se pokazilo... Zkuste to znovu prosím.'
-    redirect_to new_place_path(place)
+    def success
+      place = current_user.places.first
+      flash[:notice] = 'Máte zaplaceno'
+      redirect_to place_path(place.slug)
+    end
+
+    def cancel
+      place = current_user.places.first
+      flash[:alert] = 'Něco se pokazilo... Zkuste to znovu prosím.'
+      redirect_to new_place_path(place.slug)
+    end
   end
 end
