@@ -126,3 +126,6 @@ gem 'geocoder'
 
 # Allows for direct api calls
 gem 'httparty'
+
+# Allows for simple site map creation
+gem 'sitemap_generator'

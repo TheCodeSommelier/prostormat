@@ -6,7 +6,8 @@
 }
 
 .flash-alert-container {
-  background-color: rgba($color: #ff9a9a, $alpha: 1.0) !important;
+  background-color: rgba($color: #FFF, $alpha: 1.0) !important;
+  border: 2px solid rgb(255, 120, 120) !important;
 }
 
 .flash-notice-container, .flash-alert-container {

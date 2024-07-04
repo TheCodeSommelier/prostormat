@@ -5,4 +5,6 @@
 
 require_relative 'config/application'
 
+require 'sitemap_generator/tasks'
+
 Rails.application.load_tasks
