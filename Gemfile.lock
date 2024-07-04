@@ -144,7 +144,6 @@ GEM
       csv (>= 3.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    heroku-deflater (0.7.0)
     httparty (0.22.0)
       csv
       mini_mime (>= 1.0.0)
@@ -366,7 +365,6 @@ DEPENDENCIES
   dotenv-rails
   error_highlight (>= 0.4.0)
   geocoder
-  heroku-deflater
   httparty
   importmap-rails
   jbuilder

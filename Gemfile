@@ -73,9 +73,6 @@ group :test do
   gem 'selenium-webdriver'
 end
 
-# Makes serving files easier on heroku
-gem 'heroku-deflater', :group => :production
-
 # Allows for user authentication
 gem 'devise'
 
