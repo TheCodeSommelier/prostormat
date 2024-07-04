@@ -1,6 +1,5 @@
 .navbar-prostormat {
-  padding-right: 2rem;
-  padding-left: 2rem;
+  padding: 10px 4rem !important;
   justify-content: space-between;
   position: sticky;
   top: 0;
@@ -25,5 +24,9 @@
     &:hover, &:focus {
       box-shadow: 0 0 5px rgba($color: $primary, $alpha: 0.5);
     }
+  }
+
+  .button-margin {
+    margin: auto 10px;
   }
 }
