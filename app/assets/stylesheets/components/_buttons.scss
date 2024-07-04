@@ -1,7 +1,7 @@
 .button-primary {
   display: flex;
   justify-content: center;
-  align-self: center;
+  align-items: center;
   background-color: $primary;
   color: #FFF;
   border-radius: 100px;
@@ -14,19 +14,28 @@
 
   &:hover {
     transition: ease-in-out 0.3s !important;
-    border-top: 5px solid $secondary;
+    background-color: rgba($color: $primary, $alpha: 0.7);
+  }
+
+  & svg {
+    width: 19px;
+  }
+
+  & path {
+    fill: #FFF;
   }
 }
 
 .button-secondary {
   display: flex;
   justify-content: center;
-  align-self: center;
+  align-items: center;
   background-color: rgba($color: $secondary, $alpha: 0.8);
-  color: rgb(66, 66, 66);
-  border-radius: 8px;
-  padding: 9px 27px;
-  border: none;
+  background-color: #FFF;
+  color: $font-color;
+  border-radius: 100px;
+  padding: 7px 25px;
+  border: 2px solid #ECECEC;
   font-size: 17px;
   font-weight: 400;
   text-decoration: none;
@@ -34,6 +43,21 @@
 
   &:hover {
     transition: ease-in-out 0.5s !important;
-    box-shadow: 0 20px 40px rgba($color: $secondary, $alpha: 1.0);
+    background-color: $primary;
+    color: #FFF;
+
+    & path {
+      transition: ease-in-out 0.5s !important;
+      fill: #FFF;
+    }
+  }
+
+  & svg {
+    width: 19px;
+  }
+
+  & path {
+    transition: ease-in-out 0.5s !important;
+    fill: $font-color;
   }
 }

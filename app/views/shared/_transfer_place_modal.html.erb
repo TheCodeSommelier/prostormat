@@ -1,9 +1,11 @@
 <div id="modal" data-modal-target="modal" class="d-none">
   <div class="modal-content">
     <%= form_tag("", method: :patch, data: { modal_target: "form", context: "transferPlace" }) do |f| %>
-      <%= label_tag :user_email %>
-      <%= text_field_tag :user_email, nil, placeholder: "someusers@email.please", required: true,  class: "form-control my-3" %>
-      <%= submit_tag "Transfer", class: "btn btn-primary" %>
+      <div class="d-flex flex-column px-3">
+        <%= label_tag :user_email %>
+        <%= text_field_tag :user_email, nil, placeholder: "someusers@email.please", required: true,  class: "w-100 my-3" %>
+      </div>
+      <%= submit_tag "Transfer", class: "button-primary" %>
       <button type="button" class="close-button position-absolute" data-action="click->modal#hideModal">
         <i class="fa-solid fa-xmark"></i>
       </button>

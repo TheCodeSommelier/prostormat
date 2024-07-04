@@ -1,11 +1,10 @@
 .navbar-prostormat {
-  padding-right: 2rem;
-  padding-left: 2rem;
+  padding: 10px 4rem !important;
   justify-content: space-between;
-  background-color: rgba($color: $background-color, $alpha: 1);
   position: sticky;
   top: 0;
   width: 100%;
+  background-color: #FFF;
   border-bottom: 1px solid #b4b4b4;
 
   .navbar-space-mi .navbar-collapse {
@@ -25,5 +24,9 @@
     &:hover, &:focus {
       box-shadow: 0 0 5px rgba($color: $primary, $alpha: 0.5);
     }
+  }
+
+  .button-margin {
+    margin: auto 10px;
   }
 }
