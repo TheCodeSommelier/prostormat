@@ -10,6 +10,8 @@ class Place < ApplicationRecord
   has_many :filters, through: :place_filters
   has_many_attached :photos
 
+  after_validation :generate_slug, on: %i[create update]
+
   geocoded_by :full_address
   after_validation :geocode, if: :full_address_changed?
 
@@ -21,16 +23,19 @@ class Place < ApplicationRecord
             numericality: { only_integer: true, greater_than: 10, message: 'Kapacita musí být alespoň 10' }
   validates :postal_code, format: { with: /\A\d{3}\s\d{2}\z/, message: 'Musí být psáno ve formátu "123 22"' }
 
-  # Regexp allows for underscores, letters, numbers and spaces
-  validates :place_name,
-            format: { with: /[\p{L}\s\d_]+/u,
-                      message: 'Povolené znaky pro jméno prostoru jsou: 1. "_" 2. písmena 3. čísla 4. mezery' }
+  # Regexp allows for underscores, letters, numbers and spaces, also place_name needs to be unique
+  validates :place_name, format: { with: /[\p{L}\s\d_]+/u,
+                                                     message: 'Povolené znaky pro jméno prostoru jsou: 1. "_" 2. písmena 3. čísla 4. mezery' }
+
+  validates :place_name, uniqueness: { message: 'Tento prostor již máme v datábázi. Patří tento prostor Vám? Napište nám na <a href="mailto:poptavka@prostormat.cz">poptavka@prostormat.cz</a>'}
 
   # Regexp allows for letters and spaces
   validates :street, format: { with: /[\p{L}\s]+/u, message: 'Povolené znaky pro ulici jsou písmena a mezery' }
 
   validates :short_description, length: { in: 10..50, message: 'Musí být alespoň 10 až 50 znaků dlouhá' }
   validates :long_description, length: { minimum: 120, message: 'Musí být alespoň 120 znaků dlouhá' }
+
+  validates :slug, uniqueness: true
 
   validate :must_have_at_least_one_filter
   validate :custom_validation_presence
@@ -55,6 +60,10 @@ class Place < ApplicationRecord
 
   private
 
+  def generate_slug
+    self.slug = place_name.parameterize
+  end
+
   def full_address_changed?
     street_changed? || house_number_changed? || postal_code_changed? || city_changed?
   end
@@ -64,8 +73,8 @@ class Place < ApplicationRecord
   end
 
   def expire_place_show_cache
-    Rails.cache.delete("place_#{id}")
-    Rails.cache.delete("place_#{id}_address")
+    Rails.cache.delete("place_#{slug}")
+    Rails.cache.delete("place_#{slug}_address")
     Rails.cache.delete([self, 'google_api_map'])
 
     filter_ids               = filters.pluck(:id)

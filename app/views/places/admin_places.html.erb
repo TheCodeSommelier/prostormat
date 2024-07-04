@@ -2,7 +2,7 @@
   <div class="admin-places-grid" data-controller="modal">
     <% @places.each do |place| %>
       <div class="admin-places-card">
-        <%= link_to place.place_name, place_path(place), class: 'my-3' %>
+        <%= link_to place.place_name, place_path(place.slug), class: 'my-3' %>
         <p class="place-owner">
           <i class="fa-solid fa-user"></i>
           <%= place.user.email %>

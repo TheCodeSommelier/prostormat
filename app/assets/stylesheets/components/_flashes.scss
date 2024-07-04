@@ -1,17 +1,20 @@
 // I had to iverride bootstrap classes which is why the important is used here
 
 .flash-notice-container {
-  background-color: rgba($color: rgb(144, 214, 111), $alpha: 1) !important;
+  background-color: rgba($color: #FFF, $alpha: 1) !important;
+  border: 2px solid $primary !important;
 }
 
 .flash-alert-container {
-  background-color: rgba($color: $secondary, $alpha: 1) !important;
+  background-color: rgba($color: #FFF, $alpha: 1.0) !important;
+  border: 2px solid rgb(255, 120, 120) !important;
 }
 
 .flash-notice-container, .flash-alert-container {
   display: flex;
   flex-direction: column;
   position: fixed !important;
+  left: 20px;
   bottom: 10px;
   z-index: 1;
 }

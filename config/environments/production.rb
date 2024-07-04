@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/core_ext/integer/time'
 
 # TODO[TEST]: Sidekiq, email delivery and stripe in production
@@ -34,8 +36,7 @@ Rails.application.configure do
   config.assets.compile = false
   config.assets.digest = true
   config.assets.version = '1.0'
-  config.assets.precompile += %w( .svg .eot .woff .ttf )
-
+  config.assets.precompile += %w[.svg .eot .woff .ttf]
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
@@ -60,7 +61,7 @@ Rails.application.configure do
   config.force_ssl = true
 
   # Log to STDOUT by default
-  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.logger = ActiveSupport::Logger.new($stdout)
                                        .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
                                        .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
 

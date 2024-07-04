@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 url = Rails.env.production? ? ENV.fetch('STACKHERO_REDIS_URL_TLS') : ENV['REDISCLOUD_URL']
 
 if url

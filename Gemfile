@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '3.1.2'
@@ -71,6 +73,9 @@ group :test do
   gem 'selenium-webdriver'
 end
 
+# Makes serving files easier on heroku
+gem 'heroku-deflater', :group => :production
+
 # Allows for user authentication
 gem 'devise'
 
@@ -121,3 +126,6 @@ gem 'geocoder'
 
 # Allows for direct api calls
 gem 'httparty'
+
+# Allows for simple site map creation
+gem 'sitemap_generator'

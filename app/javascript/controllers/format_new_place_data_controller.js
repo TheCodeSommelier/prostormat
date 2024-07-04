@@ -8,6 +8,6 @@ export default class extends Controller {
 
   formatPostalCode() {
     const postalCode = this.postalCodeInputTarget.value
-    this.postalCodeInputTarget.value = postalCode.match(/.{1,3}/g).join(" ")
+    if (postalCode[3] !== " ") this.postalCodeInputTarget.value = postalCode.match(/.{1,3}/g).join(" ")
   }
 }

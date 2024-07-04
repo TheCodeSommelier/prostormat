@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if Rails.env.production?
   # Use live keys in production
   Stripe.api_key = ENV.fetch('STRIPE_LIVE_SECRET_KEY')
