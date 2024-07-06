@@ -18,8 +18,8 @@
       <%= f.number_field :max_capacity, min: 10, step: 10, placeholder: 'Kapacita', class: 'form-input input-enter-active' %>
       <%= render 'shared/custom_select', input_classes: 'input-enter-active' %>
       <label for="place_photos" class="file-upload-input input-enter-active" tabindex="0" role="button" data-action="keydown->format-new-place-data#openFileUpload">
-        Vyberte fotky
-        <%= f.file_field :photos, multiple: true, class: 'form-input input-enter-active', id: 'place_photos' %>
+        <p>Vyberte fotky</p>
+        <%= f.file_field :photos, multiple: true, class: 'form-input input-enter-active', id: 'place_photos', data: { action: 'change->format-new-place-data#updatePhotoLabel'} %>
       </label>
     </div>
 

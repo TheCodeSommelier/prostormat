@@ -2,7 +2,7 @@
 data-controller="filter-select"
 data-action="click->filter-select#rollOutSelect keydown->filter-select#openSelect focusout->filter-select#closeSelect focusin->filter-select#keepOpen"
 tabindex="0" role="button" aria-haspopup="listbox" aria-expanded="false">
-  Filtry <%= raw File.read(Rails.root.join('app', 'assets', 'images', 'plus.svg')) %>
+  <p class="custom-label">Filtry</p> <%= raw File.read(Rails.root.join('app', 'assets', 'images', 'plus.svg')) %>
   <div class="select-items" data-filter-select-target="selectItems" role="listbox" style="display: none;">
     <% Filter.all.each do |filter| %>
       <div class="item" data-action="click->filter-select#selectOption keyup->filter-select#selectOptionKeyboard" data-filter-id="<%= filter.id %>" role="option" tabindex="0">

@@ -21,7 +21,6 @@ export default class extends Controller {
   }
 
   preSelectFilters() {
-    console.log("I ran");
     const filters = window.placeFilters;
     if (!filters || filters.length === 0) return;
 
@@ -35,7 +34,6 @@ export default class extends Controller {
     });
 
     filtersToPick.forEach(filter => {
-      console.log(`Filter ${filter.innerText} clicked`);
       const event = new Event('click', { bubbles: true, cancelable: true });
       filter.dispatchEvent(event);
     });

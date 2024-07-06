@@ -20,10 +20,10 @@ export default class extends Controller {
   selectOption(event) {
     event.stopPropagation();
     const filter = event.target;
-    console.log(filter);
 
     filter.classList.contains("highlight") ? filter.classList.remove("highlight") : filter.classList.add("highlight");
     this.#toggleHiddenInput(filter);
+    this.#updateFiltersLabel();
   }
 
   handleClickOutside(event) {
@@ -62,5 +62,12 @@ export default class extends Controller {
       const hiddenInput = FormUtils.buildInput("hidden", "place[filter_ids][]", filter.dataset.filterId, null, false);
       filter.insertAdjacentElement("afterend", hiddenInput);
     }
+  }
+
+  #updateFiltersLabel() {
+    const customSelect = document.querySelector(".custom-select");
+    const selectedOptionsNumber = Array.from(customSelect.querySelectorAll(".highlight")).length;
+    const label = customSelect.querySelector(".custom-label");
+    label.innerText = `Filtry ${selectedOptionsNumber}`;
   }
 }

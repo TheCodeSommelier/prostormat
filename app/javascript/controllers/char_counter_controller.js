@@ -43,7 +43,7 @@ export default class extends Controller {
       textarea.value = textarea.value.substring(0, maxChars);
       counter.textContent = `${maxChars}/${maxChars}`;
     } else {
-      textarea.style.borderBottom = "3px solid $primary";
+      textarea.style.borderBottom = "3px solid #26A387";
       counter.style.color = "#888";
     }
   }

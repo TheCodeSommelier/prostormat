@@ -63,6 +63,14 @@ input, textarea, select,
   padding: 0 17rem;
 }
 
+label {
+  & p {
+    color: #757575;
+    margin: 0;
+    display: inline-block;
+  }
+}
+
 #checkout-container, #new-place-form {
   padding: 9rem;
 }

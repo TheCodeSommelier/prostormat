@@ -18,4 +18,11 @@ export default class extends Controller {
       uploadInput.click()
     }
   }
+
+  updatePhotoLabel() {
+    const label = document.querySelector('label[for="place_photos"]');
+    const labelText = label.querySelector('p');
+    const filesNumber = label.querySelector("input#place_photos").files.length;
+    labelText.innerText = `Fotky ${filesNumber}`;
+  }
 }

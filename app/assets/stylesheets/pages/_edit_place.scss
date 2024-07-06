@@ -6,8 +6,11 @@
 
   .disabled-label {
     border-bottom: 3px solid rgba($color: #26A387, $alpha: 0.5);
-    color: rgba($color: #757575, $alpha: 0.5);
     cursor: not-allowed;
+
+    p {
+      color: rgba($color: #757575, $alpha: 0.5);
+    }
   }
 
   .change-pics-container {

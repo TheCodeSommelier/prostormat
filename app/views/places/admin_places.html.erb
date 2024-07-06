@@ -12,4 +12,7 @@
     <% end %>
     <%= render 'shared/transfer_place_modal' %>
   </div>
+  <div class="d-flex justify-content-center w-100">
+    <%= paginate @places, params: request.query_parameters %>
+  </div>
 </div>

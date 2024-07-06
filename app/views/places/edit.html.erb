@@ -1,7 +1,7 @@
 <div id="new-place-form" data-controller="loader">
   <h1>Vytvořte vaše porstory</h1>
 
-  <%= form_for @place, url: place_path(@place.slug), html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form edit-page', action: 'submit->loader#startLoading' } do |f| %>
+  <%= form_for @place, url: place_path(@place.slug), html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'format-new-place-data edit-page', action: 'submit->loader#startLoading' } do |f| %>
 
     <div class="input-container">
       <%= f.text_field :place_name, placeholder: 'Jméno prostoru', class: 'form-input input-enter-active' %>
@@ -18,8 +18,8 @@
       <%= f.number_field :max_capacity, min: 10, step: 10, placeholder: 'Kapacita', class: 'form-input input-enter-active' %>
       <%= render 'shared/custom_select', input_classes: 'input-enter-active' %>
       <label for="place_photos" class="file-upload-input input-enter-active disabled-label" tabindex="0" role="button" data-action="keydown->format-new-place-data#openFileUpload">
-        Vyberte fotky
-        <%= f.file_field :photos, multiple: true, class: 'form-input input-enter-active', id: 'place_photos', disabled: true %>
+        <p>Vyberte fotky</p>
+        <%= f.file_field :photos, multiple: true, class: 'form-input input-enter-active', id: 'place_photos', disabled: true, data: { action: 'change->format-new-place-data#updatePhotoLabel'} %>
       </label>
     </div>
 
