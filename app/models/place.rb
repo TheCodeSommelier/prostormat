@@ -36,13 +36,11 @@ class Place < ApplicationRecord
   validates :long_description, length: { minimum: 120, message: 'Musí být alespoň 120 znaků dlouhá' }
 
   validates :slug, uniqueness: true
-
-  validate :must_have_at_least_one_filter
   validate :custom_validation_presence
 
   # This is a case insesitive query, for the search on the index page
   scope :search_by_query, lambda { |query|
-    where('LOWER(city) LIKE LOWER(?) OR LOWER(street) LIKE LOWER(?)', "%#{query}%", "%#{query}%")
+    where('LOWER(city) LIKE LOWER(?) OR LOWER(street) LIKE LOWER(?) OR LOWER(place_name) LIKE LOWER(?)', "%#{query}%", "%#{query}%", "%#{query}%")
   }
 
   # Selects only the places where the hidden is set to false e.g. the places of which owners have an active subscription
@@ -56,6 +54,12 @@ class Place < ApplicationRecord
     joins(:filters).where(filters: { id: filter_ids }).where.not(id: place.id)
                    .where('city LIKE ?', "#{base_city_name}%").order(primary: :desc).distinct
                    .limit(2)
+  end
+
+  def filter_ids=(ids)
+    p "🔥 filter ids #{ids}"
+    ids = ids.reject(&:blank?).map(&:to_i)
+    self.filters = Filter.where(id: ids)
   end
 
   private
@@ -102,9 +106,5 @@ class Place < ApplicationRecord
     fields.each do |field, field_name|
       errors.add(field_name, 'pole nemůže být prázdné.') if send(field).blank?
     end
-  end
-
-  def must_have_at_least_one_filter
-    errors.add(:filters, 'Vyberte alespoň jeden filtr') if filters.empty?
   end
 end

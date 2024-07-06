@@ -4,6 +4,17 @@
     font-size: 18px;
   }
 
+  .disabled-label {
+    border-bottom: 3px solid rgba($color: #26A387, $alpha: 0.5);
+    color: rgba($color: #757575, $alpha: 0.5);
+    cursor: not-allowed;
+  }
+
+  .change-pics-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
   #change_pics {
     margin: 0;
   }

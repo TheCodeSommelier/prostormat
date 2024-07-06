@@ -6,48 +6,17 @@
     Stačí jen vyplnit údaje níže, potvrdit že nejste robot a o zbytek se postaráme my.
   </p>
   <%= form_with model: @bulk_order_form, url: create_bulk_order_path, local: true do |f| %>
-    <div class="row my-3">
-      <div class="col-md-4 mb-3">
-        <%= f.label 'Vaše jméno', class: 'label-enter-active' %>
-        <%= f.text_field :name, placeholder: 'Johan Hansburg', class: 'form-control input-enter-active' %>
-      </div>
-
-      <div class="col-md-4 mb-3">
-        <%= f.label 'Váš email', class: 'label-enter-active' %>
-        <%= f.text_field :email, placeholder: 'john@doe.com', class: 'form-control input-enter-active' %>
-      </div>
-
-      <div class="col-md-4 mb-3">
-        <%= f.label 'Váše telefonní číslo', class: 'label-enter-active' %>
-        <%= f.text_field :phone_number, placeholder: '+420 111 222 333', class: 'form-control input-enter-active' %>
-      </div>
+    <div class="bulk-order-inputs-group">
+      <%= f.text_field :name, placeholder: 'Jméno', class: 'input-enter-active' %>
+      <%= f.text_field :email, placeholder: 'Email', class: 'input-enter-active' %>
+      <%= f.text_field :phone_number, placeholder: 'Mobil', class: 'input-enter-active' %>
     </div>
 
-    <div class="row my-3">
-      <div class="col-md-6 mb-3">
-        <%= f.label 'Ve kterém městě vám hledáme prostor?', class: 'label-enter-active' %>
-        <%= f.text_field :city, placeholder: 'Praha', class: 'form-control input-enter-active' %>
-      </div>
-
-      <div class="col-md-6 mb-3">
-        <%= f.label 'Jakou minimální kapacitu by měl prostor mít?', class: 'label-enter-active' %>
-        <%= f.number_field :min_capacity, placeholder: 'Např. 30', class: 'form-control input-enter-active' %>
-      </div>
+    <div class="bulk-order-inputs-group">
+      <%= f.text_field :city, placeholder: 'Město', class: 'input-enter-active' %>
+      <%= f.number_field :min_capacity, placeholder: 'Kapacita např. 100', class: 'input-enter-active' %>
+      <%= render 'shared/custom_select', input_classes: 'input-enter-active' %>
     </div>
-
-    <div class="input-container d-flex flex-column my-3">
-      <%= label_tag nil, 'Vyberte filtry, podle nich hledáme prostory pro vás', class: 'form-label label-enter-active' %>
-      <div class="form-filters input-container">
-        <!-- If filters give you shadow bugs delete the ampersand before the each -->
-        <% @filters&.each do |filter| %>
-          <div class="filter d-flex align-items-center">
-            <%= f.check_box :filter_ids, { multiple: true, id: "filter_#{filter.id}", class: 'form-input form-check-input filter-checkbox m-0 me-2 input-enter-active' }, filter.id, nil %>
-            <%= label_tag "filter_#{filter.id}", filter.name, class: 'form-label form-check-label m-0 label-enter-active' %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-
     <%= recaptcha_tags %>
 
     <%= f.submit 'Odeslat poptávku', class: 'button-primary my-4 w-100' %>

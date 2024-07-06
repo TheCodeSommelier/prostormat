@@ -3,13 +3,11 @@ import { Controller } from "@hotwired/stimulus";
 // Connects to data-controller="modal"
 export default class extends Controller {
   static targets = ["modal", "form"];
-  connect() {
-    console.log("hi");
-  }
+  connect() {}
 
   showModal(event) {
     this.modalTarget.classList.remove("d-none");
-    this.placeId = event.target.dataset.placeId;
+    this.placeSlug = event.target.dataset.placeSlug;
     this.#getDataForModal();
   }
 
@@ -21,11 +19,11 @@ export default class extends Controller {
   #getDataForModal() {
     if (this.formTarget.dataset.context === "transferPlace") {
       this.#getTransferUrl();
-      document.querySelector("#place").value = this.placeId;
+      document.querySelector("#place").value = this.placeSlug;
     }
   }
 
   #getTransferUrl() {
-    this.formTarget.action = `/places/${this.placeId}/transfer`;
+    this.formTarget.action = `/places/${this.placeSlug}/transfer`;
   }
 }

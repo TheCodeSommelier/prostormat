@@ -10,4 +10,12 @@ export default class extends Controller {
     const postalCode = this.postalCodeInputTarget.value
     if (postalCode[3] !== " ") this.postalCodeInputTarget.value = postalCode.match(/.{1,3}/g).join(" ")
   }
+
+  openFileUpload(event) {
+    const uploadInput = document.querySelector("#place_photos");
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      uploadInput.click()
+    }
+  }
 }

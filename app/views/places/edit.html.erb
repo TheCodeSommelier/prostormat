@@ -1,90 +1,55 @@
 <div id="new-place-form" data-controller="loader">
   <h1>Vytvořte vaše porstory</h1>
 
-  <%= form_for @place, html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form edit-page', action: 'submit->loader#startLoading' } do |f| %>
+  <%= form_for @place, url: place_path(@place.slug), html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'multi-step-form edit-page', action: 'submit->loader#startLoading' } do |f| %>
 
     <div class="input-container">
-      <%= f.label :place_name, 'Jak se jmenuje místo kde máte porstory?', class: 'form-label label-enter-active' %>
-      <%= f.text_field :place_name, placeholder: 'The Ritz...', class: 'form-input form-control input-enter-active' %>
+      <%= f.text_field :place_name, placeholder: 'Jméno prostoru', class: 'form-input input-enter-active' %>
     </div>
 
-    <div class="d-flex input-container">
-      <div class="input-container col-6">
-        <%= f.label :street, 'Ulice', class: 'form-label label-enter-active' %>
-        <%= f.text_field :street, placeholder: 'Pařížská', class: 'form-input form-control input-enter-active' %>
-      </div>
-
-
-      <div class="input-container col-6">
-        <%= f.label :house_number, 'Číslo popisné', class: 'form-label label-enter-active' %>
-        <%= f.text_field :house_number, placeholder: '345/23', class: 'form-input form-control input-enter-active' %>
-      </div>
+    <div class="input-container">
+      <%= f.text_field :street, placeholder: 'Ulice', class: 'form-input input-enter-active' %>
+      <%= f.text_field :house_number, placeholder: 'Číslo popisné', class: 'form-input input-enter-active' %>
+      <%= f.text_field :postal_code, placeholder: 'Poštovní směrovací číslo', class: 'form-input input-enter-active', data: { format_new_place_data_target: 'postalCodeInput', action: 'blur->format-new-place-data#formatPostalCode' } %>
+      <%= f.text_field :city, placeholder: 'Město', class: 'form-input input-enter-active' %>
     </div>
 
-    <div class="d-flex input-container">
-      <div class="input-container col-6">
-        <%= f.label :postal_code, 'ZIP', class: 'form-label label-enter-active' %>
-        <%= f.text_field :postal_code, placeholder: '130 00', class: 'form-input form-control input-enter-active' %>
-      </div>
-
-      <div class="input-container col-6">
-        <%= f.label :city, 'Město', class: 'form-label label-enter-active' %>
-        <%= f.text_field :city, placeholder: 'Praha', class: 'form-input form-control input-enter-active' %>
-      </div>
+    <div class="input-container">
+      <%= f.number_field :max_capacity, min: 10, step: 10, placeholder: 'Kapacita', class: 'form-input input-enter-active' %>
+      <%= render 'shared/custom_select', input_classes: 'input-enter-active' %>
+      <label for="place_photos" class="file-upload-input input-enter-active disabled-label" tabindex="0" role="button" data-action="keydown->format-new-place-data#openFileUpload">
+        Vyberte fotky
+        <%= f.file_field :photos, multiple: true, class: 'form-input input-enter-active', id: 'place_photos', disabled: true %>
+      </label>
     </div>
 
-    <div class="d-flex input-container">
-      <div class="input-container w-100">
-        <%= f.label :max_capacity, 'Maximální kapacita', class: 'form-label label-enter-active' %>
-        <%= f.number_field :max_capacity, min: 10, step: 10, placeholder: 1300, class: 'form-input form-control input-enter-active' %>
-      </div>
+    <div class="change-pics-container">
+      <%= check_box_tag 'change_pics', '1', false, class: "form-input form-check-input filter-checkbox", data: { action: "change->edit-page#enablePhotoInput" } %>
+      <%= label_tag 'change_pics', 'Chci změnit fotky', class: "pics-checkbox-label" %>
     </div>
 
-    <div class="input-container d-flex flex-column mt-2">
-      <%= label_tag nil, 'Vyberte filtry, podle nich vás zákazníci najdou', class: 'form-label' %>
-      <div class="form-filters input-container">
-        <% @filters.each do |filter| %>
-          <div class="filter d-flex align-items-center">
-            <%= f.check_box :filter_ids, { multiple: true, id: "filter_#{filter.id}", class: 'form-input form-check-input filter-checkbox m-0 me-2' }, filter.id, nil %>
-            <%= label_tag "filter_#{filter.id}", filter.name, class: 'form-label form-check-label m-0' %>
-          </div>
-        <% end %>
-      </div>
-    </div>
-
-
-
-    <div class="input-container photos-input-container" >
-      <div class="d-flex align-items-center justify-content-between form-label">
-        <%= f.label :photos, 'Přidejte fotky', class: 'form-label label-enter-active', style: "color: lightgrey;" %>
-        <div class="d-flex align-items-center">
-          <%= check_box_tag 'change_pics', '1', false, class: "form-input form-check-input filter-checkbox", data: { action: "change->edit-page#enablePhotoInput" } %>
-          <%= label_tag 'change_pics', 'Chci změnit fotky', class: "pics-checkbox-label" %>
-        </div>
-      </div>
-      <%= f.file_field :photos, as: :files, multiple: true, required: true, class: 'form-input form-control input-enter-active', disabled: true, data: { edit_page_target: "photosInput" } %>
-    </div>
-
-    <div class="input-container" data-controller="char-counter" data-char-counter-max-value="50">
-      <%= f.label :short_description, 'Popište nám váš prostor, stačí krátce.', class: 'form-label label-enter-active' %>
-      <%= f.text_area :short_description, placeholder: 'Je moderní, minimalistický... A teď vy...', class: 'form-input form-control input-enter-active', data: { action: 'input->char-counter#count', char_counter_target: 'textarea' } %>
+    <div class="input-container flex-column" data-controller="char-counter" data-char-counter-max-value="50">
+      <%= f.text_area :short_description, placeholder: 'Je moderní, minimalistický... A teď vy...', class: 'form-input input-enter-active', data: { action: 'input->char-counter#count', char_counter_target: 'textarea' } %>
       <div data-char-counter-target="counter" class="char-counter">0/50</div>
     </div>
 
-    <div class="input-container" data-controller="char-counter" data-char-counter-max-value="120">
-      <%= f.label :long_description, 'Popište nám váš prostor, jdeme do detailů.', class: 'form-label label-enter-active' %>
-      <%= f.text_area :long_description, placeholder: 'Pokud máte více prostorů v rámci vašeho komplexu povězte nám o nich...', height: 400, class: 'form-input form-control input-enter-active long-description-text-area-height', data: { action: 'input->char-counter#count', char_counter_target: 'textarea' } %>
+    <div class="input-container flex-column" data-controller="char-counter" data-char-counter-max-value="120">
+      <%= f.text_area :long_description, placeholder: 'Pokud máte více prostorů v rámci vašeho komplexu povězte nám o nich...', height: 400, class: 'form-input input-enter-active long-description-text-area-height', data: { action: 'input->char-counter#count', char_counter_target: 'textarea' } %>
       <div data-char-counter-target="counter" class="char-counter">Musí být přes 120 znaků máte 0</div>
     </div>
 
     <%= f.submit "Upravte", class: 'hidden-submit button-primary my-3 w-100' %>
   <% end %>
 
-  <div class="loader-container" data-loader-target="loaderContainer">
+  <div class="loader-container d-none" data-loader-target="loaderContainer">
     <h2 class="loader-message" data-loader-target="loaderMessage"></h2>
     <div>
       <div class="loader" data-loader-target="loader"></div>
       <div class="loader-percentage" data-loader-target="percentage"></div>
     </div>
   </div>
+
+  <script>
+    window.placeFilters = <%= raw @place_filters.to_json %>;
+  </script>
 </div>

@@ -81,12 +81,26 @@
     }
   }
 
+  // Buttons section
+  #buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $darker-grey;
+    width: 100%;
+
+    & .button-edit, & .button-toggle {
+      text-align: center;
+      margin: 25px 10px 0;
+    }
+  }
+
   // Content section
   #content {
     display: flex;
     gap: 24px;
     background-color: $darker-grey;
-    padding-top: 50px;
+    padding-top: 25px;
   }
 
   .form-map-column, .desc-gallery-column {
@@ -98,10 +112,6 @@
 
   // Order creation form
   .order-form-container {
-    .button-primary {
-      width: 95%;
-    }
-
     form {
       margin-top: 15px;
     }
@@ -112,6 +122,11 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+
+    & .button-primary {
+      width: calc(100% - 20px);
+      margin: 20px 10px;
+    }
   }
 
   .bokee-info,
@@ -132,11 +147,6 @@
   .event-details-textarea {
     width: calc(100% - 20px);
     margin: 10px;
-  }
-
-  .button-primary {
-    width: calc(100% - 20px);
-    margin: 20px 10px;
   }
 
   // Map

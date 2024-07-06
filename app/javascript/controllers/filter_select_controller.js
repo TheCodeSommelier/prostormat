@@ -20,6 +20,7 @@ export default class extends Controller {
   selectOption(event) {
     event.stopPropagation();
     const filter = event.target;
+    console.log(filter);
 
     filter.classList.contains("highlight") ? filter.classList.remove("highlight") : filter.classList.add("highlight");
     this.#toggleHiddenInput(filter);
@@ -31,12 +32,34 @@ export default class extends Controller {
     }
   }
 
+  openSelect(event) {
+    const isSelectVisible = this.selectItemsTarget.style.display === "none";
+    if (isSelectVisible && (event.key === "Enter" || event.key === " ")) this.rollOutSelect()
+  }
+
+  keepOpen() {
+    clearTimeout(this.closeTimeout);
+  }
+
+  closeSelect(event) {
+    this.closeTimeout = setTimeout(() => {
+      if (!this.element.contains(event.relatedTarget)) {
+        this.element.setAttribute('aria-expanded', 'false');
+        this.selectItemsTarget.style.display = 'none';
+      }
+    }, 100);
+  }
+
+  selectOptionKeyboard(event) {
+    if (event.key === 'Enter') this.selectOption(event);
+  }
+
   #toggleHiddenInput(filter) {
     const isHiddenInput = filter.nextSibling.tagName === "INPUT" && filter.nextSibling.type === "hidden";
     if (isHiddenInput) {
       filter.nextSibling.remove()
     } else {
-      const hiddenInput = FormUtils.buildInput("hidden", "filters[]", filter.dataset.filterId, null, false);
+      const hiddenInput = FormUtils.buildInput("hidden", "place[filter_ids][]", filter.dataset.filterId, null, false);
       filter.insertAdjacentElement("afterend", hiddenInput);
     }
   }
