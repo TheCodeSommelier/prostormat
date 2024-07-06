@@ -1,0 +1,41 @@
+.custom-select {
+  color: #757575;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+
+  & path {
+    fill: #757575;
+  }
+
+  .select-items {
+    flex-direction: column;
+    position: absolute;
+    top: 47px;
+    left: 0;
+    background-color: #FFF;
+    padding: 5px;
+    border-radius: 0 0 21px 21px;
+    width: 100%;
+    border-left: 3px solid $primary;
+    border-right: 3px solid $primary;
+    border-bottom: 3px solid $primary;
+
+    .highlight {
+      background-color: $primary;
+      color: #FFF;
+      transition: 0.3s ease-in-out;
+    }
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 17px;
+    transition: 0.3s ease-in-out;
+  }
+}

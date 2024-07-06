@@ -33,15 +33,7 @@
 
             <div class="v-divider"></div>
 
-            <div class="custom-select" data-controller="filter-select" data-action="click->filter-select#rollOutSelect">Filtry <%= raw File.read(Rails.root.join('app', 'assets', 'images', 'plus.svg')) %>
-              <div class="select-items" data-filter-select-target="selectItems" style="display: none;">
-                <% Filter.all.each do |filter| %>
-                  <div class="item" data-action="click->filter-select#selectOption" data-filter-id="<%= filter.id %>">
-                    <%= filter.name.capitalize %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
+            <%= render 'shared/custom_select', input_classes: '' %>
 
             <div class="v-divider"></div>
 

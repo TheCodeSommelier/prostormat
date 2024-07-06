@@ -39,7 +39,9 @@ a {
   cursor: pointer;
 }
 
-input, textarea, select, .form-input, .custom-select {
+input, textarea, select,
+.form-input, .custom-select,
+.file-upload-input {
   -webkit-appearance: none;
   appearance: none;
   padding: 10px 15px;
@@ -48,45 +50,12 @@ input, textarea, select, .form-input, .custom-select {
   background-color: rgba(0, 0, 0, 0);
 }
 
-.custom-select {
+.file-upload-input {
   color: #757575;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
 
-  & path {
-    fill: #757575;
-  }
-
-  .select-items {
-    flex-direction: column;
-    position: absolute;
-    top: 47px;
-    left: 0;
-    background-color: #FFF;
-    padding: 5px;
-    border-radius: 0 0 21px 21px;
-    width: 100%;
-    border-left: 3px solid $primary;
-    border-right: 3px solid $primary;
-    border-bottom: 3px solid $primary;
-    z-index: 2;
-
-    .highlight {
-      background-color: $primary;
-      color: #FFF;
-      transition: 0.3s ease-in-out;
-    }
-  }
-
-  .item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    font-size: 17px;
-    transition: 0.3s ease-in-out;
+  input[type="file"] {
+    display: none;
   }
 }
 
