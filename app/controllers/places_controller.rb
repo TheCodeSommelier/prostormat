@@ -37,7 +37,7 @@ class PlacesController < ApplicationController
 
     @places = @places.order(primary: :desc)
 
-    @places = @places.page(params[:page]).per(6)
+    @places = @places.page(params[:page]).per(8)
 
     respond_to do |format|
       format.html # For regular HTML requests
@@ -138,7 +138,7 @@ class PlacesController < ApplicationController
   def admin_places
     authorize :place
     @places = policy_scope(Place.all)
-    @places = @places.order(:place_name)
+    @places = @places.order(:place_name).page(params[:page]).per(8)
   end
 
   # Allows admin to toggle the primary status

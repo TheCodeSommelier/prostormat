@@ -35,7 +35,7 @@ class PagesController < ApplicationController
   def create_bulk_order
     @bulk_order_form = BulkOrderForm.new(bulk_order_params)
 
-    unless @bulk_order_form.valid?
+    unless @bulk_order_form.valid? && filters?
       flash[:alert] = 'Vyplaňte prosím všechny pole a vyberte alespoň jeden filtr'
       redirect_to new_bulk_order_path and return
     end
@@ -45,7 +45,7 @@ class PagesController < ApplicationController
 
     # TODO: Potentially could be in the model
     places_ids = Place.joins(:filters)
-                      .where(filters: { id: bulk_order_params[:filter_ids] })
+                      .where(filters: { id: filters_params[:filter_ids].map!(&:to_i) })
                       .where('city LIKE ? OR city = ?', "#{bulk_order_params[:city]}%", bulk_order_params[:city])
                       .where('places.max_capacity >= ?', bulk_order_params[:min_capacity])
                       .distinct
@@ -63,8 +63,16 @@ class PagesController < ApplicationController
 
   private
 
+  def filters?
+    filters_params[:filter_ids].length.positive?
+  end
+
   def bulk_order_params
-    params.require(:bulk_order_form).permit(:name, :email, :phone_number, :min_capacity, :city, filter_ids: [])
+    params.require(:bulk_order_form).permit(:name, :email, :phone_number, :min_capacity, :city)
+  end
+
+  def filters_params
+    params.require(:place).permit(filter_ids: [])
   end
 
   def contact_params
