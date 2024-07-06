@@ -59,7 +59,7 @@ export default class extends Controller {
     if (isHiddenInput) {
       filter.nextSibling.remove()
     } else {
-      const hiddenInput = FormUtils.buildInput("hidden", "filters[]", filter.dataset.filterId, null, false);
+      const hiddenInput = FormUtils.buildInput("hidden", "place[filter_ids][]", filter.dataset.filterId, null, false);
       filter.insertAdjacentElement("afterend", hiddenInput);
     }
   }

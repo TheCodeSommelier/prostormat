@@ -9,38 +9,7 @@
         <br>
         U nás najdete!
       </p>
-      <div class="filters-container">
-        <%= form_with url: places_path, method: :get do |f| %>
-          <%= text_field_tag :query,
-          params[:query],
-          placeholder: "Adresa nebo město...",
-          class: "search-bar me-2" %>
-
-          <div class="h-divider"></div>
-
-          <div class="capacity-filter-container">
-            <div class="capacity-icon capacity-icon"><%= raw File.read(Rails.root.join('app', 'assets', 'images', "capacity.svg")) %></div>
-            <%= number_field_tag :min_capacity,
-                params[:min_capacity],
-                placeholder: "#{Place.minimum(:max_capacity)}",
-                class: "capacity-input" %>
-
-            <div class="arrow-icon capacity-icon"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'arrow_right.svg')) %></div>
-            <%= number_field_tag :max_capacity,
-            params[:max_capacity],
-            placeholder: "#{Place.maximum(:max_capacity)}",
-            class: "capacity-input" %>
-
-            <div class="v-divider"></div>
-
-            <%= render 'shared/custom_select', input_classes: '' %>
-
-            <div class="v-divider"></div>
-
-            <%= f.submit 'Vyhledat', class: "button-primary" %>
-          </div>
-        <% end %>
-      </div>
+      <%= render 'shared/search_and_filter_capacity' %>
     </div>
   </section>
 

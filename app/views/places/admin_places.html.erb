@@ -7,7 +7,7 @@
           <i class="fa-solid fa-user"></i>
           <%= place.user.email %>
         </p>
-        <%= button_tag 'Transfer place', type: 'button', data: { action: 'click->modal#showModal', place_id: place.id }, class: "button-primary ms-2" %>
+        <%= button_tag 'Transfer place', type: 'button', data: { action: 'click->modal#showModal', place_slug: place.slug }, class: "button-primary ms-2" %>
       </div>
     <% end %>
     <%= render 'shared/transfer_place_modal' %>

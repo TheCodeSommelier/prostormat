@@ -13,6 +13,16 @@
       </div>
     </div>
   </section>
+  <section id="buttons" class="content-container ">
+    <% if current_user&.admin? && !@place.primary %>
+      <%= button_to 'Primary', toggle_primary_place_path(@place.slug), method: :patch, data: { turbo: false }, class: 'button-secondary button-toggle', form: {class: "inline"} %>
+    <% elsif current_user&.admin? && @place.primary %>
+      <%= button_to 'Unprimary', toggle_primary_place_path(@place.slug), method: :patch, data: { turbo: false }, class: 'button-secondary button-toggle', form: {class: "inline"} %>
+    <% end %>
+    <% if @place.user == current_user || current_user&.admin? %>
+      <%= link_to 'Upravit prostor', edit_place_path(@place.slug), class: "button-primary button-edit" %>
+    <% end %>
+  </section>
   <section id="content" class="content-container">
     <div class="form-map-column">
       <div class="order-form-container show-section-container">

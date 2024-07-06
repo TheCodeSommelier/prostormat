@@ -14,8 +14,8 @@ class PlacesController < ApplicationController
 
     policy_scope(@places)
     # Apply filters
-    if params[:filters].present?
-      filter_ids = params[:filters].reject(&:empty?).map(&:to_i)
+    if params[:place].present? && params[:place][:filter_ids].present?
+      filter_ids = params[:place][:filter_ids].reject(&:empty?).map(&:to_i)
       if filter_ids.any?
         @places = @places.joins(:place_filters).where(place_filters: { filter_id: filter_ids }).distinct
       end
@@ -82,25 +82,13 @@ class PlacesController < ApplicationController
   end
 
   def create
-    filter_ids             = place_params[:filter_ids].map(&:to_i) unless place_params[:filter_ids].nil?
-    @place                 = Place.new(place_params.except(:photos))
-    filtered_photos_params = place_params[:photos].reject(&:blank?)
+    @place = Place.new(place_params)
     authorize @place
-
     @place.user = current_user
     @place.hidden = false if current_user.admin?
 
-    if check_photo_sizes? && @place.save
-      if filter_ids.present?
-        place_filters_attributes = filter_ids.map do |filter_id|
-          { place_id: @place.id, filter_id: } unless PlaceFilter.exists?(place: @place, filter_id:)
-        end.compact
-        PlaceFilter.insert_all(place_filters_attributes)
-      end
-
-      base64_encoded_photos = prepare_files_for_job(filtered_photos_params)
-      ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
-
+    if check_photo_sizes? && filters? && @place.save
+      process_photos
       respond_to do |format|
         format.js
         format.html { redirect_to(current_user.admin? ? root_path : stripe_checkout_path) }
@@ -116,24 +104,23 @@ class PlacesController < ApplicationController
   def edit
     authorize @place
     @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
+    @place_filters = @place.filters.map(&:name)
   end
 
   # Updates an existing place record with the submitted form data.
   def update
-    @place = Place.find(params[:id].to_i)
+    @place = Place.find_by(slug: params[:slug])
     authorize @place
 
     expire_place_show_photos_cache(@place) if @place.photos.attached?
 
-    if @place.update(place_params.except(:photos))
-      flash_message = params[:change_pics] ? 'Vše je v pořádku a aktualizováno. Dejte nám chvíli na nahrání vyšich fotek a znovu načtěte stránku.' : 'Vše je v pořádku a aktualizováno.'
-      if params[:change_pics]
+    if @place.update(place_params.except(:photos, :filters)) && params[:change_pics].to_i.zero? || @place.update(place_params.except(:photos, :filters)) && params[:change_pics].to_i == 1 && check_photo_sizes?
+      flash_message = params[:change_pics] == 1 ? 'Vše je v pořádku a aktualizováno. Dejte nám chvíli na nahrání vyšich fotek a znovu načtěte stránku.' : 'Vše je v pořádku a aktualizováno.'
+      if params[:change_pics].to_i == 1
         @place.photos.purge
-        if check_photo_sizes?
-          filtered_photos_params = place_params[:photos].reject(&:blank?)
-          base64_encoded_photos = prepare_files_for_job(filtered_photos_params)
-          ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
-        end
+        filtered_photos_params = place_params[:photos].reject(&:blank?)
+        base64_encoded_photos = prepare_files_for_job(filtered_photos_params)
+        ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
       end
       redirect_to place_path(@place.slug), notice: flash_message
     else
@@ -181,6 +168,14 @@ class PlacesController < ApplicationController
   end
 
   private
+
+  def process_photos
+    filtered_photos_params = params[:place][:photos].reject(&:blank?) if params[:place][:photos]
+    if filtered_photos_params.present?
+      base64_encoded_photos = prepare_files_for_job(filtered_photos_params)
+      ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
+    end
+  end
 
   def transfer_params
     params.permit(:user_email)
@@ -248,6 +243,11 @@ class PlacesController < ApplicationController
 
   def set_place
     @place = Place.find_by(slug: params[:slug])
+  end
+
+  def filters?
+    flash.now[:alert] = 'Vyberte prosím alespoň jeden filtr' unless place_params[:filter_ids].length.positive?
+    place_params[:filter_ids].length.positive?
   end
 
   def place_params

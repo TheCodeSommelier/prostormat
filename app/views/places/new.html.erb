@@ -19,7 +19,7 @@
       <%= render 'shared/custom_select', input_classes: 'input-enter-active' %>
       <label for="place_photos" class="file-upload-input input-enter-active" tabindex="0" role="button" data-action="keydown->format-new-place-data#openFileUpload">
         Vyberte fotky
-        <input as="files" multiple="multiple" class="form-input input-enter-active" type="file" name="place[photos][]" id="place_photos">
+        <%= f.file_field :photos, multiple: true, class: 'form-input input-enter-active', id: 'place_photos' %>
       </label>
     </div>
 
