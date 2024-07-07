@@ -57,7 +57,6 @@ class Place < ApplicationRecord
   end
 
   def filter_ids=(ids)
-    p "🔥 filter ids #{ids}"
     ids = ids.reject(&:blank?).map(&:to_i)
     self.filters = Filter.where(id: ids)
   end

@@ -82,7 +82,7 @@ class PlacesController < ApplicationController
   end
 
   def create
-    @place = Place.new(place_params)
+    @place = Place.new(place_params.except(:photos))
     authorize @place
     @place.user = current_user
     @place.hidden = false if current_user.admin?
@@ -114,14 +114,9 @@ class PlacesController < ApplicationController
 
     expire_place_show_photos_cache(@place) if @place.photos.attached?
 
-    if @place.update(place_params.except(:photos, :filters)) && params[:change_pics].to_i.zero? || @place.update(place_params.except(:photos, :filters)) && params[:change_pics].to_i == 1 && check_photo_sizes?
-      flash_message = params[:change_pics] == 1 ? 'Vše je v pořádku a aktualizováno. Dejte nám chvíli na nahrání vyšich fotek a znovu načtěte stránku.' : 'Vše je v pořádku a aktualizováno.'
-      if params[:change_pics].to_i == 1
-        @place.photos.purge
-        filtered_photos_params = place_params[:photos].reject(&:blank?)
-        base64_encoded_photos = prepare_files_for_job(filtered_photos_params)
-        ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
-      end
+    if @place.update(place_params.except(:photos)) && params[:change_pics].to_i.zero? || @place.update(place_params.except(:photos)) && params[:change_pics].to_i == 1 && check_photo_sizes?
+      flash_message = params[:change_pics] == 1 ? 'Vše je v pořádku a aktualizováno. Nahrání vašich fotek může trvat až pár minut.' : 'Vše je v pořádku a aktualizováno.'
+      process_photos if params[:change_pics].to_i == 1
       redirect_to place_path(@place.slug), notice: flash_message
     else
       @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
@@ -170,11 +165,11 @@ class PlacesController < ApplicationController
   private
 
   def process_photos
-    filtered_photos_params = params[:place][:photos].reject(&:blank?) if params[:place][:photos]
-    if filtered_photos_params.present?
-      base64_encoded_photos = prepare_files_for_job(filtered_photos_params)
-      ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
-    end
+    return unless params[:place][:photos].present?
+
+    @place.photos.purge if @place.photos.attached?
+    base64_encoded_photos = prepare_files_for_job(place_params[:photos])
+    ImageProcessingJob.perform_later(base64_encoded_photos, @place.id)
   end
 
   def transfer_params
@@ -217,30 +212,6 @@ class PlacesController < ApplicationController
     end
   end
 
-  def display_error_messages
-    flash.now[:alert] = if place_params[:place_name].empty?
-                          'Vyplňte prosím jméno vašeho prostoru'
-                        elsif place_params[:street].empty?
-                          'Vyplňte prosím jméno ulice'
-                        elsif place_params[:house_number].empty?
-                          'Vyplňte prosím číslo popisné'
-                        elsif place_params[:postal_code].empty?
-                          'Vyplňte prosím PSČ'
-                        elsif place_params[:city].empty?
-                          'Vyplňte prosím město'
-                        elsif place_params[:max_capacity].empty?
-                          'Vyplňte prosím maximální kapacitu'
-                        elsif place_params[:short_description].empty?
-                          'Vyplňte prosím krátký popis vašeho prostoru'
-                        elsif place_params[:long_description].empty?
-                          'Vyplňte prosím dlouhý popis vašeho prostoru'
-                        elsif place_params[:photos].empty?
-                          'Vyberte prosím fotky'
-                        else
-                          'Vyberte prosím filtry'
-                        end
-  end
-
   def set_place
     @place = Place.find_by(slug: params[:slug])
   end
@@ -251,7 +222,11 @@ class PlacesController < ApplicationController
   end
 
   def place_params
-    params.require(:place).permit(:slug, :place_name, :street, :house_number, :postal_code, :city, :max_capacity,
-                                  :short_description, :long_description, photos: [], filter_ids: [])
+    permitted_params = params.require(:place).permit(:slug, :place_name, :street, :house_number, :postal_code, :city,
+                                                     :max_capacity, :short_description, :long_description, photos: [],
+                                                     filter_ids: [])
+    permitted_params[:photos]&.reject!(&:blank?)
+    permitted_params[:filter_ids] = permitted_params[:filter_ids]&.reject(&:blank?)&.map(&:to_i)
+    permitted_params
   end
 end

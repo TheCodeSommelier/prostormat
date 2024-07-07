@@ -117,7 +117,7 @@ Filter.destroy_all
 
 FILTER_NAMES = [
   %w[
-    bar restaurant hotel indoor outdoor svatba industrial
+    bar restaurant hotel indoor outdoor wedding industrial
   ]
 ].freeze
 
