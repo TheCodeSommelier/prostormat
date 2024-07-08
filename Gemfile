@@ -126,3 +126,6 @@ gem 'httparty'
 
 # Allows for simple site map creation
 gem 'sitemap_generator'
+
+# Allows for canonical urls
+gem 'canonical-rails'

@@ -46,6 +46,7 @@ class PlacesController < ApplicationController
                                               formats: [:html]) }
       end
     end
+    canonical_url places_url(page: 1)
   end
 
   # Shows details for a single place identified by id.
@@ -72,6 +73,7 @@ class PlacesController < ApplicationController
     @places = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
       Place.related_places(@place, filter_ids, base_city_name).to_a
     end
+    canonical_url place_url(@place.slug)
   end
 
   # Renders a form for creating a new place.
