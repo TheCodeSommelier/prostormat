@@ -2,33 +2,33 @@
   <div class="place-card">
     <div class="capacity-photo-container">
       <%= link_to place_path(place.slug) do %>
-        <div class="photo-container" style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0), rgba(0, 0, 0, 0.5)), url('<%= url_for(place.photos.first) %>'); height: 240px; width: 100%; background-repeat: no-repeat; background-position: center; background-size: cover;">
+        <div class="photo-container" aria-label="First uploaded image of the place" style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0), rgba(0, 0, 0, 0.5)), url('<%= url_for(place.photos.first) %>'); height: 240px; width: 100%; background-repeat: no-repeat; background-position: center; background-size: cover;">
           <p class="place-name"><%= place.place_name %></p>
           <p class="place-short-desc"><%= place.short_description.truncate(35) %></p>
         </div>
       <% end %>
       <div class="capacity-container">
         <div class="capacity-icon-container">
-          <div class="capacity-icon">
+          <div class="capacity-icon" aria-label="Capacity icon">
             <%= raw File.read(Rails.root.join('app', 'assets', 'images', "capacity.svg")) %>
           </div>
           <p class="capacity"><%= place.max_capacity %></p>
         </div>
         <div class="show-page-link">
-          <%= link_to place_path(place.slug) do %>
+          <%= link_to place_path(place.slug), 'aria-label': "Arrow right icon" do %>
             <%= raw File.read(Rails.root.join('app', 'assets', 'images', "arrow_right.svg")) %>
           <% end %>
         </div>
       </div>
     </div>
     <div class="address-container">
-      <div class="outline-map-pin"><%= raw File.read(Rails.root.join('app', 'assets', 'images', "map_pin_outline.svg")) %></div>
+      <div class="outline-map-pin" aria-label="Map pin outline icon"><%= raw File.read(Rails.root.join('app', 'assets', 'images', "map_pin_outline.svg")) %></div>
       <p class="address"><%= place.full_address %></p>
     </div>
     <hr class="divider" />
     <div class="filter-icons">
       <% place.filters.limit(3).each do |filter| %>
-        <div class="filter-icon">
+        <div class="filter-icon" aria-label="<%= filter.name.capitalize %> icon">
           <%= raw File.read(Rails.root.join('app', 'assets', 'images', "#{filter.name}.svg")) %>
         </div>
       <% end %>

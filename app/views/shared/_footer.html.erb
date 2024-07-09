@@ -2,7 +2,7 @@
   <div class="content-container">
     <div class="footer-buttons">
       <% ['phone', 'envelope', 'facebook', 'instagram'].each do |icon| %>
-        <%= link_to '#', class: "footer-link" do %>
+        <%= link_to '#', class: "footer-link", 'aria-label': "#{icon} icon" do %>
           <%= raw File.read(Rails.root.join('app', 'assets', 'images', "#{icon}.svg")) %>
         <% end %>
       <% end %>

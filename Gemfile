@@ -129,3 +129,6 @@ gem 'sitemap_generator'
 
 # Allows for canonical urls
 gem 'canonical-rails'
+
+# Allows for an easy set up of meta tags
+gem "meta-tags"

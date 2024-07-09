@@ -1,12 +1,12 @@
 <!-- TODO: Order form, email to user and martin upon submission of the order -->
 <div class="show-places-container" data-controller="show-page">
-  <section id="main-photo" class="content-container" style="background: url('<%= url_for(@place.photos.first) %>'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+  <section id="main-photo" class="content-container" aria-label="Background image, first uploaded image of the place" style="background: url('<%= url_for(@place.photos.first) %>'); background-repeat: no-repeat; background-position: center; background-size: cover;">
     <div class="main-content-container">
-      <h1 class="title"><%= @place.place_name %></h1>
+      <h1 class="title"><%= title @place.place_name %></h1>
       <p class="subtitle"><%= @place.short_description %></p>
       <div class="filters">
         <% @place.filters.each do |filter| %>
-          <div class="filter-sign">
+          <div class="filter-sign" aria-label="<%= fitler.name %> icon">
             <%= raw File.read(Rails.root.join('app', 'assets', 'images', "#{filter.name}.svg")) %>
           </div>
         <% end %>
@@ -27,7 +27,7 @@
     <div class="form-map-column">
       <div class="order-form-container show-section-container">
         <div class="section-title">
-          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'envelope.svg')) %></div>
+          <div class="section-sign" aria-label="envelope icon"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'envelope.svg')) %></div>
           <h2>Zpráva pro majitele</h2>
         </div>
         <%= form_with model: [@place, @order], local: true, data: { turbo: false }, class: "order-form" do |f|%>
@@ -53,41 +53,42 @@
       </div>
       <div class="show-section-container">
         <div class="section-title">
-          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'map_pin.svg')) %></div>
+          <div class="section-sign" aria-label="map pin icon"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'map_pin.svg')) %></div>
           <h2>Kde se nacházíme?</h2>
         </div>
         <div class="full-address-container">
-          <div class="full-address-content">
+          <div class="full-address-content" aria-label="map pin outline icon">
             <%= raw File.read(Rails.root.join('app', 'assets', 'images', 'map_pin_outline.svg')) %>
             <p class="full-address"><%= @place.full_address %></p>
           </div>
         </div>
         <div id="map-container" data-show-page-target="mapContainer" data-action="click->show-page#openMaps">
-          <%= image_tag("https://api.mapbox.com/styles/v1/prostormat/cly4po3z400ap01nwew8ygqek/static/#{@marker_overlay}/#{@place.longitude},#{@place.latitude},15/450x450@2x?access_token=#{ENV.fetch('MAPBOX_API_KEY')}") %>
+          <%= image_tag("https://api.mapbox.com/styles/v1/prostormat/cly4po3z400ap01nwew8ygqek/static/#{@marker_overlay}/#{@place.longitude},#{@place.latitude},15/450x450@2x?access_token=#{ENV.fetch('MAPBOX_API_KEY')}", alt: 'Google maps static map') %>
         </div>
       </div>
     </div>
     <div class="desc-gallery-column">
       <div class="long-desc-container show-section-container">
         <div class="section-title">
-          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'paragraph.svg')) %></div>
+          <div class="section-sign" aria-label="paragraph icon"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'paragraph.svg')) %></div>
           <h2>Popis</h2>
         </div>
         <p class="description-content"><%= @place.long_description %></p>
       </div>
       <div class="gallery-container show-section-container">
         <div class="section-title">
-          <div class="section-sign"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'pallete.svg')) %></div>
+          <div class="section-sign" aria-label="color palette icon"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'pallete.svg')) %></div>
           <h2>Galerie</h2>
         </div>
         <div class="gallery">
-          <% @place.photos.each do |photo| %>
+          <% @place.photos.each_with_index do |photo, index| %>
             <div
               class="photo"
               data-photo-url="<%= photo.url %>"
               data-show-page-target="picture"
               data-action="click->show-page#showPictureModal"
               style="background: url('<%= photo.url %>'); background-repeat: no-repeat; background-position: center; background-size: cover;"
+              aria-label="<%= "Place uploaded image #{index}" %>"
             >
             </div>
           <% end %>

@@ -1,7 +1,7 @@
 <div class="custom-select <%= input_classes unless input_classes.nil? %>"
 data-controller="filter-select"
 data-action="click->filter-select#rollOutSelect keydown->filter-select#openSelect focusout->filter-select#closeSelect focusin->filter-select#keepOpen"
-tabindex="0" role="button" aria-haspopup="listbox" aria-expanded="false">
+tabindex="0" role="button" aria-haspopup="listbox" aria-expanded="false" aria-label="plus icon">
   <p class="custom-label">Filtry</p> <%= raw File.read(Rails.root.join('app', 'assets', 'images', 'plus.svg')) %>
   <div class="select-items" data-filter-select-target="selectItems" role="listbox" style="display: none;">
     <% Filter.all.each do |filter| %>
