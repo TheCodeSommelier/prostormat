@@ -46,7 +46,6 @@ class PlacesController < ApplicationController
                                               formats: [:html]) }
       end
     end
-    canonical_url places_url(page: 1)
   end
 
   # Shows details for a single place identified by id.
@@ -73,7 +72,6 @@ class PlacesController < ApplicationController
     @places = Rails.cache.fetch(cache_key, expires_in: 12.hours) do
       Place.related_places(@place, filter_ids, base_city_name).to_a
     end
-    canonical_url place_url(@place.slug)
   end
 
   # Renders a form for creating a new place.
@@ -226,7 +224,7 @@ class PlacesController < ApplicationController
   def place_params
     permitted_params = params.require(:place).permit(:slug, :place_name, :street, :house_number, :postal_code, :city,
                                                      :max_capacity, :short_description, :long_description, photos: [],
-                                                     filter_ids: [])
+                                                                                                           filter_ids: [])
     permitted_params[:photos]&.reject!(&:blank?)
     permitted_params[:filter_ids] = permitted_params[:filter_ids]&.reject(&:blank?)&.map(&:to_i)
     permitted_params

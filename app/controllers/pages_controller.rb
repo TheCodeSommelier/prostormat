@@ -9,16 +9,11 @@ class PagesController < ApplicationController
     @places = Rails.cache.fetch('sample_places', expires_in: 1.hour) do
       Place.all.sample(4)
     end
-    canonical_url root_url
   end
 
-  def about_us
-    canonical_url about_us_url
-  end
+  def about_us; end
 
-  def faq_contact_us
-    canonical_url faq_contact_us_url
-  end
+  def faq_contact_us; end
 
   # Sends the email from contact us form
   def contact
@@ -27,9 +22,7 @@ class PagesController < ApplicationController
   end
 
   # Static page serving as waiting room when the server/DBs are overloaded
-  def overload
-    canonical_url overload_url
-  end
+  def overload; end
 
   # When person wants query multiple places at once
   def new_bulk_order
