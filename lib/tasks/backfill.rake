@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 namespace :backfill do
-  desc "Backfill slugs for places"
+  desc 'Backfill slugs for places'
   task slugs: :environment do
     Place.where(slug: [nil, '']).find_each do |place|
       place.send(:generate_slug)

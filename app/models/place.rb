@@ -25,9 +25,10 @@ class Place < ApplicationRecord
 
   # Regexp allows for underscores, letters, numbers and spaces, also place_name needs to be unique
   validates :place_name, format: { with: /[\p{L}\s\d_]+/u,
-                                                     message: 'Povolené znaky pro jméno prostoru jsou: 1. "_" 2. písmena 3. čísla 4. mezery' }
+                                   message: 'Povolené znaky pro jméno prostoru jsou: 1. "_" 2. písmena 3. čísla 4. mezery' }
 
-  validates :place_name, uniqueness: { message: 'Tento prostor již máme v datábázi. Patří tento prostor Vám? Napište nám na <a href="mailto:poptavka@prostormat.cz">poptavka@prostormat.cz</a>'}
+  validates :place_name,
+            uniqueness: { message: 'Tento prostor již máme v datábázi. Patří tento prostor Vám? Napište nám na <a href="mailto:poptavka@prostormat.cz">poptavka@prostormat.cz</a>' }
 
   # Regexp allows for letters and spaces
   validates :street, format: { with: /[\p{L}\s]+/u, message: 'Povolené znaky pro ulici jsou písmena a mezery' }
