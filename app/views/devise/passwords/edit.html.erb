@@ -1,5 +1,5 @@
 <div id="forgotten-password-container" class="d-flex justify-content-center align-items-center flex-column">
-  <h2>Change your password</h2>
+  <h1><%= title 'Change your password' %> </h1>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>

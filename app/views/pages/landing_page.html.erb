@@ -1,7 +1,14 @@
+<% set_meta_tags site: 'Prostormat',
+                 canonical: root_url,
+                 og: {
+                   type: 'website',
+                   url: root_url,
+                   image: asset_url('main_photo.jpg')
+                 } %>
 <div id="landing-page">
-  <section class="d-flex" id="main-section" aria-label="background image of people eating" style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0) 30%, #F1F1F1), url('<%= asset_path('Ribs_Of_Prague-09.jpg') %>'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+  <section class="d-flex" id="main-section" aria-label="background image of people eating" style="background: linear-gradient(to bottom, rgba(255, 255, 255, 0.0) 30%, #F1F1F1), url('<%= asset_path('main_photo.jpg') %>'); background-repeat: no-repeat; background-position: center; background-size: cover;">
     <div class="main-section-container">
-      <h1 class="title"> <%= title 'Vítejte na Prostormatu!' %></h1>
+      <h1 class="title"><%= title 'Vítejte na Prostormatu!' %></h1>
       <p class="subtitle">
         Potřebujete prostor pro vaší akci?
         <br>
@@ -49,7 +56,7 @@
       <h2>Máte prostor?</h2>
       <p>Zaregistrujte se a přidejte se ke stovkám dalších majitelů, kterří vydělávají na svých prostorech!</p>
       <%= link_to new_user_registration_path, class: "button-primary" do %>
-        <div aria-label="Registration icon"><%= raw File.read(Rails.root.join('app', 'assets', 'images', "registration.svg")) %> Registrace zde!</div>
+        <div><i class="fas fa-user-plus" aria-label="Registration icon"></i> Registrace zde!</div>
       <% end %>
     </div>
   </section>

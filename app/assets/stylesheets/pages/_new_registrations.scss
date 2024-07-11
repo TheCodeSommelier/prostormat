@@ -1,6 +1,21 @@
 #registration-form {
   padding: 5rem;
 
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-input-container {
+    display: flex;
+
+    input {
+      width: 100%;
+      margin: 15px;
+    }
+  }
+
   // Animation for labels coming in
   @keyframes slideInFromLeft {
     0% {

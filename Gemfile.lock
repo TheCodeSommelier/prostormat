@@ -105,8 +105,6 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 2.11.8, < 3)
     builder (3.2.4)
-    canonical-rails (0.2.15)
-      actionview (>= 4.1, <= 7.2)
     capybara (3.40.0)
       addressable
       matrix
@@ -363,7 +361,6 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1.0)
   bootsnap
   bootstrap
-  canonical-rails
   capybara
   debug
   devise

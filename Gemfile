@@ -127,8 +127,5 @@ gem 'httparty'
 # Allows for simple site map creation
 gem 'sitemap_generator'
 
-# Allows for canonical urls
-gem 'canonical-rails'
-
-# Allows for an easy set up of meta tags
+# Allows for an easy set up of meta tags for SEO optimizastion
 gem "meta-tags"

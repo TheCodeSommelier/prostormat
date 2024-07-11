@@ -12,8 +12,10 @@ class ApplicationController < ActionController::Base
   # rescue_from 'Rack::Timeout::RequestTimeoutError', with: :render_overload_page # Overload server
   # rescue_from 'Errno::ECONNREFUSED', with: :render_overload_page # Any app add on is not responsive
 
-  before_action :authenticate_user!
   include Pundit::Authorization
+
+  before_action :authenticate_user!
+  before_action :meta_tags_nofollow_actions
 
   # Pundit: allow-list approach
   after_action :verify_authorized, except: :index, unless: :skip_pundit?
@@ -30,7 +32,12 @@ class ApplicationController < ActionController::Base
     devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
   end
 
-  # private
+  private
+
+  def meta_tags_nofollow_actions
+    allowed_actions = %w[show index landing_page about_us faq_contact_us overload] # See if whitelist or blacklist approach
+    set_meta_tags noindex: true, nofollow: true if devise_controller? || !action_name.in?(allowed_actions)
+  end
 
   # def render_overload_page
   #   redirect_to overload_path,
