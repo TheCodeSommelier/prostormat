@@ -86,8 +86,11 @@ class PlacesController < ApplicationController
     authorize @place
     @place.user = current_user
     @place.hidden = false if current_user.admin?
+    recaptcha_passed = verify_recaptcha?(params[:recaptcha_token], 'place_new')
 
-    if check_photo_sizes? && filters? && @place.save
+    @place.errors.add(:base, 'Bohužel google vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...') if recaptcha_passed
+
+    if recaptcha_passed && check_photo_sizes? && filters? && @place.save
       process_photos
       respond_to do |format|
         format.js
@@ -96,7 +99,7 @@ class PlacesController < ApplicationController
     else
       @filters = Filter.all.to_a
       flash.now[:alert] = @place.errors.full_messages.join(', ')
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity, alert:
     end
   end
 

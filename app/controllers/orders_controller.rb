@@ -7,21 +7,22 @@ class OrdersController < ApplicationController
 
   # Creates a new order with the provided parameters.
   def create
-    @order       = Order.new(orders_params.except(:bokee_attributes))
-    place_id     = params[:place_id].to_i
-    @place       = Place.find(place_id)
-    @order.place = @place
+    @order           = Order.new(orders_params.except(:bokee_attributes))
+    @place           = validate_place_id? ? Place.find(params[:place_id].to_i) : @order.errors.add(:base, 'Parametr place_id není platný')
+    @order.place     = @place if @place.is_a?(Place)
+    recaptcha_passed = verify_recaptcha?(params[:recaptcha_token], 'order_new')
 
     authorize @order
 
-    bokee        = Bokee.create_with(orders_params[:bokee_attributes]).find_or_create_by(email: orders_params[:bokee_attributes][:email])
-    @order.bokee = bokee
+    bokee           = Bokee.create_with(orders_params[:bokee_attributes]).find_or_create_by(email: orders_params[:bokee_attributes][:email])
+    @order.bokee    = bokee
+    @order.errors.add(:base, 'Bohužel google vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...') if recaptcha_passed
 
-    if @order.save && verify_recaptcha
+    if @order.save && recaptcha_passed && validate_place_id?
       SendOrderToPlaceOwnerJob.perform_later(@place.id, bokee.id, @order.message)
       redirect_to place_path(@place.slug), notice: 'Poptávka je vytvořená. Majitel se Vám ozve.'
     else
-      redirect_to place_path(@place.slug), alert: display_error_messages
+      redirect_to place_path(@place.slug), alert: @orders.errors.full_messages.join(', ')
     end
   end
 
@@ -46,5 +47,9 @@ class OrdersController < ApplicationController
 
   def orders_params
     params.require(:order).permit(:event_type, :date, :message, bokee_attributes: %i[full_name email phone_number])
+  end
+
+  def validate_place_id?
+    params[:place_id].to_i.is_a?(Integer)
   end
 end
