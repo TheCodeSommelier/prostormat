@@ -1,12 +1,24 @@
 <!-- TODO: Order form, email to user and martin upon submission of the order -->
+<% set_meta_tags title: @place.place_name,
+                 site: 'Prostormat',
+                 reverse: true,
+                 description: @place.long_description.truncate(160),
+                 canonical: place_url(slug: @place.slug),
+                 og: {
+                   title: @place.place_name,
+                   description: @place.long_description.truncate(160),
+                   type: 'website',
+                   url: place_url(slug: @place.slug),
+                   image: @place.photos.first&.url || asset_url('main_photo.jpg')
+                 } %>
 <div class="show-places-container" data-controller="show-page">
   <section id="main-photo" class="content-container" aria-label="Background image, first uploaded image of the place" style="background: url('<%= url_for(@place.photos.first) %>'); background-repeat: no-repeat; background-position: center; background-size: cover;">
     <div class="main-content-container">
-      <h1 class="title"><%= title @place.place_name %></h1>
+      <h1 class="title"><%= @place.place_name %></h1>
       <p class="subtitle"><%= @place.short_description %></p>
       <div class="filters">
         <% @place.filters.each do |filter| %>
-          <div class="filter-sign" aria-label="<%= fitler.name %> icon">
+          <div class="filter-sign" aria-label="<%= filter.name %> icon">
             <%= raw File.read(Rails.root.join('app', 'assets', 'images', "#{filter.name}.svg")) %>
           </div>
         <% end %>
@@ -63,7 +75,7 @@
           </div>
         </div>
         <div id="map-container" data-show-page-target="mapContainer" data-action="click->show-page#openMaps">
-          <%= image_tag("https://api.mapbox.com/styles/v1/prostormat/cly4po3z400ap01nwew8ygqek/static/#{@marker_overlay}/#{@place.longitude},#{@place.latitude},15/450x450@2x?access_token=#{ENV.fetch('MAPBOX_API_KEY')}", alt: 'Google maps static map') %>
+          <%= image_tag("https://api.mapbox.com/styles/v1/prostormat/cly4po3z400ap01nwew8ygqek/static/#{@marker_overlay}/#{@place.longitude},#{@place.latitude},15/450x450@2x?access_token=#{ENV.fetch('MAPBOX_API_KEY')}", alt: 'Mapbox static map image') %>
         </div>
       </div>
     </div>
