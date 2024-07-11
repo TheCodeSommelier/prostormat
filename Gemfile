@@ -125,4 +125,4 @@ gem 'httparty'
 gem 'sitemap_generator'
 
 # Allows for an easy set up of meta tags for SEO optimizastion
-gem "meta-tags"
+gem 'meta-tags'

@@ -88,7 +88,10 @@ class PlacesController < ApplicationController
     @place.hidden = false if current_user.admin?
     recaptcha_passed = verify_recaptcha?(params[:recaptcha_token], 'place_new')
 
-    @place.errors.add(:base, 'Bohužel google vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...') if recaptcha_passed
+    if recaptcha_passed
+      @place.errors.add(:base,
+                        'Bohužel google vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
+    end
 
     if recaptcha_passed && check_photo_sizes? && filters? && @place.save
       process_photos

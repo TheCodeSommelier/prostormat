@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
     uri = URI.parse("https://www.google.com/recaptcha/api/siteverify?secret=#{secret_key}&response=#{token}")
     response = Net::HTTP.get_response(uri)
     json = JSON.parse(response.body)
+    p "🔥 google_score #{json['score']}"
     json['success'] && json['score'] > recaptcha_minimum_score && json['action'] == recaptcha_action
   end
 

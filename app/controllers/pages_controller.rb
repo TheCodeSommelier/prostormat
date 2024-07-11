@@ -34,30 +34,26 @@ class PagesController < ApplicationController
   # Creates a bokee, finds the ids of corresponding places and verfies captcha with bokee. If pass sends the query.
   def create_bulk_order
     @bulk_order_form = BulkOrderForm.new(bulk_order_params)
-
-    unless @bulk_order_form.valid? && filters?
-      flash[:alert] = 'Vyplaňte prosím všechny pole a vyberte alespoň jeden filtr'
-      redirect_to new_bulk_order_path and return
+    recaptcha_passed = verify_recaptcha?(params[:recaptcha_token], 'bulk_order_new')
+    unless recaptcha_passed
+      @bulk_order_form.errors.add(:base,
+                                  'reCAPTCHA verifikace se nepodařila. Zkuste to prosím znovu.')
     end
 
-    @bokee = Bokee.new(full_name: bulk_order_params[:name], email: bulk_order_params[:email],
+    @bokee = Bokee.new(full_name: bulk_order_params[:full_name], email: bulk_order_params[:email],
                        phone_number: bulk_order_params[:phone_number])
 
     # TODO: Potentially could be in the model
-    places_ids = Place.joins(:filters)
-                      .where(filters: { id: filters_params[:filter_ids].map!(&:to_i) })
+    places_ids = Place.joins(:filters).where(filters: { id: filters_params[:filter_ids].map!(&:to_i) })
                       .where('city LIKE ? OR city = ?', "#{bulk_order_params[:city]}%", bulk_order_params[:city])
-                      .where('places.max_capacity >= ?', bulk_order_params[:min_capacity])
-                      .distinct
-                      .pluck(:id)
+                      .where('places.max_capacity >= ?', bulk_order_params[:min_capacity]).distinct.pluck(:id)
 
-    if verify_recaptcha && @bokee.save
+    if @bokee.save && recaptcha_passed && @bulk_order_form.valid?
       SendBulkOrderJob.perform_later(places_ids, bulk_order_params[:email], bulk_order_params[:name])
-      flash[:notice] = 'Zpracováváme Vaší hromadnou poptávku'
-      redirect_to root_path
+      redirect_to root_path, notice: 'Zpracováváme Vaší hromadnou poptávku'
     else
-      flash.now[:alert] = 'reCAPTCHA verifikace se nepodařila. Zkuste to prosím znovu.'
-      render :new_bulk_order
+      flash.now[:alert] = (@bulk_order_form.errors.full_messages + @bokee.errors.full_messages).join(', ')
+      render :new_bulk_order, status: :unprocessable_entity
     end
   end
 
@@ -68,7 +64,7 @@ class PagesController < ApplicationController
   end
 
   def bulk_order_params
-    params.require(:bulk_order_form).permit(:name, :email, :phone_number, :min_capacity, :city)
+    params.require(:bulk_order_form).permit(:full_name, :email, :phone_number, :min_capacity, :city)
   end
 
   def filters_params
