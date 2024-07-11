@@ -126,3 +126,6 @@ gem 'httparty'
 
 # Allows for simple site map creation
 gem 'sitemap_generator'
+
+# Allows for an easy set up of meta tags for SEO optimizastion
+gem "meta-tags"

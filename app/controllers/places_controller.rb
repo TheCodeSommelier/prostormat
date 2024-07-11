@@ -224,7 +224,7 @@ class PlacesController < ApplicationController
   def place_params
     permitted_params = params.require(:place).permit(:slug, :place_name, :street, :house_number, :postal_code, :city,
                                                      :max_capacity, :short_description, :long_description, photos: [],
-                                                     filter_ids: [])
+                                                                                                           filter_ids: [])
     permitted_params[:photos]&.reject!(&:blank?)
     permitted_params[:filter_ids] = permitted_params[:filter_ids]&.reject(&:blank?)&.map(&:to_i)
     permitted_params

@@ -1,68 +1,36 @@
 <div id="registration-form">
-  <h2>Sign up</h2>
+  <h1><%= title 'Registrace' %></h1>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
     <%#= render 'shared/flashes' %>
 
 
-    <div class="row my-3">
-      <div class="field col-6">
-        <%= f.label :first_name, class: 'label-enter-active' %><br />
-        <%= f.text_field :first_name, autofocus: true, class: 'form-control input-enter-active', placeholder: 'John' %>
-      </div>
-
-      <div class="field col-6">
-        <%= f.label :last_name, class: 'label-enter-active' %><br />
-        <%= f.text_field :last_name, class: 'form-control input-enter-active', placeholder: 'Doe' %>
-      </div>
+    <div class="form-input-container">
+      <%= f.text_field :first_name, autofocus: true, class: 'form-input input-enter-active', placeholder: 'Jméno' %>
+      <%= f.text_field :last_name, class: 'form-input input-enter-active', placeholder: 'Příjmení' %>
     </div>
 
-    <div class="row my-3">
-      <div class="field col-6">
-        <%= f.label :email, class: 'label-enter-active' %><br />
-        <%= f.email_field :email, autocomplete: "email", class: 'form-control input-enter-active', placeholder: 'john@doe.com' %>
-      </div>
-
-      <div class="field col-6">
-        <%= f.label :phone_number, class: 'label-enter-active' %><br />
-        <%= f.text_field :phone_number, class: 'form-control input-enter-active', placeholder: '+420 222 333 444' %>
-      </div>
+    <div class="form-input-container">
+      <%= f.email_field :email, autocomplete: "email", class: 'form-input input-enter-active', placeholder: 'Email' %>
+      <%= f.text_field :phone_number, class: 'form-input input-enter-active', placeholder: 'Tel. číslo' %>
+      <%= f.text_field :company_name, class: 'form-input input-enter-active', placeholder: 'Jméno vaší společnosti' %>
+      <%= f.text_field :ico, class: 'form-input input-enter-active', placeholder: 'ICO' %>
+      <%= f.text_field :company_address, class: 'form-input input-enter-active', placeholder: 'Adresa společnosti' %>
     </div>
 
-    <div class="row my-3">
-      <div class="field col-6">
-        <%= f.label :company_name, class: 'label-enter-active' %><br />
-        <%= f.text_field :company_name, class: 'form-control input-enter-active', placeholder: 'Prostormat s.r.o.' %>
-      </div>
+    <% if @minimum_password_length %>
+      <em class="mx-3 label-enter-active">(Heslo musí mít minimálně <%= @minimum_password_length %> znaků)</em>
+    <% end %><br />
 
-      <div class="field col-6">
-        <%= f.label :ico, class: 'label-enter-active' %><br />
-        <%= f.text_field :ico, class: 'form-control input-enter-active', placeholder: '1232232' %>
-      </div>
+    <div class="form-input-container">
+      <%= f.password_field :password, autocomplete: "new-password", class: 'form-input input-enter-active', placeholder: 'Heslo' %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-input input-enter-active', placeholder: 'Potvrdit heslo' %>
     </div>
 
-    <div class="field my-3">
-      <%= f.label :company_address, class: 'label-enter-active' %><br />
-      <%= f.text_field :company_address, class: 'form-control input-enter-active', placeholder: 'Pařížská 63, 130 00, Praha 1' %>
-    </div>
-
-    <div class="row my-3">
-      <div class="field my-3 col-6">
-        <%= f.label :password, class: 'label-enter-active' %>
-        <% if @minimum_password_length %>
-          <em class="label-enter-active">(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %><br />
-        <%= f.password_field :password, autocomplete: "new-password", class: 'form-control input-enter-active', placeholder: '*******' %>
-      </div>
-
-      <div class="field my-3 col-6">
-        <%= f.label :password_confirmation, class: 'label-enter-active' %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control input-enter-active', placeholder: '*******' %>
-      </div>
-    </div>
-
-    <div class="actions d-flex justify-content-between">
-      <%= f.submit "Sign up", class: 'button-primary my-3 col-8' %>
+    <div class="actions">
+      <%= button_tag type: 'submit', class: 'button-primary my-3 w-75 me-2' do %>
+        <div><i class="fas fa-user-plus" aria-label="Registration icon"></i> Zaregistrovat</div>
+      <% end %>
       <%= render "devise/shared/links" %>
     </div>
   <% end %>

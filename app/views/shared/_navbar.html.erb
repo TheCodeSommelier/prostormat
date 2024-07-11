@@ -1,7 +1,7 @@
 <div class="navbar navbar-expand-md navbar-prostormat">
   <div class="container-fluid d-flex justify-content-between">
     <%= link_to root_path, class: 'navbar-brand' do  %>
-      <%= image_tag('PROSTORMAT_logo 1.svg', width: 130) %>
+      <%= image_tag('PROSTORMAT_logo 1.svg', width: 130, alt: 'Prostormat logo') %>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -136,7 +136,7 @@
           </div>
           <div class="nav-item d-flex justify-content-center me-2">
             <%= link_to places_path, class: "button-primary button-margin" do %>
-              <div>
+              <div aria-label="hanging realtor sign icon">
                 <%= raw File.read(Rails.root.join('app', 'assets', 'images', 'sign-hanging-solid.svg')) %>
                 Prostory
               </div>

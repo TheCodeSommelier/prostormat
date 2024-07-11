@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 namespace :places do
-  desc "Geocode places without coordinates"
+  desc 'Geocode places without coordinates'
   task geocode_missing: :environment do
     places_to_geocode = Place.where(latitude: nil).or(Place.where(longitude: nil))
 
@@ -13,13 +15,13 @@ namespace :places do
         else
           puts "Failed to geocode Place ID: #{place.id}, Address: #{place.full_address}"
         end
-      rescue => e
+      rescue StandardError => e
         puts "Error geocoding Place ID: #{place.id}, Address: #{place.full_address}. Error: #{e.message}"
       end
 
       sleep 1
     end
 
-    puts "Geocoding task completed."
+    puts 'Geocoding task completed.'
   end
 end

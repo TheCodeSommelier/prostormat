@@ -1,5 +1,5 @@
 <div id="new-place-form" data-controller="loader">
-  <h1>Vytvořte vaše porstory</h1>
+  <h1><%= title 'Vytvořte vaše porstory' %></h1>
 
   <%= form_for @place, url: place_path(@place.slug), html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'format-new-place-data edit-page', action: 'submit->loader#startLoading' } do |f| %>
 

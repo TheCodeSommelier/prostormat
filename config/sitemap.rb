@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Set the host name for URL creation
 host = Rails.env.production? ? 'https://www.prostormat.cz' : 'http://localhost:3000'
 SitemapGenerator::Sitemap.default_host = host
