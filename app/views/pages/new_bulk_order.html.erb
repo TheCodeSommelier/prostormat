@@ -1,13 +1,19 @@
+
+<%= content_for :recaptcha_js do %>
+  <%= include_recaptcha_js %>
+<% end %>
+
 <div id="bulk-order-container" class="container">
   <h1><%= title 'Hromadná poptávka' %></h1>
   <p class="my-2">
     Zde můžete vyplnit jaké místo hledáte a my už kontaktujeme místa dle vašeho výběru za vás!
     <br>
-    Stačí jen vyplnit údaje níže, potvrdit že nejste robot a o zbytek se postaráme my.
+    Stačí jen vyplnit údaje níže a o zbytek se postaráme my.
   </p>
+
   <%= form_with model: @bulk_order_form, url: create_bulk_order_path, local: true do |f| %>
     <div class="bulk-order-inputs-group">
-      <%= f.text_field :name, placeholder: 'Jméno', class: 'input-enter-active' %>
+      <%= f.text_field :full_name, placeholder: 'Jméno', class: 'input-enter-active' %>
       <%= f.text_field :email, placeholder: 'Email', class: 'input-enter-active' %>
       <%= f.text_field :phone_number, placeholder: 'Mobil', class: 'input-enter-active' %>
     </div>
@@ -17,8 +23,8 @@
       <%= f.number_field :min_capacity, placeholder: 'Kapacita např. 100', class: 'input-enter-active' %>
       <%= render 'shared/custom_select', input_classes: 'input-enter-active' %>
     </div>
-    <%= recaptcha_tags %>
 
     <%= f.submit 'Odeslat poptávku', class: 'button-primary my-4 w-100' %>
+    <%= recaptcha_execute('bulk_order_new') %>
   <% end %>
 </div>

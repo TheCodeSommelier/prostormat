@@ -107,9 +107,6 @@ gem 'sidekiq-failures'
 # Allows for pagination
 gem 'kaminari'
 
-# Allows for recaptha bots catching
-gem 'recaptcha'
-
 # Allows for image compression
 gem 'mini_magick'
 
@@ -128,4 +125,4 @@ gem 'httparty'
 gem 'sitemap_generator'
 
 # Allows for an easy set up of meta tags for SEO optimizastion
-gem "meta-tags"
+gem 'meta-tags'

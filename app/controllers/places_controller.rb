@@ -86,8 +86,15 @@ class PlacesController < ApplicationController
     authorize @place
     @place.user = current_user
     @place.hidden = false if current_user.admin?
+    recaptcha_passed = verify_recaptcha?(params[:recaptcha_token], 'place_new')
 
-    if check_photo_sizes? && filters? && @place.save
+
+    unless recaptcha_passed
+      @place.errors.add(:base,
+                        'Bohužel google vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
+    end
+
+    if recaptcha_passed && check_photo_sizes? && filters? && @place.save
       process_photos
       respond_to do |format|
         format.js
@@ -96,7 +103,7 @@ class PlacesController < ApplicationController
     else
       @filters = Filter.all.to_a
       flash.now[:alert] = @place.errors.full_messages.join(', ')
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_entity, alert:
     end
   end
 
@@ -111,10 +118,16 @@ class PlacesController < ApplicationController
   def update
     @place = Place.find_by(slug: params[:slug])
     authorize @place
+    recaptcha_passed = verify_recaptcha?(params[:recaptcha_token], 'place_edit')
+
+    unless recaptcha_passed
+      @place.errors.add(:base,
+                        'Bohužel google vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
+    end
 
     expire_place_show_photos_cache(@place) if @place.photos.attached?
 
-    if @place.update(place_params.except(:photos)) && params[:change_pics].to_i.zero? || @place.update(place_params.except(:photos)) && params[:change_pics].to_i == 1 && check_photo_sizes?
+    if recaptcha_passed && @place.update(place_params.except(:photos)) && params[:change_pics].to_i.zero? || recaptcha_passed && @place.update(place_params.except(:photos)) && params[:change_pics].to_i == 1 && check_photo_sizes?
       flash_message = params[:change_pics] == 1 ? 'Vše je v pořádku a aktualizováno. Nahrání vašich fotek může trvat až pár minut.' : 'Vše je v pořádku a aktualizováno.'
       process_photos if params[:change_pics].to_i == 1
       redirect_to place_path(@place.slug), notice: flash_message
@@ -132,7 +145,13 @@ class PlacesController < ApplicationController
   # Renders out all of the places for the admin to be able to change them
   def admin_places
     authorize :place
-    @places = policy_scope(Place.all)
+    @places = policy_scope(Place.joins(:user).select('places.user_id, places.slug, places.place_name, users.email'))
+
+    if params[:query].present?
+      query = "%#{params[:query].downcase}%"
+      @places = @places.where('LOWER(places.place_name) LIKE ? OR LOWER(users.email) LIKE ?', query, query)
+    end
+
     @places = @places.order(:place_name).page(params[:page]).per(8)
   end
 

@@ -20,7 +20,7 @@ class Place < ApplicationRecord
   after_commit :expire_place_show_cache, on: :update
 
   validates :max_capacity,
-            numericality: { only_integer: true, greater_than: 10, message: 'Kapacita musí být alespoň 10' }
+            numericality: { only_integer: true, greater_than: 9, message: 'Kapacita musí být alespoň 10' }
   validates :postal_code, format: { with: /\A\d{3}\s\d{2}\z/, message: 'Musí být psáno ve formátu "123 22"' }
 
   # Regexp allows for underscores, letters, numbers and spaces, also place_name needs to be unique

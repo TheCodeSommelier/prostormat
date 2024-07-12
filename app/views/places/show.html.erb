@@ -42,7 +42,12 @@
           <div class="section-sign" aria-label="envelope icon"><%= raw File.read(Rails.root.join('app', 'assets', 'images', 'envelope.svg')) %></div>
           <h2>Zpráva pro majitele</h2>
         </div>
-        <%= form_with model: [@place, @order], local: true, data: { turbo: false }, class: "order-form" do |f|%>
+
+        <%= content_for :recaptcha_js do %>
+          <%= include_recaptcha_js %>
+        <% end %>
+        <%= form_with model: [@place, @order], url: place_orders_path(@place.slug), local: true, data: { turbo: false }, class: "order-form" do |f|%>
+          <%= hidden_field_tag 'place_id', @place.id %>
           <div class="bokee-info">
             <%= f.fields_for :bokee do |field_for_bokee| %>
               <%= field_for_bokee.text_field :full_name, placeholder: 'Celé jméno' %>
@@ -59,7 +64,7 @@
           </div>
 
           <%= f.text_area :message, placeholder: 'Zde dopište cokoliv je potřeba specifikovat, optat, nebo vyjasnit!', class: "event-details-textarea", min: Date.today.to_s %>
-          <div class="g-recaptcha ms-2" data-sitekey="<%= ENV.fetch('RECAPTCHA_SITE_KEY') %>"></div>
+          <%= recaptcha_execute('order_new') %>
           <%= f.submit 'Poslat poptávku', class: 'button-primary' %>
         <% end %>
       </div>

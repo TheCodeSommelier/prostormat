@@ -1,4 +1,9 @@
 <div id="admin-places">
+  <%= form_with(url: admin_places_path, method: :get, local: true) do %>
+    <%= text_field_tag :query, params[:query], placeholder: 'Search for user email or place name' %>
+    <%= submit_tag "Search", class: "button-primary" %>
+  <% end %>
+
   <div class="admin-places-grid" data-controller="modal">
     <% @places.each do |place| %>
       <div class="admin-places-card">
