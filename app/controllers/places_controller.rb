@@ -86,12 +86,12 @@ class PlacesController < ApplicationController
     authorize @place
     @place.user = current_user
     @place.hidden = false if current_user.admin?
-    recaptcha_passed = verify_recaptcha?(params[:recaptcha_token], 'place_new')
+    recaptcha_passed = verify_turnstile_token(params['cf-turnstile-response'])
 
 
     unless recaptcha_passed
       @place.errors.add(:base,
-                        'Bohužel google vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
+                        'Bohužel turnstile vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
     end
 
     if recaptcha_passed && check_photo_sizes? && filters? && @place.save
@@ -118,11 +118,11 @@ class PlacesController < ApplicationController
   def update
     @place = Place.find_by(slug: params[:slug])
     authorize @place
-    recaptcha_passed = verify_recaptcha?(params[:recaptcha_token], 'place_edit')
+    recaptcha_passed = verify_turnstile_token(params['cf-turnstile-response'])
 
     unless recaptcha_passed
       @place.errors.add(:base,
-                        'Bohužel google vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
+                        'Bohužel turnstile vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
     end
 
     expire_place_show_photos_cache(@place) if @place.photos.attached?

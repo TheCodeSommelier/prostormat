@@ -34,7 +34,8 @@ class PagesController < ApplicationController
   # Creates a bokee, finds the ids of corresponding places and verfies captcha with bokee. If pass sends the query.
   def create_bulk_order
     @bulk_order_form = BulkOrderForm.new(bulk_order_params)
-    recaptcha_passed = verify_recaptcha?(params[:recaptcha_token], 'bulk_order_new')
+    recaptcha_passed = verify_turnstile_token(params['cf-turnstile-response'])
+
     unless recaptcha_passed
       @bulk_order_form.errors.add(:base,
                                   'reCAPTCHA verifikace se nepodařila. Zkuste to prosím znovu.')
