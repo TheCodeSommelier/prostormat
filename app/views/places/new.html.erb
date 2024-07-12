@@ -1,6 +1,3 @@
-<%= content_for :recaptcha_js do %>
-  <%= include_recaptcha_js %>
-<% end %>
 <div id="new-place-form" data-controller="loader">
   <h1><%= title 'Vytvořte váš prostor' %></h1>
   <%= form_for @place, html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: "format-new-place-data", context: 'new-place', action: 'submit->loader#startLoading' } do |f| %>
@@ -36,7 +33,7 @@
     </div>
     <%= f.submit "Vytvořte prostor", class: 'hidden-submit button-primary my-3 w-100' %>
 
-    <%= recaptcha_execute('place_new') %>
+    <div class="cf-turnstile" data-sitekey="<%= ENV.fetch('TURNSTILE_SITE_KEY') %>"></div>
   <% end %>
 
   <div class="loader-container" data-loader-target="loaderContainer">

@@ -32,14 +32,20 @@ class ApplicationController < ActionController::Base
     devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
   end
 
-  def verify_recaptcha?(token, recaptcha_action)
-    recaptcha_minimum_score = 0.5
-    secret_key = ENV.fetch('RECAPTCHA_SECRET_KEY')
+  def verify_turnstile_token(token)
+    secret_key = ENV.fetch('TURNSTILE_SECRET_KEY')
+    response = Faraday.post('https://challenges.cloudflare.com/turnstile/v0/siteverify') do |req|
+      req.body = {
+        secret: secret_key,
+        response: token
+      }
+    end
 
-    uri = URI.parse("https://www.google.com/recaptcha/api/siteverify?secret=#{secret_key}&response=#{token}")
-    response = Net::HTTP.get_response(uri)
-    json = JSON.parse(response.body)
-    json['success'] && json['score'] > recaptcha_minimum_score && json['action'] == recaptcha_action
+    result = JSON.parse(response.body)
+    result['success']
+  rescue StandardError => e
+    Rails.logger.error("Turnstile verification failed: #{e.message}")
+    false
   end
 
   private

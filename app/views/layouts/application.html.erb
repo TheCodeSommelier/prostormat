@@ -21,6 +21,9 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-PS9347L6');</script>
     <!-- End Google Tag Manager -->
+
+    <!-- Turnstyle cloudfare captcha -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=<%= ENV.fetch('TURNSTILE_SITE_KEY') %>"></script>
   </head>
 
   <body>
@@ -28,6 +31,5 @@
     <%= yield %>
     <%= render 'shared/flashes' %>
     <%= render 'shared/footer' %>
-    <%= yield :recaptcha_js %>
   </body>
 </html>

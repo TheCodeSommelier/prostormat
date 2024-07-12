@@ -15,8 +15,8 @@ class OrdersController < ApplicationController
                                            'Parametr place_id není platný')
                        end
     @order.place     = @place if @place.is_a?(Place)
-    recaptcha_passed = verify_recaptcha?(params[:recaptcha_token], 'order_new')
-    error_message    = 'Google vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu a mimo icognito mód...'
+    recaptcha_passed = verify_turnstile_token(params['cf-turnstile-response'])
+    error_message    = 'Cloudfare vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...'
 
     authorize @order
 

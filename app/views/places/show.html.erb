@@ -43,9 +43,6 @@
           <h2>Zpráva pro majitele</h2>
         </div>
 
-        <%= content_for :recaptcha_js do %>
-          <%= include_recaptcha_js %>
-        <% end %>
         <%= form_with model: [@place, @order], url: place_orders_path(@place.slug), local: true, data: { turbo: false }, class: "order-form" do |f|%>
           <%= hidden_field_tag 'place_id', @place.id %>
           <div class="bokee-info">
@@ -64,7 +61,10 @@
           </div>
 
           <%= f.text_area :message, placeholder: 'Zde dopište cokoliv je potřeba specifikovat, optat, nebo vyjasnit!', class: "event-details-textarea", min: Date.today.to_s %>
-          <%= recaptcha_execute('order_new') %>
+
+          <!-- Turnstile captcha -->
+          <div class="cf-turnstile" data-sitekey="<%= ENV.fetch('TURNSTILE_SITE_KEY') %>"></div>
+
           <%= f.submit 'Poslat poptávku', class: 'button-primary' %>
         <% end %>
       </div>
