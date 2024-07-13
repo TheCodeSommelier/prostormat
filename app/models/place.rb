@@ -45,7 +45,7 @@ class Place < ApplicationRecord
   }
 
   # Selects only the places where the hidden is set to false e.g. the places of which owners have an active subscription
-  scope :visible, -> { where(hidden: false) }
+  scope :visible, -> { where(hidden: false).distinct }
 
   def full_address
     "#{street} #{house_number}, #{postal_code}, #{city}"
@@ -70,10 +70,6 @@ class Place < ApplicationRecord
 
   def full_address_changed?
     street_changed? || house_number_changed? || postal_code_changed? || city_changed?
-  end
-
-  def expire_places_index_cache
-    Rails.cache.delete('places/index')
   end
 
   def expire_place_show_cache
