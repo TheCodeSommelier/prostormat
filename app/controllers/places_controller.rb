@@ -9,8 +9,10 @@ class PlacesController < ApplicationController
 
   # Lists and caches all visible places.
   def index
-    @places  = Rails.cache.fetch('places/index', expires_in: 1.hour) { Place.visible }
-    @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
+    @places = Place.visible
+                   .select(:id, :place_name, :short_description, :slug, :max_capacity, :street, :house_number, :postal_code, :city, :hidden, :primary)
+                   .includes(:filters).group(:id)
+    @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.select(:name, :id).to_a }
 
     policy_scope(@places)
     # Apply filters
@@ -88,11 +90,7 @@ class PlacesController < ApplicationController
     @place.hidden = false if current_user.admin?
     recaptcha_passed = verify_turnstile_token(params['cf-turnstile-response'])
 
-
-    unless recaptcha_passed
-      @place.errors.add(:base,
-                        'Bohužel turnstile vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
-    end
+    @place.errors.add(:base, 'Bohužel turnstile vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...') unless recaptcha_passed
 
     if recaptcha_passed && check_photo_sizes? && filters? && @place.save
       process_photos
@@ -120,10 +118,7 @@ class PlacesController < ApplicationController
     authorize @place
     recaptcha_passed = verify_turnstile_token(params['cf-turnstile-response'])
 
-    unless recaptcha_passed
-      @place.errors.add(:base,
-                        'Bohužel turnstile vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
-    end
+    @place.errors.add(:base, 'Bohužel turnstile vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...') unless recaptcha_passed
 
     expire_place_show_photos_cache(@place) if @place.photos.attached?
 

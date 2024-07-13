@@ -7,7 +7,9 @@ class PagesController < ApplicationController
   # how it works, sample places/venues and a footer
   def landing_page
     @places = Rails.cache.fetch('sample_places', expires_in: 1.hour) do
-      Place.all.sample(4)
+      Place.visible
+           .select(:id, :place_name, :short_description, :slug, :max_capacity, :street, :house_number, :postal_code, :city, :hidden, :primary)
+           .includes(:filters).group(:id).sample(4)
     end
   end
 
