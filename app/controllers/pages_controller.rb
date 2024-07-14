@@ -52,7 +52,7 @@ class PagesController < ApplicationController
                       .where('places.max_capacity >= ?', bulk_order_params[:min_capacity]).distinct.pluck(:id)
 
     if @bokee.save && recaptcha_passed && @bulk_order_form.valid?
-      SendBulkOrderJob.perform_later(places_ids, @bulk_order_form.email, @bulk_order_form.full_name, @bulk_order_form.message, @bulk_order_form.date)
+      SendBulkOrderJob.perform_later(places_ids, bulk_order_params)
       redirect_to root_path, notice: 'Zpracováváme Vaší hromadnou poptávku'
     else
       flash.now[:alert] = (@bulk_order_form.errors.full_messages + @bokee.errors.full_messages).join(', ')

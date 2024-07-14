@@ -2,25 +2,34 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="datepickr"
 export default class extends Controller {
-  static targets = [
-    "datepickr",
-    "dateTable",
-    "year",
-    "month",
-    "day",
-    "dateHiddenInput",
-  ];
+  static targets = ["datepickr", "dateTable", "year", "month", "day", "dateHiddenInput"];
 
   connect() {
     this.populateYearSelect();
-    this.populateMonthSelect();
-    this.yearTarget.addEventListener("change", this.pickedMonth.bind(this));
+    this.handleInitialMonthSelect();
+    this.yearTarget.addEventListener("change", this.pickedYear.bind(this));
     this.monthTarget.addEventListener("change", this.pickedMonth.bind(this));
     document.addEventListener("click", this.handleDocumentClick.bind(this));
+    this.datepickrTarget.querySelector(".custom-label").innerText = "Datum";
+    this.datepickrTarget.querySelector(".custom-label").style.color = "#757575";
   }
 
   disconnect() {
     document.removeEventListener("click", this.handleDocumentClick.bind(this));
+  }
+
+  handleInitialMonthSelect() {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+
+    // Set the initial year select value to the current year
+    this.yearTarget.value = currentYear;
+
+    // Populate months starting from the current month for the current year
+    this.populateMonthSelect(currentMonth);
+
+    // Update days for the initial month
+    this.pickedMonth();
   }
 
   showDatepickr(event) {
@@ -36,12 +45,16 @@ export default class extends Controller {
   selectDate(event) {
     event.stopPropagation();
     const day = event.target;
-    const oldDay = this.dateTableTarget.querySelector(".active") || null;
+    const oldDay = this.dateTableTarget.querySelector(".active");
     if (oldDay) oldDay.classList.remove("active");
     day.classList.add("active");
+    this.changeHiddenInputValue(day);
+    this.#changeLabel(day);
+  }
+
+  changeHiddenInputValue(day) {
     const formattedDate = `${this.yearTarget.value}-${this.monthTarget.value}-${day.dataset.day}`;
     this.dateHiddenInputTarget.value = formattedDate;
-    this.#changeLabel(day);
   }
 
   preventHideOnSlect(event) {
@@ -50,15 +63,27 @@ export default class extends Controller {
 
   pickedMonth() {
     const monthDaysObject = this.#createMonthDaysObject();
-    const pickedDay = this.datepickrTarget.querySelector(".active") || null;
-    const day = pickedDay;
-    const key = `${
-      this.monthTarget.options[this.monthTarget.selectedIndex].text
-    }`;
+    const key = `${this.monthTarget.options[this.monthTarget.selectedIndex].text}`;
     const numDays = monthDaysObject[key];
     this.#createDays(numDays);
-    this.#changeLabel(day);
+    const activeDay = this.dateTableTarget.querySelector(".active") || this.dateTableTarget.querySelector(".day-input");
+    this.changeHiddenInputValue(activeDay);
+    this.#changeLabel(activeDay);
   }
+
+  pickedYear() {
+    const currentYear = new Date().getFullYear();
+    const selectedYear = parseInt(this.yearTarget.value, 10);
+
+    if (selectedYear === currentYear) {
+      const currentMonth = new Date().getMonth();
+      this.populateMonthSelect(currentMonth);
+    } else {
+      this.populateMonthSelect(0, true);
+    }
+    this.pickedMonth();
+  }
+
 
   handleDocumentClick(event) {
     if (!this.element.contains(event.target)) {
@@ -98,18 +123,8 @@ export default class extends Controller {
 
   #createMonthDaysObject() {
     const monthNames = [
-      "Leden",
-      "Únor",
-      "Březen",
-      "Duben",
-      "Květen",
-      "Červen",
-      "Červenec",
-      "Srpen",
-      "Září",
-      "Říjen",
-      "Listopad",
-      "Prosinec",
+      "Leden", "Únor", "Březen", "Duben", "Květen", "Červen",
+      "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"
     ];
 
     const currentYear = this.yearTarget.value;
@@ -132,40 +147,25 @@ export default class extends Controller {
     }
   }
 
-  populateMonthSelect() {
+  populateMonthSelect(startMonth = 0, showAllMonths = false) {
+    this.monthTarget.innerHTML = "";
     const monthsNum = [
-      "01",
-      "02",
-      "03",
-      "04",
-      "05",
-      "06",
-      "07",
-      "08",
-      "09",
-      "10",
-      "11",
-      "12",
+      "01", "02", "03", "04", "05", "06",
+      "07", "08", "09", "10", "11", "12",
     ];
     const monthNames = [
-      "Leden",
-      "Únor",
-      "Březen",
-      "Duben",
-      "Květen",
-      "Červen",
-      "Červenec",
-      "Srpen",
-      "Září",
-      "Říjen",
-      "Listopad",
-      "Prosinec",
+      "Leden", "Únor", "Březen", "Duben", "Květen", "Červen",
+      "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"
     ];
-    monthNames.forEach((monthName, index) => {
+
+    const endMonth = showAllMonths ? 12 : 12 - startMonth;
+
+    for (let i = 0; i < endMonth; i++) {
+      const monthIndex = (startMonth + i) % 12;
       const option = document.createElement("option");
-      option.value = monthsNum[index];
-      option.text = monthName;
+      option.value = monthsNum[monthIndex];
+      option.text = monthNames[monthIndex];
       this.monthTarget.add(option);
-    });
+    }
   }
 }

@@ -60,7 +60,7 @@
             <%= render 'shared/datepickr', input_name: 'order[date]', class_name: nil %>
           </div>
 
-          <%= f.text_area :message, placeholder: 'Zde dopište cokoliv je potřeba specifikovat, optat, nebo vyjasnit!', class: "event-details-textarea" %>
+          <%= f.text_area :message, placeholder: 'Zvláštní požadavky', class: "event-details-textarea" %>
 
           <!-- Turnstile captcha -->
           <div class="cf-turnstile" data-sitekey="<%= ENV.fetch('TURNSTILE_SITE_KEY') %>"></div>
