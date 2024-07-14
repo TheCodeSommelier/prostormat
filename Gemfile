@@ -126,3 +126,6 @@ gem 'sitemap_generator'
 
 # Allows for an easy set up of meta tags for SEO optimizastion
 gem 'meta-tags'
+
+# Adds whatever is in the style tag in emails into an inline style
+gem 'premailer-rails'

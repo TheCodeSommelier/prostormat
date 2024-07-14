@@ -27,13 +27,14 @@
   <div id="contact-us-container">
     <h2>Napište nám</h2>
     <%= form_with url: contact_path, method: :post, local: true do |form| %>
-      <div class="d-flex my-2">
-        <%= form.text_field :name, required: true, placeholder: 'Vaše jméno', class: 'form-control' %>
-        <%= form.email_field :email, required: true, placeholder: 'Váš email', class: 'form-control ms-2' %>
+      <div class="contact-input-container">
+        <%= form.text_field :name, required: true, placeholder: 'Vaše jméno' %>
+        <%= form.email_field :email, required: true, placeholder: 'Váš email' %>
+        <%= form.text_field :subject, required: true, maxlength: 80, placeholder: 'Předmět'  %>
       </div>
 
-      <div class="message-input-container">
-        <%= form.text_area :message, required: true, placeholder: 'Vaše zpráva', class: 'form-control' %>
+      <div class="contact-input-container">
+        <%= form.text_area :message, required: true, placeholder: 'Vaše zpráva' %>
       </div>
 
       <div>

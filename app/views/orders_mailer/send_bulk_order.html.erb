@@ -1,0 +1,33 @@
+<h1>Zde je hormadné objednávka</h1>
+
+<br />
+
+<p>Zákazník: <span class="highlight"><%= @name %></span> - <span class="highlight"><%= @email %></span></p>
+
+<br />
+
+<p>Datum: <%= @date %></p>
+
+<br />
+
+<p>Zpráva: <%= @message %></p>
+
+<br />
+
+<p>For these places:</p>
+
+<ul>
+  <% @places.each do |place| %>
+    <li>
+      <span class="highlight">
+        <%= place.place_name %>
+      </span>
+      -
+      <%= place.full_address %>
+      -
+      <a href="mailto:<%= place.user.email %>">
+        <%= place.user.email %>
+      </a>
+    </li>
+  <% end %>
+</ul>

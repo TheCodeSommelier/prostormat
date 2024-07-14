@@ -4,12 +4,12 @@
   <%= form_for @place, url: place_path(@place.slug), html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'format-new-place-data edit-page', action: 'submit->loader#startLoading' } do |f| %>
 
     <div class="input-container">
-      <%= f.text_field :place_name, placeholder: 'Jméno prostoru', class: 'form-input input-enter-active' %>
+      <%= f.text_field :place_name, placeholder: 'Název prostoru', class: 'form-input input-enter-active' %>
     </div>
 
     <div class="input-container">
       <%= f.text_field :street, placeholder: 'Ulice', class: 'form-input input-enter-active' %>
-      <%= f.text_field :house_number, placeholder: 'Číslo popisné', class: 'form-input input-enter-active' %>
+      <%= f.text_field :house_number, placeholder: 'Číslo popisné / evidenční', class: 'form-input input-enter-active' %>
       <%= f.text_field :postal_code, placeholder: 'Poštovní směrovací číslo', class: 'form-input input-enter-active', data: { format_new_place_data_target: 'postalCodeInput', action: 'blur->format-new-place-data#formatPostalCode' } %>
       <%= f.text_field :city, placeholder: 'Město', class: 'form-input input-enter-active' %>
     </div>
@@ -34,7 +34,7 @@
     </div>
 
     <div class="input-container flex-column" data-controller="char-counter" data-char-counter-max-value="120">
-      <%= f.text_area :long_description, placeholder: 'Pokud máte více prostorů v rámci vašeho komplexu povězte nám o nich...', height: 400, class: 'form-input input-enter-active long-description-text-area-height', data: { action: 'input->char-counter#count', char_counter_target: 'textarea' } %>
+      <%= f.text_area :long_description, placeholder: 'Pokud máte více prostorů v rámci vašeho komplexu, povězte nám o nich...', height: 400, class: 'form-input input-enter-active long-description-text-area-height', data: { action: 'input->char-counter#count', char_counter_target: 'textarea' } %>
       <div data-char-counter-target="counter" class="char-counter">Musí být přes 120 znaků máte 0</div>
     </div>
 

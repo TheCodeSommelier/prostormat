@@ -3,8 +3,8 @@
   <div id="date-table" class="inactive-datepickr" data-datepickr-target="dateTable">
     <div class="month-year-select-container">
       <select data-datepickr-target="month" data-action="click->datepickr#preventHideOnSlect change->datepickr#pickedMonth"></select>
-      <select data-datepickr-target="year" data-action="click->datepickr#preventHideOnSlect"></select>
+      <select data-datepickr-target="year" data-action="click->datepickr#preventHideOnSlect change->datepickr#pickedYear"></select>
     </div>
   </div>
-  <input min="<%= Date.today.to_s %>" id="dateHiddenInput" data-datepickr-target="dateHiddenInput" type="date" name="<%= input_name.present? ? input_name : 'date' %>">
+  <input min="<%= Date.today.to_s %>" id="dateHiddenInput" data-datepickr-target="dateHiddenInput" type="date" name=<%= input_name.present? ? input_name : "date" %>>
 </div>

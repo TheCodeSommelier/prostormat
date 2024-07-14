@@ -20,7 +20,7 @@ class PagesController < ApplicationController
   # Sends the email from contact us form
   def contact
     ContactEmailJob.perform_later(contact_params)
-    redirect_to root_path, notice: 'Vaše zpráva se odesílá. Brzy se vám ozveme.'
+    redirect_to root_path, notice: 'Vaše zpráva je již na cestě. Brzy se vám ozveme.'
   end
 
   # Static page serving as waiting room when the server/DBs are overloaded
@@ -52,7 +52,7 @@ class PagesController < ApplicationController
                       .where('places.max_capacity >= ?', bulk_order_params[:min_capacity]).distinct.pluck(:id)
 
     if @bokee.save && recaptcha_passed && @bulk_order_form.valid?
-      SendBulkOrderJob.perform_later(places_ids, @bulk_order_form.email, @bulk_order_form.full_name, @bulk_order_form.message, @bulk_order_form.date)
+      SendBulkOrderJob.perform_later(places_ids, bulk_order_params)
       redirect_to root_path, notice: 'Zpracováváme Vaší hromadnou poptávku'
     else
       flash.now[:alert] = (@bulk_order_form.errors.full_messages + @bokee.errors.full_messages).join(', ')
@@ -75,6 +75,6 @@ class PagesController < ApplicationController
   end
 
   def contact_params
-    params.permit(:name, :email, :message)
+    params.permit(:name, :email, :message, :subject)
   end
 end
