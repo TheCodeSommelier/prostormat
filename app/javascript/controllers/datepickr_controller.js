@@ -16,6 +16,11 @@ export default class extends Controller {
     this.populateMonthSelect();
     this.yearTarget.addEventListener("change", this.pickedMonth.bind(this));
     this.monthTarget.addEventListener("change", this.pickedMonth.bind(this));
+    document.addEventListener("click", this.handleDocumentClick.bind(this));
+  }
+
+  disconnect() {
+    document.removeEventListener("click", this.handleDocumentClick.bind(this));
   }
 
   showDatepickr(event) {
@@ -53,6 +58,12 @@ export default class extends Controller {
     const numDays = monthDaysObject[key];
     this.#createDays(numDays);
     this.#changeLabel(day);
+  }
+
+  handleDocumentClick(event) {
+    if (!this.element.contains(event.target)) {
+      this.dateTableTarget.className = "inactive-datepickr";
+    }
   }
 
   #changeLabel(day) {

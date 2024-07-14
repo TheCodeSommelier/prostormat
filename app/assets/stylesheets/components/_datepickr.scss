@@ -13,6 +13,16 @@
     color: #757575;
   }
 
+  .label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .fa-calendar-days {
+      color: #757575;
+    }
+  }
+
   .active-datepickr {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
