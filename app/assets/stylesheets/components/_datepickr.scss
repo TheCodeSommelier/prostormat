@@ -1,6 +1,7 @@
 #datepickr {
   cursor: pointer;
   position: relative;
+  z-index: 2;
 
   select {
     cursor: pointer;

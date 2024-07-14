@@ -1,10 +1,10 @@
-<div id="datepickr" tabindex="0" aria-role="date" data-datepickr-target="datepickr" data-controller="datepickr" data-action="click->datepickr#showDatepickr">
-  <div class="label-container"><p class="custom-label">Jaký den?</p><i class="fa-solid fa-calendar-days"></i></div>
+<div id="datepickr" class="<%= class_name.present? ? class_name : '' %>" tabindex="0" aria-role="date" data-datepickr-target="datepickr" data-controller="datepickr" data-action="click->datepickr#showDatepickr">
+  <div class="label-container"><p class="custom-label">Datum</p><i class="fa-solid fa-calendar-days"></i></div>
   <div id="date-table" class="inactive-datepickr" data-datepickr-target="dateTable">
     <div class="month-year-select-container">
       <select data-datepickr-target="month" data-action="click->datepickr#preventHideOnSlect change->datepickr#pickedMonth"></select>
       <select data-datepickr-target="year" data-action="click->datepickr#preventHideOnSlect"></select>
     </div>
   </div>
-  <input min="<%= Date.today.to_s %>" id="dateHiddenInput" data-datepickr-target="dateHiddenInput" type="date" name="<%= input_name ? input_name : 'date' %>">
+  <input min="<%= Date.today.to_s %>" id="dateHiddenInput" data-datepickr-target="dateHiddenInput" type="date" name="<%= input_name.present? ? input_name : 'date' %>">
 </div>
