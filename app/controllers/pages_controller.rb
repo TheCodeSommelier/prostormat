@@ -20,7 +20,7 @@ class PagesController < ApplicationController
   # Sends the email from contact us form
   def contact
     ContactEmailJob.perform_later(contact_params)
-    redirect_to root_path, notice: 'Vaše zpráva se odesílá. Brzy se vám ozveme.'
+    redirect_to root_path, notice: 'Vaše zpráva je již na cestě. Brzy se vám ozveme.'
   end
 
   # Static page serving as waiting room when the server/DBs are overloaded
@@ -75,6 +75,6 @@ class PagesController < ApplicationController
   end
 
   def contact_params
-    params.permit(:name, :email, :message)
+    params.permit(:name, :email, :message, :subject)
   end
 end

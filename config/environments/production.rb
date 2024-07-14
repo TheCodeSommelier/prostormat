@@ -110,5 +110,7 @@ Rails.application.configure do
 
   # For creating urls
   # config.action_mailer.default_url_options = { host: 'https://prostormat-b1289c90688d.herokuapp.com' }
-  config.action_mailer.default_url_options = { host: 'prostormat.cz' }
+  config.action_mailer.default_url_options = { host: 'https://www.prostormat.cz' }
+  config.action_mailer.asset_host = 'https://www.prostormat.cz'
+  config.action_controller.asset_host = 'https://www.prostormat.cz'
 end

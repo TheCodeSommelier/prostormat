@@ -4,10 +4,126 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>
       /* Email styles need to be inline */
+
+      /* General styling */
+      html {
+        background-color: #FFF;
+      }
+
+      a {
+        color: #26A387;
+        text-decoration: underline;
+      }
+
+      body {
+        border: solid 3px #26A387;
+        padding: 30px;
+        border-radius: 40px;
+      }
+
+      p, h1, h2, h3 {
+        margin: 0;
+      }
+
+      .highlight {
+        color: #26A387;
+      }
+
+      .content, p {
+        font-size: 18px;
+        color: #252625;
+      }
+
+      /* Header */
+      .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      /* Content */
+      .content-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px;
+      }
+
+      /* Footer */
+      .footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .footer-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 15px;
+      }
+
+      .footer-link {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background-color: #252625;
+        padding: 10px;
+        margin: auto 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .footer-link svg {
+        fill: #FFF;
+      }
+
+      .confidentiality p {
+        font-size: 14px;
+        color: #b5b5b5;
+      }
     </style>
   </head>
 
   <body>
-    <%= yield %>
+    <!-- Header -->
+    <header class="header">
+      <picture>
+        <img src="<%= image_url('prostormat_logo.png') %>" alt="Logo" width="200">
+      </picture>
+    </header>
+
+    <!-- Content -->
+    <section class="content-container">
+      <div class="content">
+        <%= yield %>
+        <br />
+        <br />
+        <p>
+          S pozdravem, <br />
+          Prostormat Tým
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-buttons">
+        <% ['phone', 'envelope', 'facebook', 'instagram'].each do |icon| %>
+          <%= link_to '#', class: "footer-link", 'aria-label': "#{icon} icon" do %>
+            <%= raw File.read(Rails.root.join('app', 'assets', 'images', "#{icon}.svg")) %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="confidentiality">
+        <p>
+          Tento e-mail a jakékoli připojené soubory jsou důvěrné a jsou určeny výhradně adresátovi. Pokud jste tento e-mail obdrželi omylem, prosím informujte odesílatele a okamžitě jej smažte. E-mail prosím dále nepřeposílejte, protože může obsahovat citlivé informace.
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

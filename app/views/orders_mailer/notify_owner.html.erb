@@ -1,0 +1,38 @@
+<p>
+  <%= @greeting.html_safe %>,
+  <br />
+  <br />
+  Níže je detail objednávky:
+</p>
+
+<br />
+<br />
+
+<p>
+  Jméno zákazníka: <span class="highlight"><%= @bokee.full_name %></span>
+</p>
+
+<br />
+
+<p>
+  Email zákazníka: <a href="mailto:<%= @bokee.email %>"><%= @bokee.email %></a></span>
+</p>
+
+<br />
+
+<p>
+  Typ akce: <span class="highlight"><%= @order.event_type %></span>
+</p>
+
+<br />
+
+<p>
+  Datum: <span class="highlight"><%= @order.date.strftime('%d/%m/%Y') %></span>
+</p>
+
+<br />
+
+<p>
+  Zpráva od zákazníka: <br /><br />
+  <span class="highlight"><%= @order.message %></span>
+</p>

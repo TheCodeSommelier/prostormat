@@ -25,7 +25,7 @@ class OrdersController < ApplicationController
     @order.errors.add(:base, error_message) unless recaptcha_passed
 
     if @order.save && recaptcha_passed && validate_place_id?
-      SendOrderToPlaceOwnerJob.perform_later(@place.id, bokee.id, @order.message)
+      SendOrderToPlaceOwnerJob.perform_later(@place.id, @order.id)
       redirect_to place_path(@place.slug), notice: 'Poptávka je vytvořená. Majitel se Vám ozve.'
     else
       redirect_to place_path(@place.slug), alert: @order.errors.full_messages.join(', ')
