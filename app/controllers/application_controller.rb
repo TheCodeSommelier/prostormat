@@ -34,12 +34,10 @@ class ApplicationController < ActionController::Base
 
   def verify_turnstile_token(token)
     secret_key = ENV.fetch('TURNSTILE_SECRET_KEY')
-    response = Faraday.post('https://challenges.cloudflare.com/turnstile/v0/siteverify') do |req|
-      req.body = {
-        secret: secret_key,
-        response: token
-      }
-    end
+    response = HTTParty.post('https://challenges.cloudflare.com/turnstile/v0/siteverify', body: {
+                               secret: secret_key,
+                               response: token
+                             })
 
     result = JSON.parse(response.body)
     result['success']
