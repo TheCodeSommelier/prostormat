@@ -24,5 +24,12 @@ export default class extends Controller {
     const labelText = label.querySelector('p');
     const filesNumber = label.querySelector("input#place_photos").files.length;
     labelText.innerText = `Fotky ${filesNumber}`;
+    if (filesNumber > 0) {
+      labelText.innerText = `Fotky ${filesNumber}`;
+      labelText.style.color = "#252625";
+    } else {
+      labelText.innerText = "Fotky";
+      labelText.style.color = "";
+    }
   }
 }

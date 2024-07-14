@@ -10,13 +10,18 @@
     <div class="bulk-order-inputs-group">
       <%= f.text_field :full_name, placeholder: 'Jméno', class: 'input-enter-active' %>
       <%= f.text_field :email, placeholder: 'Email', class: 'input-enter-active' %>
-      <%= f.text_field :phone_number, placeholder: 'Mobil', class: 'input-enter-active' %>
+      <%= f.text_field :phone_number, placeholder: 'Tel. číslo', class: 'input-enter-active' %>
     </div>
 
     <div class="bulk-order-inputs-group">
       <%= f.text_field :city, placeholder: 'Město', class: 'input-enter-active' %>
       <%= f.number_field :min_capacity, placeholder: 'Kapacita např. 100', class: 'input-enter-active' %>
       <%= render 'shared/custom_select', input_classes: 'input-enter-active' %>
+      <%= render 'shared/datepickr', input_name: 'bulk_order_form[date]', class_name: 'input-enter-active' %>
+    </div>
+
+    <div class="bulk-order-inputs-group">
+      <%= f.text_area :message, placeholder: 'Zde dopište cokoliv je potřeba specifikovat, optat, nebo vyjasnit!', class: 'input-enter-active' %>
     </div>
 
     <%= f.submit 'Odeslat poptávku', class: 'button-primary my-4 w-100' %>

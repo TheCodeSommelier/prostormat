@@ -1,0 +1,88 @@
+#datepickr {
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+
+  select {
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  & p {
+    margin: 0;
+    display: inline-block;
+    color: #757575;
+  }
+
+  .label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .fa-calendar-days {
+      color: #757575;
+    }
+  }
+
+  .active-datepickr {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    padding: 15px;
+  }
+
+  .inactive-datepickr {
+    display: none;
+  }
+
+  .day-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    font-size: 17px;
+    border: 1px solid #757575;
+    padding: 15px;
+    cursor: pointer;
+  }
+
+  .day-label {
+    color: #757575;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    font-size: 17px;
+    padding: 15px;
+  }
+
+  .month-year-select-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    grid-column: span 7;
+  }
+
+  #date-table {
+    position: absolute;
+    background-color: white;
+    border: 3px solid $primary;
+    width: max-content;
+    padding: 10px;
+  }
+
+  #dateHiddenInput {
+    display: none;
+  }
+
+  .active {
+    background-color: $primary;
+    color: #FFF;
+    border: none;
+    font-weight: 500;
+  }
+}

@@ -3,10 +3,12 @@
 class SendBulkOrderJob < ApplicationJob
   queue_as :mailers
 
-  def perform(places_ids, customer_email, customer_name)
-    @places = Place.includes(:user).where(id: places_ids)
-    @email  = customer_email
-    @name   = customer_name
+  def perform(places_ids, email, name, message, date)
+    @places       = Place.includes(:user).where(id: places_ids)
+    @email        = email
+    @name         = name
+    @date         = date
+    @meassage     = message
     template_path = Rails.root.join('app', 'views', 'mailers', 'send_bulk_order_to_admin.html.erb')
     template      = File.read(template_path)
     erb_template  = ERB.new(template)
