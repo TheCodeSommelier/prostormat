@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get 'overload', to: 'pages#overload'
   get 'new_bulk_order', to: 'pages#new_bulk_order', as: 'new_bulk_order'
   post 'create_bulk_order', to: 'pages#create_bulk_order'
+  post '/verify-turnstile', to: 'application#verify_turnstile_token_ajax'
 
   get 'admin_places', to: 'places#admin_places', as: :admin_places
   resources :places, param: :slug do

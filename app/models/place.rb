@@ -16,7 +16,6 @@ class Place < ApplicationRecord
   after_validation :geocode, if: :full_address_changed?
 
   # Callback that expires cache upon creation or editation of a place record
-  after_commit :expire_places_index_cache, on: %i[create update]
   after_commit :expire_place_show_cache, on: :update
 
   validates :max_capacity,

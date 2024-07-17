@@ -18,11 +18,11 @@ class OrdersMailer < ApplicationMailer
   end
 
   def send_bulk_order(places_ids, bulk_order_params)
-    @places = Place.includes(:user).where(id: places_ids)
+    @places       = Place.includes(:user).where(id: places_ids)
     @email        = bulk_order_params[:email]
     @name         = bulk_order_params[:full_name]
-    @date         = bulk_order_params[:date]
-    @meassage     = bulk_order_params[:message]
+    @date         = Date.parse(bulk_order_params[:date])
+    @message      = bulk_order_params[:message]
 
     mail.headers['X-PM-TrackOpens'] = 'true'
     mail.headers['X-PM-Message-Stream'] = 'outbound'

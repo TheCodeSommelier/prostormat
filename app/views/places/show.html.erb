@@ -43,7 +43,7 @@
           <h2>Zpráva pro majitele</h2>
         </div>
 
-        <%= form_with model: [@place, @order], url: place_orders_path(@place.slug), local: true, data: { turbo: false }, class: "order-form" do |f|%>
+        <%= form_with model: [@place, @order], url: place_orders_path(@place.slug), local: true, data: { controller: "turnstile", turnstile_sitekey_value: ENV.fetch('TURNSTILE_SITE_KEY'), turnstile_target: "form", turbo: false, turnstile_sitekey_visible_value: ENV.fetch('TURNSTILE_SITE_KEY_VISIBLE') }, class: "order-form" do |f|%>
           <%= hidden_field_tag 'place_id', @place.id %>
           <div class="bokee-info">
             <%= f.fields_for :bokee do |field_for_bokee| %>
@@ -63,9 +63,8 @@
           <%= f.text_area :message, placeholder: 'Zvláštní požadavky', class: "event-details-textarea" %>
 
           <!-- Turnstile captcha -->
-          <div class="cf-turnstile" data-sitekey="<%= ENV.fetch('TURNSTILE_SITE_KEY') %>"></div>
-
-          <%= f.submit 'Poslat poptávku', class: 'button-primary' %>
+          <%= render 'shared/turnstile' %>
+          <%= f.submit 'Poslat poptávku', class: 'button-primary', data: { turnstile_target: "submit", action: "click->turnstile#submitForm" } %>
         <% end %>
       </div>
       <div class="show-section-container">

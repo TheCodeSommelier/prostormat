@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
   # Pundit: allow-list approach
   after_action :verify_authorized, except: :index, unless: :skip_pundit?
   after_action :verify_policy_scoped, only: :index, unless: :skip_pundit?
+  skip_before_action :authenticate_user!, only: %i[verify_turnstile_token_ajax] # Skip authentication for index
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
@@ -29,11 +30,13 @@ class ApplicationController < ActionController::Base
   end
 
   def skip_pundit?
-    devise_controller? || params[:controller] =~ /(^(rails_)?admin)|(^pages$)/
+    devise_controller? ||
+      params[:controller] =~ /(^(rails_)?admin)|(^pages$)/ ||
+      params[:action] == 'verify_turnstile_token_ajax'
   end
 
-  def verify_turnstile_token(token)
-    secret_key = ENV.fetch('TURNSTILE_SECRET_KEY')
+  def verify_turnstile_token(token, is_visible)
+    secret_key = is_visible ? ENV.fetch('TURNSTILE_SECRET_KEY_VISIBLE') : ENV.fetch('TURNSTILE_SECRET_KEY')
     response = HTTParty.post('https://challenges.cloudflare.com/turnstile/v0/siteverify', body: {
                                secret: secret_key,
                                response: token
@@ -41,9 +44,24 @@ class ApplicationController < ActionController::Base
 
     result = JSON.parse(response.body)
     result['success']
-  rescue StandardError => e
+  rescue e
     Rails.logger.error("Turnstile verification failed: #{e.message}")
     false
+  end
+
+  def verify_turnstile_token_ajax
+    token = params[:token]
+    success = verify_turnstile_token(token, false)
+    session[:invisible_turnstile_verified] = success
+    render json: { success: }
+  end
+
+  def turnstile_passed?
+    if session[:invisible_turnstile_verified]
+      true
+    else
+      verify_turnstile_token(params['cf-turnstile-response'], true)
+    end
   end
 
   private

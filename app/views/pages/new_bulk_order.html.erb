@@ -6,7 +6,12 @@
     Stačí jen vyplnit údaje níže a o zbytek se postaráme my.
   </p>
 
-  <%= form_with model: @bulk_order_form, url: create_bulk_order_path, local: true do |f| %>
+  <%= form_with model: @bulk_order_form, url: create_bulk_order_path, local: true, data: {
+      controller: "turnstile",
+      turnstile_sitekey_value: ENV.fetch('TURNSTILE_SITE_KEY'),
+      turnstile_target: "form",
+      turnstile_sitekey_visible_value: ENV.fetch('TURNSTILE_SITE_KEY_VISIBLE')
+    } do |f| %>
     <div class="bulk-order-inputs-group">
       <%= f.text_field :full_name, placeholder: 'Jméno', class: 'input-enter-active' %>
       <%= f.text_field :email, placeholder: 'Email', class: 'input-enter-active' %>
@@ -24,7 +29,7 @@
       <%= f.text_area :message, placeholder: 'Zvláštní požadavky', class: 'input-enter-active' %>
     </div>
 
-    <%= f.submit 'Odeslat poptávku', class: 'button-primary my-4 w-100' %>
-    <div class="cf-turnstile" data-sitekey="<%= ENV.fetch('TURNSTILE_SITE_KEY') %>"></div>
+    <%= render 'shared/turnstile' %>
+    <%= f.submit 'Odeslat poptávku', class: 'button-primary my-4 w-100', data: { turnstile_target: "submit", action: "click->turnstile#submitForm" } %>
   <% end %>
 </div>

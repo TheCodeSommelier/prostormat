@@ -1,0 +1,3 @@
+<div data-turnstile-target="turViContainer"></div>
+<%= hidden_field_tag :cf_turnstile_response, nil, data: { turnstile_target: "turnstileResponse" } %>
+<div class="cf-turnstile" data-sitekey="<%= ENV.fetch('TURNSTILE_SITE_KEY') %>"></div>

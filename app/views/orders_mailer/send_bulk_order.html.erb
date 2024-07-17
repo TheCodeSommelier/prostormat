@@ -6,11 +6,11 @@
 
 <br />
 
-<p>Datum: <%= @date %></p>
+<p>Datum: <span class="highlight"><%= @date.strftime("%d.%m.%Y") %></span></p>
 
 <br />
 
-<p>Zpráva: <%= @message %></p>
+<p>Zpráva: <br /> <span class="highlight"><%= @message %></span></p>
 
 <br />
 

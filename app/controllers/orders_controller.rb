@@ -15,14 +15,15 @@ class OrdersController < ApplicationController
                                            'Parametr place_id není platný')
                        end
     @order.place     = @place if @place.is_a?(Place)
-    recaptcha_passed = verify_turnstile_token(params['cf-turnstile-response'])
-    error_message    = 'Cloudfare vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...'
+    recaptcha_passed = turnstile_passed?
+
+    @place.errors.add(:base, 'Nepodařilo se ověřit jestli jste robot. Zkuste to prosím znovu.') unless recaptcha_passed
+
 
     authorize @order
 
     bokee           = Bokee.create_with(orders_params[:bokee_attributes]).find_or_create_by(email: orders_params[:bokee_attributes][:email])
     @order.bokee    = bokee
-    @order.errors.add(:base, error_message) unless recaptcha_passed
 
     if @order.save && recaptcha_passed && validate_place_id?
       SendOrderToPlaceOwnerJob.perform_later(@place.id, @order.id)

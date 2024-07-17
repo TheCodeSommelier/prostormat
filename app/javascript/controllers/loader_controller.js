@@ -2,10 +2,11 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="loader"
 export default class extends Controller {
-  static targets = ["form", "loader", "percentage", "loaderContainer", "loaderMessage" ];
+  static targets = ["placeForm", "loader", "percentage", "loaderContainer", "loaderMessage" ];
 
   connect() {
     this.#hideLoader()
+    this.placeFormTarget.addEventListener("submit", () => this.startLoading())
   }
 
   nextStep(event) {
@@ -43,7 +44,7 @@ export default class extends Controller {
       this.percentageTarget.innerHTML = `${Math.min(Math.round(progress), 100)}<span>%</span>`;
 
       if (progress < 20) {
-        this.loaderMessageTarget.textContent = 'Ukládám jméno...'
+        this.loaderMessageTarget.textContent = 'Zjišťujeme jestli nejste robot...'
       } else if (progress > 20 && progress < 50) {
         this.loaderMessageTarget.textContent = 'Spojuji filtry...'
       } else if (progress > 50 && progress < 75) {

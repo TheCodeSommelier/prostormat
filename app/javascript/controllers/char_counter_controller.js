@@ -32,9 +32,7 @@ export default class extends Controller {
   }
 
   #setStyle(textarea, charCount, maxChars, counter, shouldGoOver) {
-    console.log(charCount);
     if (charCount < maxChars && shouldGoOver) {
-      console.log("If ran");
       textarea.style.borderBottom = "red 3px solid";
       counter.style.color = "red";
       textarea.value = textarea.value.substring(0, maxChars);
@@ -45,13 +43,11 @@ export default class extends Controller {
       textarea.value = textarea.value.substring(0, maxChars);
       counter.textContent = `${charCount}/${maxChars}`;
     } else if (charCount > maxChars && !shouldGoOver) {
-      console.log("else if ran");
       textarea.style.borderBottom = "red 3px solid";
       counter.style.color = "red";
       textarea.value = textarea.value.substring(0, maxChars);
       counter.textContent = `${maxChars}/${maxChars}`;
     } else {
-      console.log("else ran");
       textarea.style.borderBottom = "3px solid #26A387";
       counter.style.color = "#888";
     }
