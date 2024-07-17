@@ -26,7 +26,7 @@
   </div>
   <div id="contact-us-container">
     <h2>Napište nám</h2>
-    <%= form_with url: contact_path, method: :post, local: true do |form| %>
+    <%= form_with url: contact_path, method: :post, local: true, data: { controller: "turnstile", turnstile_sitekey_value: ENV.fetch('TURNSTILE_SITE_KEY'), turnstile_target: "form", turnstile_sitekey_visible_value: ENV.fetch('TURNSTILE_SITE_KEY_VISIBLE') } do |form| %>
       <div class="contact-input-container">
         <%= form.text_field :name, required: true, placeholder: 'Vaše jméno' %>
         <%= form.email_field :email, required: true, placeholder: 'Váš email' %>
@@ -38,7 +38,9 @@
       </div>
 
       <div>
-        <%= form.submit 'Send', class: 'button-primary w-100' %>
+        <!-- Turnstile captcha -->
+        <%= render 'shared/turnstile' %>
+        <%= form.submit 'Send', class: 'button-primary w-100', data: { turnstile_target: "submit", action: "click->turnstile#submitForm" } %>
       </div>
     <% end %>
   </div>

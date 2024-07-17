@@ -1,7 +1,7 @@
 <div id="new-place-form" data-controller="loader">
   <h1><%= title 'Vytvořte vaše porstory' %></h1>
 
-  <%= form_for @place, url: place_path(@place.slug), html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'format-new-place-data edit-page', action: 'submit->loader#startLoading' } do |f| %>
+  <%= form_for @place, url: place_path(@place.slug), html: { id: 'place-form', 'data-turbo': 'false' }, data: { controller: 'format-new-place-data edit-page turnstile', turnstile_sitekey_value: ENV.fetch('TURNSTILE_SITE_KEY'), turnstile_target: "form", loader_target: 'placeForm', turnstile_sitekey_visible_value: ENV.fetch('TURNSTILE_SITE_KEY_VISIBLE') } do |f| %>
 
     <div class="input-container">
       <%= f.text_field :place_name, placeholder: 'Název prostoru', class: 'form-input input-enter-active' %>
@@ -38,8 +38,8 @@
       <div data-char-counter-target="counter" class="char-counter">Musí být přes 120 znaků máte 0</div>
     </div>
 
-    <%= f.submit "Upravte", class: 'hidden-submit button-primary my-3 w-100' %>
-    <div class="cf-turnstile" data-sitekey="<%= ENV.fetch('TURNSTILE_SITE_KEY') %>"></div>
+    <%= render 'shared/turnstile' %>
+    <%= f.submit "Upravte", class: 'hidden-submit button-primary my-3 w-100', data: { turnstile_target: "submit", action: "click->turnstile#submitForm" } %>
   <% end %>
 
   <div class="loader-container d-none" data-loader-target="loaderContainer">

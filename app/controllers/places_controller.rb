@@ -88,14 +88,10 @@ class PlacesController < ApplicationController
     authorize @place
     @place.user = current_user
     @place.hidden = false if current_user.admin?
-    recaptcha_passed = verify_turnstile_token(params['cf-turnstile-response'])
 
-    unless recaptcha_passed
-      @place.errors.add(:base,
-                        'Bohužel turnstile vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
-    end
+    @place.errors.add(:base, 'Nepodařilo se ověřit jestli jste robot. Zkuste to prosím znovu.') unless turnstile_passed?
 
-    if recaptcha_passed && check_photo_sizes? && filters? && @place.save
+    if check_photo_sizes? && filters? && @place.save && turnstile_passed?
       process_photos
       respond_to do |format|
         format.js
@@ -119,12 +115,9 @@ class PlacesController < ApplicationController
   def update
     @place = Place.find_by(slug: params[:slug])
     authorize @place
-    recaptcha_passed = verify_turnstile_token(params['cf-turnstile-response'])
+    recaptcha_passed = turnstile_passed?
 
-    unless recaptcha_passed
-      @place.errors.add(:base,
-                        'Bohužel turnstile vyhodnotil rizikovou aktivitu. Zkuste to prosím znovu...')
-    end
+    @place.errors.add(:base, 'Nepodařilo se ověřit jestli jste robot. Zkuste to prosím znovu.') unless turnstile_passed?
 
     expire_place_show_photos_cache(@place) if @place.photos.attached?
 

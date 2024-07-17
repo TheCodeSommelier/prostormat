@@ -3,6 +3,7 @@
 # Pages controller handles static and DB related pages.
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[landing_page about_us faq_contact_us contact overload new_bulk_order create_bulk_order] # Skip authentication for index
+
   # The landing_page action renders the application's landing page, which is used to explain
   # how it works, sample places/venues and a footer
   def landing_page
@@ -19,8 +20,12 @@ class PagesController < ApplicationController
 
   # Sends the email from contact us form
   def contact
-    ContactEmailJob.perform_later(contact_params)
-    redirect_to root_path, notice: 'Vaše zpráva je již na cestě. Brzy se vám ozveme.'
+    if turnstile_passed?
+      ContactEmailJob.perform_later(contact_params)
+      redirect_to root_path, notice: 'Vaše zpráva je již na cestě. Brzy se vám ozveme.'
+    else
+      render :faq_contact_us, status: :unprocessable_entity, alert: 'Bohužel se nepodařilo poslat vaší zprávu. Zkuste to prosím znovu.'
+    end
   end
 
   # Static page serving as waiting room when the server/DBs are overloaded
@@ -36,12 +41,9 @@ class PagesController < ApplicationController
   # Creates a bokee, finds the ids of corresponding places and verfies captcha with bokee. If pass sends the query.
   def create_bulk_order
     @bulk_order_form = BulkOrderForm.new(bulk_order_params)
-    recaptcha_passed = verify_turnstile_token(params['cf-turnstile-response'])
+    recaptcha_passed = turnstile_passed?
 
-    unless recaptcha_passed
-      @bulk_order_form.errors.add(:base,
-                                  'reCAPTCHA verifikace se nepodařila. Zkuste to prosím znovu.')
-    end
+    @place.errors.add(:base, 'Nepodařilo se ověřit jestli jste robot. Zkuste to prosím znovu.') unless recaptcha_passed
 
     @bokee = Bokee.new(full_name: bulk_order_params[:full_name], email: bulk_order_params[:email],
                        phone_number: bulk_order_params[:phone_number])
@@ -67,7 +69,7 @@ class PagesController < ApplicationController
   end
 
   def bulk_order_params
-    params.require(:bulk_order_form).permit(:full_name, :email, :phone_number, :min_capacity, :city)
+    params.require(:bulk_order_form).permit(:full_name, :email, :message, :phone_number, :min_capacity, :city, :date)
   end
 
   def filters_params
