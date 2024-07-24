@@ -1,5 +1,9 @@
 #bulk-order-container {
-  padding: 5rem;
+  padding: 4rem 5%;
+
+  .title, .subtitle {
+    padding: 0 2%;
+  }
 
   .bulk-order-inputs-group {
     display: flex;
@@ -15,5 +19,43 @@
 
   input[type="submit"] {
     margin-top: 20px;
+  }
+
+  @media (max-width: 1200px) {
+    padding: 3rem;
+
+    .bulk-order-inputs-group {
+      flex-wrap: wrap;
+
+      input, .custom-select, #datepickr, textarea {
+        flex: 1 1 calc(50% - 20px);
+        margin: 10px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+
+    .bulk-order-inputs-group {
+      flex-direction: column;
+
+      input, .custom-select, #datepickr, textarea {
+        flex: 1 1 100%;
+        margin: 10px 0;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
   }
 }
