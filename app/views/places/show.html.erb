@@ -64,7 +64,7 @@
 
           <!-- Turnstile captcha -->
           <%= render 'shared/turnstile' %>
-          <%= f.submit 'Poslat poptávku', class: 'button-primary', data: { turnstile_target: "submit", action: "click->turnstile#submitForm" } %>
+          <%= f.submit 'Poslat poptávku', class: 'button-primary', data: { turnstile_target: "submit" } %>
         <% end %>
       </div>
       <div class="show-section-container">

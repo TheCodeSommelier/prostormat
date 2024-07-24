@@ -33,18 +33,18 @@ export default class extends Controller {
 
   #setStyle(textarea, charCount, maxChars, counter, shouldGoOver) {
     if (charCount < maxChars && shouldGoOver) {
-      textarea.style.borderBottom = "red 3px solid";
-      counter.style.color = "red";
+      textarea.style.borderBottom = "3px solid #ff0000";
+      counter.style.color = "#ff0000";
       textarea.value = textarea.value.substring(0, maxChars);
       counter.textContent = `Musí být přes ${maxChars} znaků máte ${charCount}`;
     } else if (charCount < 10 && !shouldGoOver) {
-      textarea.style.borderBottom = "red 3px solid";
-      counter.style.color = "red";
+      textarea.style.borderBottom = "3px solid #ff0000";
+      counter.style.color = "#ff0000";
       textarea.value = textarea.value.substring(0, maxChars);
       counter.textContent = `${charCount}/${maxChars}`;
     } else if (charCount > maxChars && !shouldGoOver) {
-      textarea.style.borderBottom = "red 3px solid";
-      counter.style.color = "red";
+      textarea.style.borderBottom = "3px solid #ff0000";
+      counter.style.color = "#ff0000";
       textarea.value = textarea.value.substring(0, maxChars);
       counter.textContent = `${maxChars}/${maxChars}`;
     } else {

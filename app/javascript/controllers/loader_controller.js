@@ -1,12 +1,30 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="loader"
 export default class extends Controller {
-  static targets = ["placeForm", "loader", "percentage", "loaderContainer", "loaderMessage" ];
+  static targets = [
+    "placeForm",
+    "loader",
+    "percentage",
+    "loaderContainer",
+    "loaderMessage",
+  ];
 
   connect() {
-    this.#hideLoader()
-    this.placeFormTarget.addEventListener("submit", () => this.startLoading())
+    this.#hideLoader();
+    this.placeFormTarget.addEventListener("validationPassed", () => this.startLoading());
+    this.placeFormTarget.addEventListener("validationFailed", () => {
+      this.#hideLoader();
+    });
+  }
+
+  disconnect() {
+    this.placeFormTarget.removeEventListener("submit", () =>
+      this.startLoading()
+    );
+    this.placeFormTarget.removeEventListener("validationFailed", () =>
+      this.stopLoading()
+    );
   }
 
   nextStep(event) {
@@ -32,6 +50,7 @@ export default class extends Controller {
   }
 
   startLoading() {
+    console.log("loading ran");
     const totalImages = this.element.querySelector("[type=file]").files.length;
     let progress = 0;
 
@@ -41,16 +60,20 @@ export default class extends Controller {
 
     const interval = setInterval(() => {
       progress += 100 / ((totalImages || 1) * 2);
-      this.percentageTarget.innerHTML = `${Math.min(Math.round(progress), 100)}<span>%</span>`;
+      this.percentageTarget.innerHTML = `${Math.min(
+        Math.round(progress),
+        100
+      )}<span>%</span>`;
 
       if (progress < 20) {
-        this.loaderMessageTarget.textContent = 'Zjišťujeme jestli nejste robot...'
+        this.loaderMessageTarget.textContent =
+          "Zjišťujeme jestli nejste robot...";
       } else if (progress > 20 && progress < 50) {
-        this.loaderMessageTarget.textContent = 'Spojuji filtry...'
+        this.loaderMessageTarget.textContent = "Spojuji filtry...";
       } else if (progress > 50 && progress < 75) {
-        this.loaderMessageTarget.textContent = 'Ukládám popisky...'
+        this.loaderMessageTarget.textContent = "Ukládám popisky...";
       } else if (progress > 75) {
-        this.loaderMessageTarget.textContent = 'Nahrávám fotky...'
+        this.loaderMessageTarget.textContent = "Nahrávám fotky...";
       }
 
       if (progress >= 100) {
@@ -60,15 +83,17 @@ export default class extends Controller {
   }
 
   #hideLoader() {
+    console.log("hide ran");
     this.loaderContainerTarget.classList.add("d-none");
+    console.log(this.loaderContainerTarget.classList);
   }
 
   handleImageLoad(event) {
-    const image  = event.target;
+    const image = event.target;
     const loader = image.previousElementSibling;
 
-    loader.style.display = 'none';
-    image.style.visibility = 'visible';
-    image.style.opacity = '1';
+    loader.style.display = "none";
+    image.style.visibility = "visible";
+    image.style.opacity = "1";
   }
 }

@@ -4,6 +4,7 @@ import FormUtils from "modules/form_utils";
 // Connects to data-controller="filter-select"
 export default class extends Controller {
   static targets = ["selectItems"];
+
   connect() {
     document.addEventListener("click", this.handleClickOutside.bind(this));
   }
