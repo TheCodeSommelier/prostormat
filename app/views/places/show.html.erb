@@ -25,7 +25,7 @@
       </div>
     </div>
   </section>
-  <section id="buttons" class="content-container ">
+  <section id="buttons" class="content-container">
     <% if current_user&.admin? && !@place.primary %>
       <%= button_to 'Primary', toggle_primary_place_path(@place.slug), method: :patch, data: { turbo: false }, class: 'button-secondary button-toggle', form: {class: "inline"} %>
     <% elsif current_user&.admin? && @place.primary %>
