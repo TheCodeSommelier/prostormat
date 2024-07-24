@@ -7,12 +7,13 @@ class Order < ApplicationRecord
   belongs_to :place
   accepts_nested_attributes_for :bokee
 
-  validates :event_type, :date, presence: true
+  validates :event_type, presence: { message: 'Druh eventu nesmí být prázdný' }
+  validates :date, presence: { message: 'Datum nesmí být prázdné' }
   validate :date_cannot_be_in_the_past
 
   private
 
   def date_cannot_be_in_the_past
-    errors.add(:your_date_column, 'Vyberte datum, které není v minulosti!') if date.present? && date < Date.today
+    errors.add(:date, 'Vyberte datum, které není v minulosti!') if date.present? && date < Date.today
   end
 end

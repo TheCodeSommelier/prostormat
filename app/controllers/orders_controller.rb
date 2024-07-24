@@ -22,8 +22,8 @@ class OrdersController < ApplicationController
 
     authorize @order
 
-    bokee           = Bokee.create_with(orders_params[:bokee_attributes]).find_or_create_by(email: orders_params[:bokee_attributes][:email])
-    @order.bokee    = bokee
+    bokee        = Bokee.create_with(orders_params[:bokee_attributes]).find_or_create_by(email: orders_params[:bokee_attributes][:email])
+    @order.bokee = bokee
 
     if @order.save && recaptcha_passed && validate_place_id?
       SendOrderToPlaceOwnerJob.perform_later(@place.id, @order.id)
