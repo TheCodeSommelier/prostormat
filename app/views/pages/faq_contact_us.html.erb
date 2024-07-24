@@ -40,7 +40,7 @@
       <div>
         <!-- Turnstile captcha -->
         <%= render 'shared/turnstile' %>
-        <%= form.submit 'Send', class: 'button-primary w-100', data: { turnstile_target: "submit", action: "click->turnstile#submitForm" } %>
+        <%= form.submit 'Send', class: 'button-primary w-100', data: { turnstile_target: "submit" } %>
       </div>
     <% end %>
   </div>

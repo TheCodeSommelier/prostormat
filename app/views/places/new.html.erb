@@ -33,7 +33,7 @@
     </div>
 
     <%= render 'shared/turnstile' %>
-    <%= f.submit "Vytvořte prostor", class: 'hidden-submit button-primary my-3 w-100', data: { turnstile_target: "submit", action: "click->turnstile#submitForm" } %>
+    <%= f.submit "Vytvořte prostor", class: 'hidden-submit button-primary my-3 w-100', data: { turnstile_target: "submit" } %>
   <% end %>
 
   <div class="loader-container d-none" data-loader-target="loaderContainer">

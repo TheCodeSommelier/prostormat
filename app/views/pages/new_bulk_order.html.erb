@@ -30,6 +30,6 @@
     </div>
 
     <%= render 'shared/turnstile' %>
-    <%= f.submit 'Odeslat poptávku', class: 'button-primary my-4 w-100', data: { turnstile_target: "submit", action: "click->turnstile#submitForm" } %>
+    <%= f.submit 'Odeslat poptávku', class: 'button-primary my-4 w-100', data: { turnstile_target: "submit" } %>
   <% end %>
 </div>

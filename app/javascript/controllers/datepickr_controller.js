@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
+import Validator from "modules/validator";
 
 // Connects to data-controller="datepickr"
 export default class extends Controller {
@@ -50,6 +51,7 @@ export default class extends Controller {
     day.classList.add("active");
     this.changeHiddenInputValue(day);
     this.#changeLabel(day);
+    this.#validateDateData();
   }
 
   changeHiddenInputValue(day) {
@@ -167,5 +169,18 @@ export default class extends Controller {
       option.text = monthNames[monthIndex];
       this.monthTarget.add(option);
     }
+  }
+
+  // Needs to be on show and where ever are date inputs
+  #validateDateData() {
+    const dateValidObject = Validator.validateDatepickr(this.datepickrTarget);
+    const styling = dateValidObject.isValid
+    ? "3px solid #26A387"
+    : "3px solid #ff0000";
+    console.log("Valid? ", dateValidObject.isValid);
+    console.log("Message? ", dateValidObject.message);
+    console.log(this.datepickrTarget);
+    this.datepickrTarget.style.borderBottom = styling;
+    return dateValidObject.isValid;
   }
 }
