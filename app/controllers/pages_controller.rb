@@ -33,31 +33,39 @@ class PagesController < ApplicationController
 
   # When person wants query multiple places at once
   def new_bulk_order
-    @bulk_order_form = BulkOrderForm.new
-    @filters         = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all }
+    @order   = Order.new
+    @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all }
+    @order.build_bokee
   end
 
   # Takes the params from new_bulk_order form. Uses strong params. Then validates them through BulkOrderForm model.
   # Creates a bokee, finds the ids of corresponding places and verfies captcha with bokee. If pass sends the query.
   def create_bulk_order
-    @bulk_order_form = BulkOrderForm.new(bulk_order_params)
     recaptcha_passed = turnstile_passed?
+    @order.errors.add(:base, 'Nepodařilo se ověřit jestli jste robot. Zkuste to prosím znovu.') unless recaptcha_passed
 
-    @place.errors.add(:base, 'Nepodařilo se ověřit jestli jste robot. Zkuste to prosím znovu.') unless recaptcha_passed
+    @bokee = Bokee.create_with(bulk_order_params[:bokee_attributes]).find_or_create_by(email: bulk_order_params[:bokee_attributes][:email])
+    place_ids = Place.joins(:filters).where(filters: { id: filters_params[:filter_ids].map!(&:to_i) })
+                     .where('city LIKE ? OR city = ?', "#{bulk_order_params[:city]}%", bulk_order_params[:city])
+                     .where('places.max_capacity >= ?', bulk_order_params[:min_capacity]).distinct.pluck(:id).map(&:to_i)
 
-    @bokee = Bokee.new(full_name: bulk_order_params[:full_name], email: bulk_order_params[:email],
-                       phone_number: bulk_order_params[:phone_number])
+    if @bokee.save && recaptcha_passed && place_ids.present?
+      place_ids.each do |place_id|
+        order = Order.new(bulk_order_params.except(:bokee_attributes, :min_capacity, :city))
+        order.bokee = @bokee
+        order.place_id = place_id
 
-    # TODO: Potentially could be in the model
-    places_ids = Place.joins(:filters).where(filters: { id: filters_params[:filter_ids].map!(&:to_i) })
-                      .where('city LIKE ? OR city = ?', "#{bulk_order_params[:city]}%", bulk_order_params[:city])
-                      .where('places.max_capacity >= ?', bulk_order_params[:min_capacity]).distinct.pluck(:id)
+        if order.save
+          SendOrderToPlaceOwnerJob.perform_later(place_id, order.id)
+        else
+          flash.now[:alert] = (@order.errors.full_messages + @bokee.errors.full_messages).join(', ')
+          render :new_bulk_order, status: :unprocessable_entity
+        end
+      end
 
-    if @bokee.save && recaptcha_passed && @bulk_order_form.valid?
-      SendBulkOrderJob.perform_later(places_ids, bulk_order_params)
       redirect_to root_path, notice: 'Zpracováváme Vaší hromadnou poptávku'
     else
-      flash.now[:alert] = (@bulk_order_form.errors.full_messages + @bokee.errors.full_messages).join(', ')
+      flash.now[:alert] = (@order.errors.full_messages + @bokee.errors.full_messages).join(', ')
       render :new_bulk_order, status: :unprocessable_entity
     end
   end
@@ -69,7 +77,7 @@ class PagesController < ApplicationController
   end
 
   def bulk_order_params
-    params.require(:bulk_order_form).permit(:full_name, :email, :message, :phone_number, :min_capacity, :city, :date)
+    params.require(:order).permit(:message, :event_type, :min_capacity, :city, :date, bokee_attributes: %i[full_name email phone_number])
   end
 
   def filters_params

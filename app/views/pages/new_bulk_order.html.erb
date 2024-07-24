@@ -6,23 +6,26 @@
     Stačí jen vyplnit údaje níže a o zbytek se postaráme my.
   </p>
 
-  <%= form_with model: @bulk_order_form, url: create_bulk_order_path, local: true, data: {
+  <%= form_with model: @order, url: create_bulk_order_path, local: true, data: {
       controller: "turnstile",
       turnstile_sitekey_value: ENV.fetch('TURNSTILE_SITE_KEY'),
       turnstile_target: "form",
       turnstile_sitekey_visible_value: ENV.fetch('TURNSTILE_SITE_KEY_VISIBLE')
     } do |f| %>
     <div class="bulk-order-inputs-group">
-      <%= f.text_field :full_name, placeholder: 'Jméno', class: 'input-enter-active' %>
-      <%= f.text_field :email, placeholder: 'Email', class: 'input-enter-active' %>
-      <%= f.text_field :phone_number, placeholder: 'Tel. číslo', class: 'input-enter-active' %>
+      <%= f.fields_for :bokee do |f_bokee| %>
+        <%= f_bokee.text_field :full_name, placeholder: 'Celé jméno', class: 'input-enter-active' %>
+        <%= f_bokee.text_field :email, placeholder: 'Email', class: 'input-enter-active' %>
+        <%= f_bokee.text_field :phone_number, placeholder: 'Tel. číslo', class: 'input-enter-active' %>
+      <% end %>
     </div>
 
     <div class="bulk-order-inputs-group">
       <%= f.text_field :city, placeholder: 'Město', class: 'input-enter-active' %>
-      <%= f.number_field :min_capacity, placeholder: 'Kapacita např. 100', class: 'input-enter-active' %>
+      <%= f.number_field :min_capacity, placeholder: 'Kapacita např. 100', step: 10, min: 10, class: 'input-enter-active' %>
       <%= render 'shared/custom_select', input_classes: 'input-enter-active' %>
-      <%= render 'shared/datepickr', input_name: "bulk_order_form[date]", class_name: 'input-enter-active' %>
+      <%= render 'shared/datepickr', input_name: "order[date]", class_name: 'input-enter-active' %>
+      <%= f.text_field :event_type, placeholder: 'Typ události', class: 'input-enter-active' %>
     </div>
 
     <div class="bulk-order-inputs-group">
