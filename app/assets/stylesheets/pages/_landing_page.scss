@@ -1,5 +1,4 @@
 #landing-page {
-
   h2 {
     font-weight: 400;
   }
@@ -9,7 +8,8 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    height: 700px;
+    height: 100vh;
+    min-height: 500px;
 
     h1.title, p.subtitle {
       width: 100%;
@@ -17,16 +17,17 @@
     }
 
     p.subtitle {
-      font-size: 26px;
+      font-size: clamp(18px, 4vw, 26px);
       font-weight: 700;
       margin: 20px 0;
     }
 
     .title {
       font-weight: 700;
-      line-height: 64px;
-      font-size: 48px;
-      width: 50%;
+      line-height: 1.3;
+      font-size: clamp(32px, 5vw, 48px);
+      width: 100%;
+      max-width: 600px;
     }
   }
 
@@ -35,10 +36,12 @@
 
     .how-works-container {
       margin: 80px auto;
+      padding: 0 20px;
     }
 
     .shapes {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 40px;
       margin: 20px;
@@ -53,8 +56,10 @@
       background-color: $darker-grey;
       padding: 30px;
       border-radius: 15px;
-      width: 300px;
-      height: 230px;
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      min-height: 230px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       text-align: left;
       position: relative;
@@ -64,7 +69,7 @@
     }
 
     .square {
-      width: 250px;
+      max-width: 250px;
     }
 
     .shape {
@@ -83,7 +88,6 @@
     .shape a:hover {
       text-decoration: underline;
     }
-
   }
 
   .section-sample-spaces {
@@ -91,7 +95,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 3rem;
+    padding: 3rem 1rem;
 
     .top-places-title {
       margin-bottom: 15px;
@@ -108,7 +112,9 @@
       align-items: center;
       background-color: #FFF;
       border-radius: 40px;
-      padding: 2rem 3rem 1rem;
+      padding: 2rem 1rem 1rem;
+      width: 100%;
+      max-width: 1200px;
     }
 
     .image-placeholder {
@@ -118,9 +124,11 @@
     }
 
     .space-card {
-      height: 400px;
-      width: 250px;
+      height: auto;
+      width: 100%;
+      max-width: 250px;
       border: 2px solid black;
+      margin-bottom: 20px;
 
       .vanues-color {
         font-style: italic;
@@ -132,7 +140,8 @@
       }
 
       .title-container {
-        height: 50px;
+        height: auto;
+        min-height: 50px;
       }
     }
   }
@@ -150,7 +159,8 @@
       align-items: center;
       flex-direction: column;
       text-align: center;
-      width: 50%;
+      width: 100%;
+      max-width: 600px;
     }
 
     h2 {
@@ -158,13 +168,69 @@
     }
 
     p {
-      width: 50%;
-      font-size: 18px;
+      width: 100%;
+      max-width: 500px;
+      font-size: clamp(16px, 3vw, 18px);
       margin-bottom: 45px;
     }
 
     .button-primary {
-      width: 75%;
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  #landing-page {
+    @media (max-width: 768px) {
+      #main-section {
+        height: auto;
+        padding: 4rem 1rem;
+        h1.title, p.subtitle {
+          margin: 15px;
+        }
+      }
+
+      .section-how-it-works {
+        .shapes {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .shape, .square {
+          max-width: 250px;
+          aspect-ratio: 1 / 1;
+          clip-path: none;
+          border-radius: 15px;
+        }
+
+        .shape {
+          clip-path: none;
+        }
+      }
+
+      .section-sample-spaces .sample-spaces-container {
+        border-radius: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  #landing-page {
+    #register-new-place {
+      .register-container {
+        width: 100%;
+      }
+
+      p {
+        width: 100%;
+      }
+
+      .button-primary {
+        width: 100%;
+      }
     }
   }
 }

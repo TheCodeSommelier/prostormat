@@ -1,5 +1,5 @@
 .navbar-prostormat {
-  padding: 10px 4rem !important;
+  padding: 10px 2rem !important;
   justify-content: space-between;
   position: sticky;
   top: 0;
@@ -7,17 +7,19 @@
   background-color: #FFF;
   border-bottom: 1px solid #b4b4b4;
 
-  .navbar-space-mi .navbar-collapse {
+  .navbar-collapse {
     flex-grow: 0;
   }
 
-  .navbar-space-mi .navbar-brand img {
-    width: 40px;
+  .navbar-brand img {
+    width: 130px;
+    max-width: 100%;
   }
 
   .nav-link {
     display: flex;
     text-align: center;
+    align-items: center;
   }
 
   .navbar-toggler {
@@ -27,6 +29,37 @@
   }
 
   .button-margin {
-    margin: auto 10px;
+    margin: 5px;
+    white-space: nowrap;
+  }
+
+  .navbar-nav {
+    align-items: center;
+  }
+
+  @media (max-width: 991px) {
+    padding: 10px 1rem !important;
+
+    .navbar-collapse {
+      text-align: center;
+    }
+
+    .nav-item, .nav-link {
+      width: 100%;
+      justify-content: center;
+      margin: 5px 0;
+    }
+
+    .button-secondary, .button-primary {
+      width: 100%;
+      max-width: 200px;
+      margin: 5px auto;
+    }
+  }
+
+  @media (max-width: 575px) {
+    .navbar-brand img {
+      width: 100px;
+    }
   }
 }

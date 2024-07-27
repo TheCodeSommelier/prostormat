@@ -1,24 +1,18 @@
 .spaces-cards {
   display: grid;
   gap: 20px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(247px, 1fr));
+  justify-content: center;
 }
 
 .spaces-cards-landing-page, .place-show-spaces-cards {
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
-// Smallest device
-@media (max-width: 400px) {
-  .spaces-cards {
-    grid-template-columns: 1fr;
-  }
+  grid-template-columns: repeat(auto-fit, minmax(247px, 1fr));
 }
 
 // Medium devices (tablets, 768px and up)
 @media (max-width: 768px) {
   .spaces-cards {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(247px, 1fr));
   }
 }
 
@@ -26,12 +20,5 @@
 @media (max-width: 400px) {
   .spaces-cards {
     grid-template-columns: 1fr;
-  }
-}
-
-// Medium devices (tablets, 768px and up)
-@media (max-width: 768px) {
-  .spaces-cards {
-    grid-template-columns: 1fr 1fr;
   }
 }

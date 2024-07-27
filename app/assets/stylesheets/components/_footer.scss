@@ -1,20 +1,26 @@
 #footer {
   background-color: $darker-grey;
-  padding: 3rem;
+  padding: 3rem 1rem;
   bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
 
   .content-container {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
   }
 
   .footer-buttons {
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 1rem;
     justify-content: center;
-    margin-bottom: 34px;
+    margin-bottom: 2rem;
   }
 
   .footer-link {
@@ -26,14 +32,51 @@
     align-items: center;
     justify-content: center;
     padding: 10px;
-    margin: auto 10px;
 
     svg {
       fill: #FFF;
+      width: 100%;
+      height: 100%;
     }
   }
 
   .copyright {
-    font-size: 19px;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem 1rem;
+
+    .footer-buttons {
+      grid-template-columns: repeat(2, auto);
+      gap: 1rem;
+    }
+
+    .footer-link {
+      width: 35px;
+      height: 35px;
+    }
+
+    .copyright {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.5rem 0.5rem;
+
+    .footer-buttons {
+      gap: 0.8rem;
+    }
+
+    .footer-link {
+      width: 30px;
+      height: 30px;
+    }
+
+    .copyright {
+      font-size: 0.8rem;
+    }
   }
 }

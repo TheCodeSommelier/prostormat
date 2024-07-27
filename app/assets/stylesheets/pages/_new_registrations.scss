@@ -9,100 +9,69 @@
 
   .form-input-container {
     display: flex;
+    flex-wrap: wrap;
 
     input {
-      width: 100%;
-      margin: 15px;
+      flex: 1 1 calc(50% - 30px);
+      margin: 15px 10px;
     }
   }
 
-  // Animation for labels coming in
-  @keyframes slideInFromLeft {
-    0% {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-    100% {
-      transform: translateX(0);
-      opacity: 1;
-    }
+  .buttons-container {
+    margin-top: 2rem;
   }
 
-  // Animation for inputs coming in
-  @keyframes slideInFromRight {
-    0% {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    100% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-  // Animation for labels leaving
-  @keyframes slideOutFromLeft {
-    0% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-  }
-
-  // Animation for inputs leaving
-  @keyframes slideOutFromRight {
-    0% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-  }
-
-
-  .label-enter-active, .input-enter-active, .label-exit-left, .input-exit-right {
-    animation-duration: 1s;
-    animation-fill-mode: both;
-  }
-
-  .label-enter-active {
-    animation-name: slideInFromLeft;
-  }
-
-  .input-enter-active {
-    animation-name: slideInFromRight;
-  }
-
-  .label-exit-left.active {
-    animation-name: slideOutFromLeft;
-  }
-
-  .input-exit-right.active {
-    animation-name: slideOutFromRight;
-  }
-
-  .hidden-title, .hidden-submit {
-    opacity: 0;
-  }
-
-  .show-title, .show-submit {
-    transition: transform 1s ease-in, opacity 1s ease-in;
-    opacity: 1;
-  }
-
-  .hidden-next {
-    transition: transform 1s ease-in, opacity 1s ease-in;
-    opacity: 0;
-  }
-
-  .form-label {
-    font-size: 18px;
-    margin-bottom: 0.25rem;
+  .button-primary {
+    width: 75%;
+    margin-right: 1rem;
     margin-top: 1rem;
+  }
+
+  .button-secondary {
+    width: 25%;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 1200px) {
+    padding: 3rem;
+
+    .form-input-container {
+      input {
+        flex: 1 1 calc(50% - 30px);
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+
+    .form-input-container {
+      flex-direction: column;
+
+      input {
+        flex: 1 1 100%;
+        margin: 10px 0;
+      }
+    }
+
+    .actions {
+      flex-direction: column;
+    }
+
+    .button-secondary, .button-primary {
+      width: 80%;
+      margin-right: 0;
+    }
+    .button-primary {
+      margin-top: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
   }
 }

@@ -1,0 +1,19 @@
+#checkout-container {
+  padding: 4rem 9rem;
+
+  .button-primary {
+    margin: 2rem auto;
+    width: 75%;
+  }
+}
+
+
+@media (max-width: 480px) {
+  #checkout-container {
+    padding: 4rem;
+
+    .button-primary {
+      width: 100%;
+    }
+  }
+}

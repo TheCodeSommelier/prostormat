@@ -264,3 +264,78 @@
     transition: 0.3s ease-in-out;
   }
 }
+
+@media (max-width: 1500px) {
+  .show-places-container {
+    .content-container {
+      padding: 0px 15%;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .show-places-container {
+    .content-container {
+      padding: 0px 5%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .show-places-container {
+    .content-container {
+      padding: 0 1rem;
+    }
+
+    .show-section-container {
+      width: 100%;
+    }
+
+    #content {
+      flex-direction: column;
+    }
+
+    .form-map-column, .desc-gallery-column {
+      width: 100%;
+    }
+
+    #main-photo {
+      height: 400px;
+    }
+
+    .subtitle {
+      width: 100%;
+    }
+
+    .order-form {
+      .bokee-info,
+      .event-info {
+        flex-direction: column;
+
+        input {
+          width: calc(100% - 20px);
+          margin: 5px 10px;
+        }
+      }
+
+      .bokee-info {
+        margin: 0;
+      }
+
+      #datepickr {
+        width: calc(100% - 20px);
+        margin: 5px 10px;
+      }
+
+      .event-details-textarea {
+        margin: 0;
+      }
+    }
+
+    .modal-photo-container {
+      width: 90%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+  }
+}
