@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   post 'create_bulk_order', to: 'pages#create_bulk_order'
   post '/verify-turnstile', to: 'application#verify_turnstile_token_ajax'
 
+
   get 'admin_places', to: 'places#admin_places', as: :admin_places
   resources :places, param: :slug do
     resources :orders, only: %i[create update]
@@ -31,6 +32,11 @@ Rails.application.routes.draw do
       patch 'transfer', to: 'places#transfer', as: :transfer
       patch 'toggle_primary', to: 'places#toggle_primary', as: 'toggle_primary'
     end
+  end
+
+  namespace :postmark do
+    post 'order_status', to: 'webhooks#order_status'
+    post 'order_delivered', to: 'webhooks#order_delivered'
   end
 
   # Stripe Checkout route for creating a new subscription
