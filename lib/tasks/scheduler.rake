@@ -25,3 +25,16 @@ namespace :places do
     puts 'Geocoding task completed.'
   end
 end
+
+namespace :orders do
+  desc 'Check for unseen orders'
+  task remind_owners: :environment do
+    Order.where(unseen: true, notified: false)
+         .where('delivered_at <= ?', Time.current - 3.days)
+         .in_batches(of: 500) do |batch|
+      batch.ids.each do |order_id|
+        SendReminderToOwnerJob.perform_later(Order.find(order_id).place.id, order_id)
+      end
+    end
+  end
+end

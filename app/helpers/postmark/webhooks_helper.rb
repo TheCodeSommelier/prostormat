@@ -1,0 +1,2 @@
+module Postmark::WebhooksHelper
+end
