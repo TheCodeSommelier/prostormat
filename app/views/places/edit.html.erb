@@ -12,6 +12,7 @@
       <%= f.text_field :house_number, placeholder: 'Číslo popisné / evidenční', class: 'form-input input-enter-active' %>
       <%= f.text_field :postal_code, placeholder: 'Poštovní směrovací číslo', class: 'form-input input-enter-active', data: { format_new_place_data_target: 'postalCodeInput', action: 'blur->format-new-place-data#formatPostalCode' } %>
       <%= f.text_field :city, placeholder: 'Město', class: 'form-input input-enter-active' %>
+      <%= f.text_field :owner_email, placeholder: 'Objednávkový email', class: 'form-input input-enter-active' %>
     </div>
 
     <div class="input-container">

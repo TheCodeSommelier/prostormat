@@ -11,7 +11,7 @@ class OrdersMailer < ApplicationMailer
     mail.headers['X-PM-Message-Stream'] = 'outbound'
 
     mail(
-      to: Rails.env.production? ? @place.user.email : 'poptavka@prostormat.cz',
+      to: Rails.env.production? ? @place.owner_email : 'poptavka@prostormat.cz',
       subject: 'Někdo má zájem o váš prostor!',
       from: 'poptavka@prostormat.cz'
     )

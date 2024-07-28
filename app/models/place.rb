@@ -18,6 +18,8 @@ class Place < ApplicationRecord
   # Callback that expires cache upon creation or editation of a place record
   after_commit :expire_place_show_cache, on: :update
 
+  before_save :assign_owner_email
+
   validates :max_capacity,
             numericality: { only_integer: true, greater_than: 9, message: 'Kapacita musí být alespoň 10' }
   validates :postal_code, format: { with: /\A\d{3}\s\d{2}\z/, message: 'Musí být psáno ve formátu "123 22"' }
@@ -34,6 +36,9 @@ class Place < ApplicationRecord
 
   validates :short_description, length: { in: 10..50, message: 'Musí být alespoň 10 až 50 znaků dlouhá' }
   validates :long_description, length: { minimum: 120, message: 'Musí být alespoň 120 znaků dlouhá' }
+  validates :owner_email, allow_nil: true, allow_blank: true,
+                          format: { with: %r{\A[a-zA-Z0-9+_.~\-!#$%&'=/^`{}|]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\z},
+                                    message: "Email musí být složen z těchto znaků: velká písmena (A-Z), malá písmena (a-z), číslice (0-9), plus (+), pomlčka (-), podtržítko (_), vlnovka (~), vykřičník (!), mřížka (#), dolar ($), procento (%), ampersand (&), jednoduchý uvozovky ('), tečka (.), lomítko (/), rovnítko (=), stříška (^), zpětný apostrof (`), levá složená závorka ({), pravá složená závorka (}), a svislá čára (|)." }
 
   validates :slug, uniqueness: true
   validate :custom_validation_presence
@@ -62,6 +67,10 @@ class Place < ApplicationRecord
   end
 
   private
+
+  def assign_owner_email
+    self.owner_email = user.email if user && owner_email.blank?
+  end
 
   def generate_slug
     self.slug = place_name.parameterize

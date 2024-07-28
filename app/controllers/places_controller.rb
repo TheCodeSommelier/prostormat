@@ -91,7 +91,7 @@ class PlacesController < ApplicationController
 
     @place.errors.add(:base, 'Nepodařilo se ověřit jestli jste robot. Zkuste to prosím znovu.') unless turnstile_passed?
 
-    if check_photo_sizes? && filters? && @place.save && turnstile_passed?
+    if check_photo_sizes? && filters? && turnstile_passed? && @place.save
       process_photos
       respond_to do |format|
         format.js
@@ -121,7 +121,9 @@ class PlacesController < ApplicationController
 
     expire_place_show_photos_cache(@place) if @place.photos.attached?
 
-    if recaptcha_passed && @place.update(place_params.except(:photos)) && params[:change_pics].to_i.zero? || recaptcha_passed && @place.update(place_params.except(:photos)) && params[:change_pics].to_i == 1 && check_photo_sizes?
+    if recaptcha_passed && @place.update(place_params.except(:photos)) && params[:change_pics].to_i.zero? ||
+        recaptcha_passed && @place.update(place_params.except(:photos)) && params[:change_pics].to_i == 1 && check_photo_sizes?
+
       flash_message = params[:change_pics] == 1 ? 'Vše je v pořádku a aktualizováno. Nahrání vašich fotek může trvat až pár minut.' : 'Vše je v pořádku a aktualizováno.'
       process_photos if params[:change_pics].to_i == 1
       redirect_to place_path(@place.slug), notice: flash_message
@@ -168,7 +170,7 @@ class PlacesController < ApplicationController
 
     if other_user
       hidden_status = other_user.premium ? false : true
-      @place.update_columns(user_id: other_user.id, hidden: hidden_status, updated_at: DateTime.now)
+      @place.update_columns(user_id: other_user.id, hidden: hidden_status, updated_at: DateTime.now, owner_email: other_user.email)
       redirect_to admin_places_path, notice: "Prostor #{@place.place_name} je převedený #{@place.user.email}"
     else
       redirect_to admin_places_path, alert: 'Prostor se nepodařilo převést. Uživatel nemá vytvořený účet.'
@@ -235,7 +237,7 @@ class PlacesController < ApplicationController
   end
 
   def place_params
-    permitted_params = params.require(:place).permit(:slug, :place_name, :street, :house_number, :postal_code, :city,
+    permitted_params = params.require(:place).permit(:owner_email, :slug, :place_name, :street, :house_number, :postal_code, :city,
                                                      :max_capacity, :short_description, :long_description, photos: [],
                                                                                                            filter_ids: [])
     permitted_params[:photos]&.reject!(&:blank?)
