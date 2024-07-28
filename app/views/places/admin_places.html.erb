@@ -1,5 +1,5 @@
 <div id="admin-places">
-  <%= form_with(url: admin_places_path, method: :get, local: true) do %>
+  <%= form_with(url: admin_places_path, method: :get, local: true, class: 'search-form') do %>
     <%= text_field_tag :query, params[:query], placeholder: 'Search for user email or place name' %>
     <%= submit_tag "Search", class: "button-primary" %>
   <% end %>
@@ -12,7 +12,24 @@
           <i class="fa-solid fa-user"></i>
           <%= place.user.email %>
         </p>
-        <%= button_tag 'Transfer place', type: 'button', data: { action: 'click->modal#showModal', place_slug: place.slug }, class: "button-primary ms-2" %>
+
+        <div class="prim-paid-container">
+          <div class="labels-column">
+            <p class="paid-prim">
+              <i class="fa-regular fa-star"></i>
+              <%= place.primary ? 'Primary' : 'Not primary' %>
+            </p>
+            <%= button_to 'Primary', toggle_primary_place_path(place.slug), method: :patch, data: { turbo: false }, class: 'button-secondary', form: {class: "inline"} %>
+          </div>
+
+          <div class="buttons-column">
+            <p class="paid-prim">
+              <i class="fa-regular fa-credit-card"></i>
+              <%= place.user.premium ? 'Paid' : 'Not paid' %>
+            </p>
+            <%= button_tag 'Transfer', type: 'button', data: { action: 'click->modal#showModal', place_slug: place.slug }, class: "button-primary" %>
+          </div>
+        </div>
       </div>
     <% end %>
     <%= render 'shared/transfer_place_modal' %>
