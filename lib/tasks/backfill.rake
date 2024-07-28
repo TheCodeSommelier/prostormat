@@ -12,4 +12,13 @@ namespace :backfill do
       end
     end
   end
+
+  desc 'Backfill secondary emails'
+  task owner_email: :environment do
+    puts 'Filling owner emails...'
+    Place.includes(:user).where(owner_email: [nil, '']).find_each do |place|
+      place.update(owner_email: place.user.email)
+    end
+    puts 'Finished!'
+  end
 end
