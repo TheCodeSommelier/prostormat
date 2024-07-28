@@ -141,7 +141,7 @@ class PlacesController < ApplicationController
   # Renders out all of the places for the admin to be able to change them
   def admin_places
     authorize :place
-    @places = policy_scope(Place.joins(:user).select('places.user_id, places.slug, places.place_name, users.email'))
+    @places = policy_scope(Place.joins(:user).select('places.user_id, places.slug, places.place_name, users.email, places.primary, users.premium'))
 
     if params[:query].present?
       query = "%#{params[:query].downcase}%"
@@ -155,11 +155,11 @@ class PlacesController < ApplicationController
   def toggle_primary
     authorize @place
     flash[:notice] = if @place.primary? ? @place.update(primary: false) : @place.update(primary: true)
-                       "Primary status of the place was successfully toggled to #{@place.primary}."
+                       "Primary status of #{@place.place_name} was successfully toggled to #{@place.primary}."
                      else
-                       'There was an issue toggling the primary status of the place. Try again...'
+                       "There was an issue toggling the primary status of #{@place.place_name}. Try again..."
                      end
-    redirect_to place_path(@place.slug)
+    redirect_to :admin_places
   end
 
   # Transfers the place to a new user

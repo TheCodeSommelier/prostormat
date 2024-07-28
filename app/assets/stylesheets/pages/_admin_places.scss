@@ -1,16 +1,13 @@
 #admin-places {
   padding: 3rem 9rem;
 
-  form {
+  .search-form {
     display: flex;
     flex-direction: column;
     width: 75%;
-    margin: 15px;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    margin: 15px auto;
 
-    & .button-primary {
+    .button-primary {
       margin: 15px auto;
       width: 75%;
     }
@@ -32,7 +29,7 @@
     justify-content: space-between;
     padding: 15px;
 
-    & a {
+    a {
       font-size: 25px;
     }
   }
@@ -40,5 +37,41 @@
   .place-owner {
     margin-bottom: 15px;
     font-size: 17px;
+  }
+
+  .prim-paid-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .labels-column, .buttons-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .paid-prim {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .button-secondary, .button-primary {
+    width: auto;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  #admin-places {
+    padding: 3rem 1rem;
+
+    .admin-places-grid {
+      grid-template-columns: 1fr;
+    }
   }
 }
