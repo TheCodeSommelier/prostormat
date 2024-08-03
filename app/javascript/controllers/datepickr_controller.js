@@ -177,9 +177,6 @@ export default class extends Controller {
     const styling = dateValidObject.isValid
     ? "3px solid #26A387"
     : "3px solid #ff0000";
-    console.log("Valid? ", dateValidObject.isValid);
-    console.log("Message? ", dateValidObject.message);
-    console.log(this.datepickrTarget);
     this.datepickrTarget.style.borderBottom = styling;
     return dateValidObject.isValid;
   }

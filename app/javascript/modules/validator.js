@@ -20,10 +20,6 @@ export default class Validator {
     const monthSelected = datepickr.querySelector(".monthSelect")?.value;
     const yearSelected = datepickr.querySelector(".yearSelect")?.value;
 
-    console.log("Day => ", daySelected);
-    console.log("Month => ", monthSelected);
-    console.log("Year => ", yearSelected);
-
     if (!daySelected || !monthSelected || !yearSelected) {
       return {
         isValid: false,

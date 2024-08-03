@@ -19,7 +19,6 @@ class OrdersController < ApplicationController
 
     @place.errors.add(:base, 'Nepodařilo se ověřit jestli jste robot. Zkuste to prosím znovu.') unless recaptcha_passed
 
-
     authorize @order
 
     bokee        = Bokee.create_with(orders_params[:bokee_attributes]).find_or_create_by(email: orders_params[:bokee_attributes][:email])

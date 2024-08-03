@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
 
     result = JSON.parse(response.body)
     result['success']
-  rescue e
+  rescue
     Rails.logger.error("Turnstile verification failed: #{e.message}")
     false
   end

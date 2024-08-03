@@ -84,8 +84,8 @@ Rails.application.configure do
   # For url building
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  config.hosts << '9b5d-212-20-113-152.ngrok-free.app'
+  config.hosts << ENV['NGROK_URL']
 
-  config.action_mailer.asset_host = 'http://localhost:3000'
-  config.action_controller.asset_host = 'http://localhost:3000'
+  config.action_mailer.asset_host = ENV['NGROK_URL'] || 'http://localhost:3000'
+  config.action_controller.asset_host = ENV['NGROK_URL'] || 'http://localhost:3000'
 end

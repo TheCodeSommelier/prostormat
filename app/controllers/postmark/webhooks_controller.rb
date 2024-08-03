@@ -1,25 +1,29 @@
-class Postmark::WebhooksController < ApplicationController
-  skip_before_action :authenticate_user!, :verify_authenticity_token, only: %i[order_status order_delivered]
-  skip_after_action :verify_authorized, only: %i[order_status order_delivered]
+# frozen_string_literal: true
 
-  def order_status
-    metadata = params['Metadata']
-    order_id = metadata['OrderId'].to_i
-    return unless order_id.is_a?(Integer)
+module Postmark
+  class WebhooksController < ApplicationController
+    skip_before_action :authenticate_user!, :verify_authenticity_token, only: %i[order_status order_delivered]
+    skip_after_action :verify_authorized, only: %i[order_status order_delivered]
 
-    order = Order.find(order_id)
+    def order_status
+      metadata = params['Metadata']
+      order_id = metadata['OrderId'].to_i
+      return unless order_id.is_a?(Integer)
 
-    order.update(unseen: false) if order.unseen
-  end
+      order = Order.find(order_id)
 
-  def order_delivered
-    time = Time.iso8601(params['DeliveredAt'])
-    metadata = params['Metadata']
-    order_id = metadata['OrderId'].to_i
-    return unless order_id.is_a?(Integer) && time.is_a?(Time)
+      order.update(unseen: false) if order.unseen
+    end
 
-    order = Order.find(order_id)
+    def order_delivered
+      time = Time.iso8601(params['DeliveredAt'])
+      metadata = params['Metadata']
+      order_id = metadata['OrderId'].to_i
+      return unless order_id.is_a?(Integer) && time.is_a?(Time)
 
-    order.update(delivered_at: time)
+      order = Order.find(order_id)
+
+      order.update(delivered_at: time)
+    end
   end
 end

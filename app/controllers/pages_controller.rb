@@ -24,7 +24,8 @@ class PagesController < ApplicationController
       ContactEmailJob.perform_later(contact_params)
       redirect_to root_path, notice: 'Vaše zpráva je již na cestě. Brzy se vám ozveme.'
     else
-      render :faq_contact_us, status: :unprocessable_entity, alert: 'Bohužel se nepodařilo poslat vaší zprávu. Zkuste to prosím znovu.'
+      render :faq_contact_us, status: :unprocessable_entity,
+                              alert: 'Bohužel se nepodařilo poslat vaší zprávu. Zkuste to prosím znovu.'
     end
   end
 
@@ -77,7 +78,8 @@ class PagesController < ApplicationController
   end
 
   def bulk_order_params
-    params.require(:order).permit(:message, :event_type, :min_capacity, :city, :date, bokee_attributes: %i[full_name email phone_number])
+    params.require(:order).permit(:message, :event_type, :min_capacity, :city, :date,
+                                  bokee_attributes: %i[full_name email phone_number])
   end
 
   def filters_params

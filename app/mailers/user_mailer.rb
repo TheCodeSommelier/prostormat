@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserMailer < ApplicationMailer
   def welcome_email(user)
     @user = user
@@ -22,9 +24,31 @@ class UserMailer < ApplicationMailer
     mail.headers['X-PM-Message-Stream'] = 'outbound'
 
     mail(
-      to: 'poptavka@prostormat.cz',
+      to: Rails.env.production? ? @email : 'poptavka@prostormat.cz',
       subject: contact_form_params[:subject],
-      from: Rails.env.production? ? @email : 'poptavka@prostormat.cz'
+      from: 'poptavka@prostormat.cz'
+    )
+  end
+
+  def notify_free_trial_start(email, place_id)
+    @place = Place.find(place_id.to_i)
+    @email_subject = "Převod prostoru #{@place.place_name}!"
+
+    mail(
+      to: Rails.env.production? ? email : 'poptavka@prostormat.cz',
+      subject: 'Vaše zkušební doba začala',
+      from: 'poptavka@prostormat.cz'
+    )
+  end
+
+  def free_trial_end_notification(email, place_id)
+    @place = Place.find(place_id.to_i)
+    @email_subject = "Převod prostoru #{@place.place_name}!"
+
+    mail(
+      to: Rails.env.production? ? email : 'poptavka@prostormat.cz',
+      subject: 'Vaše zkušební doba zkončila',
+      from: 'poptavka@prostormat.cz'
     )
   end
 end
