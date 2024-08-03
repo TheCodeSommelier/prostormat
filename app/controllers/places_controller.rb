@@ -122,7 +122,7 @@ class PlacesController < ApplicationController
     expire_place_show_photos_cache(@place) if @place.photos.attached?
 
     if recaptcha_passed && @place.update(place_params.except(:photos)) && params[:change_pics].to_i.zero? ||
-        recaptcha_passed && @place.update(place_params.except(:photos)) && params[:change_pics].to_i == 1 && check_photo_sizes?
+       recaptcha_passed && @place.update(place_params.except(:photos)) && params[:change_pics].to_i == 1 && check_photo_sizes?
 
       flash_message = params[:change_pics] == 1 ? 'Vše je v pořádku a aktualizováno. Nahrání vašich fotek může trvat až pár minut.' : 'Vše je v pořádku a aktualizováno.'
       process_photos if params[:change_pics].to_i == 1
@@ -170,7 +170,8 @@ class PlacesController < ApplicationController
 
     if other_user
       hidden_status = other_user.premium ? false : true
-      @place.update_columns(user_id: other_user.id, hidden: hidden_status, updated_at: DateTime.now, owner_email: other_user.email)
+      @place.update_columns(user_id: other_user.id, hidden: hidden_status, updated_at: DateTime.now,
+                            owner_email: other_user.email)
       redirect_to admin_places_path, notice: "Prostor #{@place.place_name} je převedený #{@place.user.email}"
     else
       redirect_to admin_places_path, alert: 'Prostor se nepodařilo převést. Uživatel nemá vytvořený účet.'

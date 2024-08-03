@@ -50,7 +50,6 @@ export default class extends Controller {
   }
 
   startLoading() {
-    console.log("loading ran");
     const totalImages = this.element.querySelector("[type=file]").files.length;
     let progress = 0;
 
@@ -83,9 +82,7 @@ export default class extends Controller {
   }
 
   #hideLoader() {
-    console.log("hide ran");
     this.loaderContainerTarget.classList.add("d-none");
-    console.log(this.loaderContainerTarget.classList);
   }
 
   handleImageLoad(event) {

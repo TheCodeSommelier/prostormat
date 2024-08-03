@@ -14,7 +14,7 @@ class OrdersMailer < ApplicationMailer
       subject: 'Někdo má zájem o váš prostor!',
       from: 'poptavka@prostormat.cz',
       track_opens: true,
-      message_stream: 'outbound',
+      message_stream: 'outbound'
     )
   end
 

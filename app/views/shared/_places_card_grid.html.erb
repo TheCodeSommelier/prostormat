@@ -29,7 +29,7 @@
     <div class="filter-icons">
       <% place.filters.limit(3).each do |filter| %>
         <div class="filter-icon" aria-label="<%= filter.name.capitalize %> icon">
-          <%= raw File.read(Rails.root.join('app', 'assets', 'images', "#{filter.name}.svg")) %>
+          <%= image_tag "#{filter.name}.svg", class: "#{filter.name}-icon", aria: { label: "#{filter.name} icon" } %>
         </div>
       <% end %>
     </div>

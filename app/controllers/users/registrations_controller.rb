@@ -69,7 +69,13 @@ module Users
     # The path used after sign up.
     def after_sign_up_path_for(_resource)
       # super(resource)
-      new_place_path
+      p "🔥 params place_id #{params[:place_id].present?} --- free trial #{params[:free_trial_email] == 'true'} --- place exists #{Place.exists?(params[:place_id])}"
+      p "🔥 params place_id #{params[:place_id]} --- free trial #{params[:free_trial_email]}"
+      if params[:place_id].present? && params[:free_trial_email] == 'true' && Place.exists?(params[:place_id])
+        root_path
+      else
+        new_place_path
+      end
     end
 
     # The path used after sign up for inactive accounts.

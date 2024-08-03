@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SendReminderToOwnerJob < ApplicationJob
   queue_as :default
 

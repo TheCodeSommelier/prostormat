@@ -24,7 +24,6 @@ Rails.application.routes.draw do
   post 'create_bulk_order', to: 'pages#create_bulk_order'
   post '/verify-turnstile', to: 'application#verify_turnstile_token_ajax'
 
-
   get 'admin_places', to: 'places#admin_places', as: :admin_places
   resources :places, param: :slug do
     resources :orders, only: %i[create update]

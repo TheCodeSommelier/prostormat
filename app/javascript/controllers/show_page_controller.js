@@ -10,8 +10,7 @@ export default class extends Controller {
     markers: Object
   }
 
-  connect() {
-  }
+  connect() {}
 
   dropDown() {
     if (this.orderFormTarget.style.opacity === "0" || this.orderFormTarget.style.opacity === "") {
