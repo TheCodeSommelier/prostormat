@@ -40,7 +40,6 @@ Rails.application.routes.draw do
 
   # Stripe Checkout route for creating a new subscription
   get 'stripe/checkout', to: 'stripe/checkout#checkout'
-  get 'stripe/api/v1/subscriptions/yearly/price', to: 'stripe/checkout#fetch_price'
 
   # Stripe Webhook route for handling events
   # stripe listen --forward-to localhost:3000/stripe/webhooks
