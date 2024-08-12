@@ -1,0 +1,16 @@
+<div>
+  <p>Vážený pane, vážená paní,</p>
+  <br />
+  <br />
+  <p>
+    za tři dny vám u nás na <a href="<%= root_url %>">Prostormatu</a> skončí dvouměsíční zkušební období, kdy jste využívali našich služeb zdarma.
+    Pokud chcete aby Vám nadále chodili objednávky, je potřeba abyste si založili účet.
+  </p>
+
+  <br />
+  <br />
+
+  <h2>Co je od vás potřeba?</h2>
+  <br />
+  <p>Chcete-li aby Vám nadále od nás chodili objenávky. Zaregistrujte skrze tento link --> <a href="<%= new_user_registration_url(place_slug: @place.slug, free_trial_email: true) %>">Vytvořit účet zde!</a></p>
+</div>

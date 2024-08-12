@@ -43,35 +43,47 @@ end
 namespace :free_trial do
   desc 'Start free trial and send an email'
   task start: :environment do
-    admin = User.find_by(admin: true)
     time_interval = Rails.env.production? ? 1.day.ago : 1.minute.ago
     p "🔥 time_interval #{time_interval}"
 
     places_to_update = Place.joins(:orders)
-                            .where(user_id: admin.id, free_trial_start: nil)
+                            .where(user: User.where(admin: true), free_trial_end: nil)
                             .where('orders.delivered_at < ?', time_interval)
                             .group('places.id, places.owner_email')
                             .order('MAX(orders.delivered_at) DESC')
 
+    p "🔥 places_to_update #{places_to_update.length}"
     ActiveRecord::Base.transaction do
       places_to_update.each do |place|
-        place.update(free_trial_start: Time.current)
+        place.update(free_trial_end: Time.current + 2.months)
         SendFreeTrialEmailJob.perform_later(place.owner_email, place.id)
       end
     end
   end
 
-  desc 'End free trial and hide places that have free trial over'
+  desc 'Three days before free trial will end'
+  task will_end: :environment do
+    places_fr_tr_will_end = Place.where(
+      free_trial_end: 3.days.ago..1.day.ago,
+      hidden: false,
+      user: User.where(admin: true)
+    )
+    places_fr_tr_will_end.each do |place|
+      FreeTrialWillEndJob.perform_later(place.id, place.owner_email)
+    end
+  end
+
+  desc 'Hide places where free trial is over'
   task end: :environment do
-    time_interval = Rails.env.production? ? 2.months.ago : 1.minute.ago
-    p "🔥 time_interval #{time_interval}"
-    places_free_trial_over = Place.where('free_trial_start < ? AND hidden = ?', time_interval, false)
-    p "🔥 places_free_trial_over #{places_free_trial_over.length}"
+    places_free_trial_over = Place.where(
+      free_trial_end: ..Time.current,
+      hidden: false,
+      user: User.where(admin: true)
+    )
 
     places_free_trial_over.find_each do |place|
-      p "🔥 place_id #{place.id} --- place_owner_email #{place.owner_email} --- place_name #{place.place_name}"
       place.update(hidden: true)
-      NotifyOwnerPlaceHiddenJob.perform_later(place.owner_email, place.id)
+      PlaceHideNotificationJob.perform_later(place.id, place.owner_email)
     end
   end
 end

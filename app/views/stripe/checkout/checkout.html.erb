@@ -3,7 +3,10 @@
     <div class="product">
       <div class="description">
         <!-- TODO: Needs to change -->
-        <h1>5 900.00 Kč / Ročně</h1>
+        <h1 id="price"><span>5 900kč</span> / Měsíčně</h1>
+        <% if @is_free_trial %>
+          <p class="free-trial-heading"> První platba proběhne <%= @time_to_pay %></p>
+        <% end %>
       </div>
     </div>
     <form id="payment-form" class="mt-3">

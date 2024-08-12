@@ -58,7 +58,15 @@ module Stripe
       if event.type == 'customer.subscription.updated'
         # handle subscription updated
         # puts data_object
-        puts "Subscription updated: #{event.id}"
+        customer = User.includes(:places).find_by(stripe_customer_id: subscription_data.customer)
+        place = customer.places.first
+        case subscription_data.status
+        when 'active' then FreeTrialOverNotificationJob.perform_later(customer.id, place.owner_email)
+        else
+          place.update(hidden: true)
+          customer.update(premium: false)
+          PlaceHideNotificationJob.perform_later(place.id, place.owner_email)
+        end
       end
 
       if event.type == 'customer.subscription.created'
@@ -73,7 +81,9 @@ module Stripe
       if event.type == 'customer.subscription.trial_will_end'
         # handle subscription trial ending
         # puts data_object
-        puts "Subscription trial will end: #{event.id}"
+        user = User.includes(:places).find_by(stripe_customer_id: subscription_data.customer)
+        place = user.places.first
+        NotifyPlaceOwnerTrialEndJob.perform_later(user.id, place.id)
       end
 
       render json: { message: 'success' }

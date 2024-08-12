@@ -126,7 +126,10 @@
           <div class="nav-item d-flex justify-content-center me-2">
             <%= link_to "Hromadná poptávka", new_bulk_order_path, class: "nav-link" %>
           </div>
-          <div class="nav-item d-flex justify-content-center">
+          <div class="nav-item d-flex justify-content-center me-2">
+            <%= link_to 'Prostory', places_path, class: "nav-link" %>
+          </div>
+          <div class="nav-item d-flex justify-content-center me-2">
             <%= link_to new_user_session_path, class: "button-secondary button-margin" do %>
               <div>
                 <i class="fa-solid fa-right-to-bracket"></i>
@@ -135,11 +138,8 @@
             <% end %>
           </div>
           <div class="nav-item d-flex justify-content-center me-2">
-            <%= link_to places_path, class: "button-primary button-margin" do %>
-              <div aria-label="hanging realtor sign icon">
-                <%= raw File.read(Rails.root.join('app', 'assets', 'images', 'sign-hanging-solid.svg')) %>
-                Prostory
-              </div>
+            <%= link_to new_user_registration_path, class: "button-primary" do %>
+              <div><i class="fa-solid fa-sign-hanging" aria-label="Hanging realtor sign icon"></i> Vytvořit prostor</div>
             <% end %>
           </div>
         <% end %>

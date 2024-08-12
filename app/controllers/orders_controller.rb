@@ -28,7 +28,7 @@ class OrdersController < ApplicationController
       SendOrderToPlaceOwnerJob.perform_later(@place.id, @order.id)
       redirect_to place_path(@place.slug), notice: 'Poptávka je vytvořená. Majitel se Vám ozve.'
     else
-      redirect_to place_path(@place.slug), alert: @order.errors.full_messages.join(', ')
+      redirect_to place_path(@place.slug), alert: @order.errors.full_messages
     end
   end
 

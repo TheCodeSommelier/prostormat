@@ -1,8 +1,6 @@
 <div id="registration-form">
   <h1><%= title 'Registrace' %></h1>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%#= render "devise/shared/error_messages", resource: resource %>
-    <%#= render 'shared/flashes' %>
 
     <div class="form-input-container">
       <%= f.text_field :first_name, autofocus: true, class: 'form-input input-enter-active', placeholder: 'Jméno' %>
@@ -28,6 +26,11 @@
       <% end %>
       <%= render "devise/shared/links" %>
     </div>
+
+    <% if params[:place_slug] && params[:free_trial_email] %>
+      <%= hidden_field_tag :place_slug, params[:place_slug] %>
+      <%= hidden_field_tag :free_trial_email, params[:free_trial_email] %>
+    <% end %>
   <% end %>
 
 </div>

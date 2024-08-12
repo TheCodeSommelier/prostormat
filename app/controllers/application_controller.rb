@@ -30,9 +30,14 @@ class ApplicationController < ActionController::Base
   end
 
   def skip_pundit?
-    devise_controller? ||
-      params[:controller] =~ /(^(rails_)?admin)|(^pages$)/ ||
-      params[:action] == 'verify_turnstile_token_ajax'
+    result = devise_controller? ||
+              params[:controller] =~ /(^(rails_)?admin)|(^pages$)/ ||
+              params[:action] == 'verify_turnstile_token_ajax' ||
+              params[:controller] == 'users/registrations'
+
+    puts "skip_pundit? called for controller: #{params[:controller]}, action: #{params[:action]}, result: #{result}"
+
+    result
   end
 
   def verify_turnstile_token(token, is_visible)

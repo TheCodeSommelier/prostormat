@@ -5,28 +5,12 @@
   <p>
     Včera jste dostali objednávku na Váš prostor skrze náš portál <a href="<%= root_url %>">Prostormat</a>.
     Tímto vám u nás začalo dvou měsíční zkušební období, kde můžete využívat našich služeb zdarma.
-    Poté bude potřeba abyste jste si založili účet a napsali nám na jaký účet máme převést prostor.
-    <br />
-    <br />
-    Níže je shrnutí:
   </p>
 
   <br />
   <br />
 
-  <h2>Co je od vás <span class="highlight">potřeba</span>?</h2>
-
+  <h2>Co je od vás potřeba?</h2>
   <br />
-
-  <ol>
-    <li>
-      <span class="highlight">
-        <a href="<%= new_user_registration_url(place_id: @place.id, free_trial_email: true) %>">Vytvořit účet zde</a>.
-      </span>
-    </li>
-    <br />
-    <li>
-      <span class="highlight">Napište nám email z emailu vašeho účtu.</span> Na tento email <a href="mailto:poptavka@prostormat.cz?subject=<%= @email_subject %>">poptavka@prostormat.cz</a>
-    </li>
-  </ol>
+  <p>Pro využití bezplatné dvou měsíční lhůty se zaregistrujte skrze tento link --> <a href="<%= new_user_registration_url(place_slug: @place.slug, free_trial_email: true) %>">Vytvořit účet zde!</a></p>
 </div>
