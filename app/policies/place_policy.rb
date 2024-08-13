@@ -2,7 +2,8 @@
 
 class PlacePolicy < ApplicationPolicy
   def show?
-    true
+    logged_in_or_admin_or_owner = !user.nil? && user.admin? || record.user == user
+    record.hidden ? logged_in_or_admin_or_owner : true
   end
 
   def new?
