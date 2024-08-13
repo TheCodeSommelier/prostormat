@@ -29,7 +29,7 @@ class User < ApplicationRecord
   private
 
   def transfer_place_to_admin
-    self.places.first.update(user_id: User.find_by(admin: true).id)
+    places.first.update(user_id: User.find_by(admin: true).id)
   end
 
   def create_stripe_customer

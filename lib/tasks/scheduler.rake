@@ -33,10 +33,10 @@ namespace :orders do
          .where('delivered_at <= ?', Time.current - 3.days)
          .in_batches(of: 500) do |batch|
       batch.ids.each do |order_id|
-        SendReminderToOwnerJob.perform_later(Order.find(order_id).place.id, order_id)
+        OrdersMailer.remind_owner(Order.find(order_id).place.id, order_id).deliver_later
       end
     end
-    p "🔥 Orders are processed!"
+    p '🔥 Orders are processed!'
   end
 end
 
@@ -48,20 +48,20 @@ namespace :free_trial do
 
     places_to_update = Place.joins(:orders)
                             .where(user: User.where(admin: true), free_trial_end: nil)
-                            .where('orders.delivered_at < ?', time_interval)
+                            .where('orders.created_at < ?', time_interval)
                             .group('places.id, places.owner_email')
-                            .order('MAX(orders.delivered_at) DESC')
+                            .order('MAX(orders.created_at) DESC')
 
     p "🔥 places_to_update #{places_to_update.length}"
     ActiveRecord::Base.transaction do
       places_to_update.each do |place|
         place.update(free_trial_end: Time.current + 2.months)
-        SendFreeTrialEmailJob.perform_later(place.owner_email, place.id)
+        UserMailer.unregistered_user_trial_started(place.owner_email, place.id).deliver_later
       end
     end
   end
 
-  desc 'Three days before free trial will end'
+  desc 'Three days before free trial will end notification'
   task will_end: :environment do
     places_fr_tr_will_end = Place.where(
       free_trial_end: 3.days.ago..1.day.ago,
@@ -69,7 +69,7 @@ namespace :free_trial do
       user: User.where(admin: true)
     )
     places_fr_tr_will_end.each do |place|
-      FreeTrialWillEndJob.perform_later(place.id, place.owner_email)
+      UserMailer.trial_ending_no_account(place.id, place.owner_email).deliver_later
     end
   end
 
@@ -83,7 +83,7 @@ namespace :free_trial do
 
     places_free_trial_over.find_each do |place|
       place.update(hidden: true)
-      PlaceHideNotificationJob.perform_later(place.id, place.owner_email)
+      UserMailer.unregistered_user_trial_ended(place.id, place.owner_email).deliver_later
     end
   end
 end

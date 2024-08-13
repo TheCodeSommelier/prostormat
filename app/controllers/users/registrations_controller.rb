@@ -99,7 +99,10 @@ module Users
         @place = Place.find_by(slug: params[:place_slug])
 
         if transfer_place?
-          session[:free_trial_end] = @place.free_trial_end if @place.free_trial_end.present? && @place.free_trial_end > Time.current
+          if @place.free_trial_end.present? && @place.free_trial_end > Time.current
+            session[:free_trial_end] =
+              @place.free_trial_end
+          end
           flash[:notice] = "Prostor #{@place.place_name} je převedený #{@place.user.email}"
           stripe_checkout_path
         else

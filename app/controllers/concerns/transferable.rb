@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Transferable
   extend ActiveSupport::Concern
 
@@ -9,7 +11,7 @@ module Transferable
     other_user = User.find_by(email: transfer_params[:user_email]) || User.find_by(email: sign_up_params[:email])
 
     if other_user
-      hidden_status = other_user.premium ? false : true
+      hidden_status = other_user.premium || @place.free_trial_end > Time.current ? false : true
       @place.update_columns(user_id: other_user.id, hidden: hidden_status, updated_at: DateTime.now,
                             owner_email: other_user.email)
       true

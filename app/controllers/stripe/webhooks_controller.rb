@@ -61,11 +61,11 @@ module Stripe
         customer = User.includes(:places).find_by(stripe_customer_id: subscription_data.customer)
         place = customer.places.first
         case subscription_data.status
-        when 'active' then FreeTrialOverNotificationJob.perform_later(customer.id, place.owner_email)
+        when 'active' then UserMailer.trial_ended_with_billing(customer.id, place.owner_email).deliver_later
         else
           place.update(hidden: true)
           customer.update(premium: false)
-          PlaceHideNotificationJob.perform_later(place.id, place.owner_email)
+          UserMailer.trial_ended_no_billing(place.id, place.owner_email).deliver_later
         end
       end
 
@@ -75,7 +75,7 @@ module Stripe
         customer = User.find_by(stripe_customer_id: subscription_data.customer)
         customer.update(premium: true)
         customer.places.first.update(hidden: false)
-        SendWelcomeEmailJob.perform_later(customer.id)
+        UserMailer.welcome_email(customer.id).deliver_later
       end
 
       if event.type == 'customer.subscription.trial_will_end'
@@ -83,7 +83,7 @@ module Stripe
         # puts data_object
         user = User.includes(:places).find_by(stripe_customer_id: subscription_data.customer)
         place = user.places.first
-        NotifyPlaceOwnerTrialEndJob.perform_later(user.id, place.id)
+        UserMailer.registered_user_trial_ending(user.id, place.id).deliver_later
       end
 
       render json: { message: 'success' }

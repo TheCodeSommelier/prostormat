@@ -31,9 +31,9 @@ class ApplicationController < ActionController::Base
 
   def skip_pundit?
     result = devise_controller? ||
-              params[:controller] =~ /(^(rails_)?admin)|(^pages$)/ ||
-              params[:action] == 'verify_turnstile_token_ajax' ||
-              params[:controller] == 'users/registrations'
+             params[:controller] =~ /(^(rails_)?admin)|(^pages$)/ ||
+             params[:action] == 'verify_turnstile_token_ajax' ||
+             params[:controller] == 'users/registrations'
 
     puts "skip_pundit? called for controller: #{params[:controller]}, action: #{params[:action]}, result: #{result}"
 
@@ -49,7 +49,7 @@ class ApplicationController < ActionController::Base
 
     result = JSON.parse(response.body)
     result['success']
-  rescue
+  rescue StandardError
     Rails.logger.error("Turnstile verification failed: #{e.message}")
     false
   end
