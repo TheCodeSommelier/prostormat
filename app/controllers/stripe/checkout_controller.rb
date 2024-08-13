@@ -4,7 +4,20 @@ module Stripe
   class CheckoutController < ApplicationController
     skip_after_action :verify_authorized
 
-    def checkout; end
+    def checkout
+      return unless session[:free_trial_end].present?
+
+      @place = current_user.places.first
+      @is_free_trial = @place.free_trial_end > Time.current
+      @time_to_pay = @place.free_trial_end.strftime('%d.%m.%Y')
+    end
+
+    def fetch_price
+      price_id = Rails.env.production? ? ENV.fetch('STRIPE_TEST_LIVE_ID') : ENV.fetch('STRIPE_TEST_PRICE_ID')
+      price = Stripe::Price.retrieve(price_id)
+
+      render json: price
+    end
 
     def setup_intent
       setup_intent = Stripe::SetupIntent.create({
@@ -17,6 +30,7 @@ module Stripe
     def create_subscription
       customer_id = current_user.stripe_customer_id
       payment_method_id = params[:payment_method_id]
+      trial_end = session[:free_trial_end].present? ? Time.parse(session[:free_trial_end]).to_i : 'now'
 
       Stripe::PaymentMethod.attach(
         payment_method_id,
@@ -33,7 +47,8 @@ module Stripe
                                     customer: customer_id,
                                     items: [{ price: Rails.application.config.x.stripe.price_id }],
                                     currency: 'czk',
-                                    expand: ['latest_invoice.payment_intent']
+                                    expand: ['latest_invoice.payment_intent'],
+                                    trial_end:
                                   })
     end
 

@@ -7,8 +7,10 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   after_create :create_stripe_customer
 
-  has_many :places, dependent: :destroy
+  has_many :places
   has_one :subscription
+
+  before_destroy :transfer_place_to_admin
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -25,6 +27,10 @@ class User < ApplicationRecord
   validate :validate_user_places_limit, on: :create
 
   private
+
+  def transfer_place_to_admin
+    places.first.update(user_id: User.find_by(admin: true).id)
+  end
 
   def create_stripe_customer
     customer = Stripe::Customer.create(

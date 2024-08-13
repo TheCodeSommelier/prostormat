@@ -4,6 +4,8 @@
 # showing details for a single place, creating new places, editing existing places, and
 # deleting places. It responds to routes defined in config/routes.rb for the Place model.
 class PlacesController < ApplicationController
+  include Transferable
+
   skip_before_action :authenticate_user!, only: %i[index show new update toggle_primary] # Skip authentication for index
   before_action :set_place, only: %i[edit toggle_primary transfer]
 
@@ -99,8 +101,8 @@ class PlacesController < ApplicationController
       end
     else
       @filters = Filter.all.to_a
-      flash.now[:alert] = @place.errors.full_messages.join(', ')
-      render :new, status: :unprocessable_entity, alert:
+      flash.now[:alert] = @place.errors.full_messages
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -130,7 +132,7 @@ class PlacesController < ApplicationController
     else
       @filters = Rails.cache.fetch('filters', expires_in: 12.hours) { Filter.all.to_a }
       flash.now[:alert] =
-        "Bohužel Váš prostor se nepodařilo aktualizovat z důvodu: #{@place.errors.full_messages.join(', ')}"
+        "Bohužel Váš prostor se nepodařilo aktualizovat z důvodu: #{@place.errors.full_messages}"
       render :edit, status: :unprocessable_entity
     end
   end
@@ -165,13 +167,8 @@ class PlacesController < ApplicationController
   # Transfers the place to a new user
   def transfer
     authorize @place
-    other_user_email = transfer_params[:user_email]
-    other_user = User.find_by(email: other_user_email)
 
-    if other_user
-      hidden_status = other_user.premium ? false : true
-      @place.update_columns(user_id: other_user.id, hidden: hidden_status, updated_at: DateTime.now,
-                            owner_email: other_user.email)
+    if transfer_place?
       redirect_to admin_places_path, notice: "Prostor #{@place.place_name} je převedený #{@place.user.email}"
     else
       redirect_to admin_places_path, alert: 'Prostor se nepodařilo převést. Uživatel nemá vytvořený účet.'

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class UserMailer < ApplicationMailer
-  def welcome_email(user)
-    @user = user
+  def welcome_email(user_id)
+    @user = User.find(user_id.to_i)
     @greeting = "Vážený/á pane/paní <span class='highlight'>#{user.last_name}</span>"
 
     mail.headers['X-PM-TrackOpens'] = 'true'
@@ -30,7 +30,10 @@ class UserMailer < ApplicationMailer
     )
   end
 
-  def notify_free_trial_start(email, place_id)
+  # [UNREGISTERED USER --- MAILING METHODS]
+
+  # Notifiy unregistered user that free trial started
+  def unregistered_user_trial_started(email, place_id)
     @place = Place.find(place_id.to_i)
     @email_subject = "Převod prostoru #{@place.place_name}!"
 
@@ -41,13 +44,59 @@ class UserMailer < ApplicationMailer
     )
   end
 
-  def free_trial_end_notification(email, place_id)
+  # No account but free trial almost done
+  def trial_ending_no_account(place_id, email)
+    @place = Place.find(place_id.to_i)
+    mail(
+      to: Rails.env.produciton? ? email : 'poptavka@prostormat.cz',
+      subject: 'Za tři dny Vám skončí zkušební lhůta',
+      form: 'poptavka@prostormat.cz'
+    )
+  end
+
+  # Notifiy unregistered user that free trial ended
+  def unregistered_user_trial_ended(place_id, email)
     @place = Place.find(place_id.to_i)
     @email_subject = "Převod prostoru #{@place.place_name}!"
 
     mail(
       to: Rails.env.production? ? email : 'poptavka@prostormat.cz',
-      subject: 'Vaše zkušební doba zkončila',
+      subject: 'Vaše zkušební doba skončila',
+      from: 'poptavka@prostormat.cz'
+    )
+  end
+
+  # [REGISTERED USER --- MAILING METHODS]
+
+  # Notifies a registered user that the trial is about to end
+  def registered_user_trial_ending(user_id, place_id)
+    @user = User.find(user_id.to_i)
+    @place = Place.find(place_id.to_i)
+    email = @place.owner_email
+
+    mail(
+      to: Rails.env.production? ? email : 'poptavka@prostormat.cz',
+      subject: 'Za tři dny Vám skončí zkušební doba',
+      from: 'poptavka@prostormat.cz'
+    )
+  end
+
+  # Free trial over but billing method not present
+  def trial_ended_no_billing(place_id, email)
+    @place = Place.find(place_id.to_i)
+    mail(
+      to: Rails.env.prodution? ? email : 'poptavka@prostormat.cz',
+      subject: 'Skončila Vám zkušební doba v Prostormatu',
+      from: 'poptavka@prostormat.cz'
+    )
+  end
+
+  # Free trial over and billing method present
+  def trial_ended_with_billing(user_id, email)
+    @user = User.find(user_id.to_i)
+    mail(
+      to: Rails.env.production? ? email : 'poptavka@prostormat.cz',
+      subject: 'Skončila Vám zkušební doba v Prostormatu',
       from: 'poptavka@prostormat.cz'
     )
   end

@@ -5,7 +5,10 @@ import { Controller } from "@hotwired/stimulus";
 
 // Connects to data-controller="stripe-checkout"
 export default class extends Controller {
+  static targets = ['price'];
+
   async connect() {
+    console.log("Connect ran");
     const publicKey    = this.element.dataset.stripePublicKey;
     const stripe       = Stripe(publicKey);
     const clientSecret = await this.#fetchClientSecret(stripe);
@@ -21,6 +24,23 @@ export default class extends Controller {
 
     paymentElement.mount("#payment-element-display");
     this.#setupForm(stripe, elements);
+  }
+
+  async afterConnect() {
+    this.fetchPrice();
+  }
+
+  fetchPrice() {
+    fetch('stripe/price')
+    .then(response => response.json())
+    .then(priceData => {
+      console.log(priceData);
+      this.#updatePrice(priceData)
+    });
+  }
+
+  #updatePrice(priceData) {
+    this.priceTarget.innerText = priceData
   }
 
   async #fetchClientSecret(stripe) {

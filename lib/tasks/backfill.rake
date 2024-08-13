@@ -8,7 +8,7 @@ namespace :backfill do
       if place.save
         puts "Generated and saved slug for: #{place.place_name}"
       else
-        puts "Failed to save slug for: #{place.place_name} - #{place.errors.full_messages.join(', ')}"
+        puts "Failed to save slug for: #{place.place_name} - #{place.errors.full_messages}"
       end
     end
   end

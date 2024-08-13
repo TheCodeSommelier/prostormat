@@ -1,0 +1,10 @@
+cz:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              taken: "Tato e-mailová adresa je již používána."
+            password:
+              blank: "Heslo nemůže být prázdné."

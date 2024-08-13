@@ -1,6 +1,6 @@
 <% if notice %>
   <div class="alert alert-dismissible fade show m-1 flash-notice-container" role="alert">
-    <% notice.split(', ').each do |msg| %>
+    <% Array(notice).each do |msg| %>
       <p><%= msg.html_safe %></p>
     <% end %>
     <button type="button" class="btn-close close-button" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -12,8 +12,7 @@
     <h5>Prosím opravte tyto údaje</h5>
     <br>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    <%= alert.html_safe %>
-    <% alert.split(', ').each do |msg| %>
+    <% Array(alert).each do |msg| %>
       <li><%= msg.html_safe %></li>
     <% end %>
   </div>

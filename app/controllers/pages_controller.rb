@@ -57,16 +57,16 @@ class PagesController < ApplicationController
         order.place_id = place_id
 
         if order.save
-          SendOrderToPlaceOwnerJob.perform_later(place_id, order.id)
+          OrdersMailer.notify_owner(place_id, order.id).deliver_later
         else
-          flash.now[:alert] = (@order.errors.full_messages + @bokee.errors.full_messages).join(', ')
+          flash.now[:alert] = @order.errors.full_messages + @bokee.errors.full_messages
           render :new_bulk_order, status: :unprocessable_entity
         end
       end
 
       redirect_to root_path, notice: 'Zpracováváme Vaší hromadnou poptávku'
     else
-      flash.now[:alert] = (@order.errors.full_messages + @bokee.errors.full_messages).join(', ')
+      flash.now[:alert] = @order.errors.full_messages + @bokee.errors.full_messages
       render :new_bulk_order, status: :unprocessable_entity
     end
   end
