@@ -3,7 +3,7 @@
 class UserMailer < ApplicationMailer
   def welcome_email(user_id)
     @user = User.find(user_id.to_i)
-    @greeting = "Vážený/á pane/paní <span class='highlight'>#{user.last_name}</span>"
+    @greeting = "Vážený/á pane/paní <span class='highlight'>#{@user.last_name}</span>"
 
     mail.headers['X-PM-TrackOpens'] = 'true'
     mail.headers['X-PM-Message-Stream'] = 'outbound'
@@ -98,6 +98,21 @@ class UserMailer < ApplicationMailer
       to: Rails.env.production? ? email : 'poptavka@prostormat.cz',
       subject: 'Skončila Vám zkušební doba v Prostormatu',
       from: 'poptavka@prostormat.cz'
+    )
+  end
+
+  # Send monthly invoice
+  def monthly_invoice(stripe_customer_id, invoice_id)
+    @user = User.find_by(stripe_customer_id:)
+    error_message = "🔥 User not found for invoice mailing: stripe_customer_id: #{stripe_customer_id}"
+    logger.error error_message and return unless @user
+
+    invoice = Stripe::Invoice.retrieve(invoice_id)
+    @invoice_pdf_link = invoice.invoice_pdf
+
+    mail(
+      to: Rails.env.production? ? @user.email : 'poptavka@prostormat.cz',
+      subject: 'Váš účet za minulý měsíc'
     )
   end
 end

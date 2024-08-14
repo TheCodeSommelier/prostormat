@@ -37,7 +37,6 @@ module Stripe
         event = Stripe::Event.construct_from(data)
       end
       # Get the type of webhook event sent - used to check the status of PaymentIntents.
-      event['type']
       data = event['data']
       subscription_data = data['object']
 
@@ -84,6 +83,10 @@ module Stripe
         user = User.includes(:places).find_by(stripe_customer_id: subscription_data.customer)
         place = user.places.first
         UserMailer.registered_user_trial_ending(user.id, place.id).deliver_later
+      end
+
+      if event.type == 'invoice.paid'
+        UserMailer.monthly_invoice(subscription_data.customer, subscription_data.id).deliver_later
       end
 
       render json: { message: 'success' }
