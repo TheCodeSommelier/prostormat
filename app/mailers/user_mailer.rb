@@ -112,7 +112,7 @@ class UserMailer < ApplicationMailer
 
     mail(
       to: Rails.env.production? ? @user.email : 'poptavka@prostormat.cz',
-      subject: 'Váš účet za minulý měsíc'
+      subject: 'Účet za služby u Prostormatu'
     )
   end
 end

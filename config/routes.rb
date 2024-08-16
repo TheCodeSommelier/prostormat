@@ -18,10 +18,16 @@ Rails.application.routes.draw do
 
   get 'about_us', to: 'pages#about_us'
   get 'faq_contact', to: 'pages#faq_contact_us', as: 'faq_contact'
-  post 'contact', to: 'pages#contact'
-  get 'overload', to: 'pages#overload'
   get 'new_bulk_order', to: 'pages#new_bulk_order', as: 'new_bulk_order'
+  get 'overload', to: 'pages#overload'
+  get 'why_us', to: 'pages#why_us' # proč zrovna my !! NOT IMPLEMENTED !!
+  get 'pricing', to: 'pages#pricing' # ceník !! NOT IMPLEMENTED !!
+  get 'for_owners', to: 'pages#for_owners' # pro majitele !! NOT IMPLEMENTED !!
+  get 'free_trial_info', to: 'pages#free_trial_info' # Free trial why us page !! NOT IMPLEMENTED !!
+
+  post 'contact', to: 'pages#contact'
   post 'create_bulk_order', to: 'pages#create_bulk_order'
+
   post '/verify-turnstile', to: 'application#verify_turnstile_token_ajax'
 
   get 'admin_places', to: 'places#admin_places', as: :admin_places

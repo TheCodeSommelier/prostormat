@@ -90,6 +90,8 @@ class PlacesController < ApplicationController
     authorize @place
     @place.user = current_user
     @place.hidden = false if current_user.admin?
+    free_trial_condition = session[:free_trial_end].present? && @place.free_trial_end.nil?
+    @place.free_trial_end = Time.parse(session[:free_trial_end]) if free_trial_condition
 
     @place.errors.add(:base, 'Nepodařilo se ověřit jestli jste robot. Zkuste to prosím znovu.') unless turnstile_passed?
 

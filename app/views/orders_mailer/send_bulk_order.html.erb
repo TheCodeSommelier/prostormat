@@ -19,15 +19,17 @@
 <ul>
   <% @places.each do |place| %>
     <li>
-      <span class="highlight">
-        <%= place.place_name %>
+      <span>
+        <span class="highlight">
+          <%= place.place_name %>
+        </span>
+        -
+        <%= place.full_address %>
+        -
+        <a href="mailto:<%= place.user.email %>">
+          <%= place.user.email %>
+        </a>
       </span>
-      -
-      <%= place.full_address %>
-      -
-      <a href="mailto:<%= place.user.email %>">
-        <%= place.user.email %>
-      </a>
     </li>
   <% end %>
 </ul>

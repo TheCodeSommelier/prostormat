@@ -1,10 +1,24 @@
+<!-- Pro majitele page with register/login -->
+<!-- Contact with anchor to contact form in faq -->
+
 <footer id="footer">
   <div class="">
     <div class="footer-buttons">
-      <% ['phone', 'envelope', 'facebook', 'instagram'].each do |icon| %>
+      <%= link_to faq_contact_path(anchor: 'contact-us-container'), class: "footer-link", 'aria-label': "envelope icon" do %>
+        <%= raw File.read(Rails.root.join('app', 'assets', 'images', "envelope.svg")) %>
+      <% end %>
+      <% ['facebook', 'instagram'].each do |icon| %>
         <%= link_to '#', class: "footer-link", 'aria-label': "#{icon} icon" do %>
           <%= raw File.read(Rails.root.join('app', 'assets', 'images', "#{icon}.svg")) %>
         <% end %>
+      <% end %>
+    </div>
+    <div class="links">
+      <%= link_to for_owners_path, class: "button-secondary" do %>
+        <div>
+          <i class="fa-solid fa-right-to-bracket"></i>
+          Pro majitele prostorů
+        </div>
       <% end %>
     </div>
     <p class="copyright">Made with love in Alphaware</p>

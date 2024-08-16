@@ -1,4 +1,26 @@
+<!-- Move form to the top -->
+
 <div id="faq-contact-us-container" class="container">
+  <div id="contact-us-container">
+    <h2>Napište nám</h2>
+    <%= form_with url: contact_path, method: :post, local: true, data: { controller: "turnstile", turnstile_sitekey_value: ENV.fetch('TURNSTILE_SITE_KEY'), turnstile_target: "form", turnstile_sitekey_visible_value: ENV.fetch('TURNSTILE_SITE_KEY_VISIBLE') } do |form| %>
+      <div class="contact-input-container">
+        <%= form.text_field :name, required: true, placeholder: 'Vaše jméno' %>
+        <%= form.email_field :email, required: true, placeholder: 'Váš email' %>
+        <%= form.text_field :subject, required: true, maxlength: 80, placeholder: 'Předmět'  %>
+      </div>
+
+      <div class="contact-input-container">
+        <%= form.text_area :message, required: true, placeholder: 'Vaše zpráva' %>
+      </div>
+
+      <div>
+        <!-- Turnstile captcha -->
+        <%= render 'shared/turnstile' %>
+        <%= form.submit 'Send', class: 'button-primary w-100', data: { turnstile_target: "submit" } %>
+      </div>
+    <% end %>
+  </div>
   <div id="faq-container">
     <h2>Často kladené dotazy (FAQ)</h2>
     <div class="questions">
@@ -23,25 +45,5 @@
         <p class="answer-padding">Pokud obdržíte poškozený produkt nebo pokud vaší objednávce něco chybí, kontaktujte nás prosím do 48 hodin od převzetí zásilky a my se postaráme o rychlé vyřešení situace.</p>
       </div>
     </div>
-  </div>
-  <div id="contact-us-container">
-    <h2>Napište nám</h2>
-    <%= form_with url: contact_path, method: :post, local: true, data: { controller: "turnstile", turnstile_sitekey_value: ENV.fetch('TURNSTILE_SITE_KEY'), turnstile_target: "form", turnstile_sitekey_visible_value: ENV.fetch('TURNSTILE_SITE_KEY_VISIBLE') } do |form| %>
-      <div class="contact-input-container">
-        <%= form.text_field :name, required: true, placeholder: 'Vaše jméno' %>
-        <%= form.email_field :email, required: true, placeholder: 'Váš email' %>
-        <%= form.text_field :subject, required: true, maxlength: 80, placeholder: 'Předmět'  %>
-      </div>
-
-      <div class="contact-input-container">
-        <%= form.text_area :message, required: true, placeholder: 'Vaše zpráva' %>
-      </div>
-
-      <div>
-        <!-- Turnstile captcha -->
-        <%= render 'shared/turnstile' %>
-        <%= form.submit 'Send', class: 'button-primary w-100', data: { turnstile_target: "submit" } %>
-      </div>
-    <% end %>
   </div>
 </div>

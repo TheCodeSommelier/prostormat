@@ -63,6 +63,18 @@
     }
   }
 
+  .links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    margin: 1.5rem auto;
+
+    & .button-secondary {
+      width: 100%;
+    }
+  }
+
   @media (max-width: 480px) {
     padding: 1.5rem 0.5rem;
 
@@ -77,6 +89,20 @@
 
     .copyright {
       font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 725px) {
+    .links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin: 1rem 0;
+
+      & .button-secondary {
+        width: 100%;
+      }
     }
   }
 }
