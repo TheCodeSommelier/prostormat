@@ -20,10 +20,15 @@ Rails.application.routes.draw do
   get 'faq_contact', to: 'pages#faq_contact_us', as: 'faq_contact'
   get 'new_bulk_order', to: 'pages#new_bulk_order', as: 'new_bulk_order'
   get 'overload', to: 'pages#overload'
-  get 'why_us', to: 'pages#why_us' # proč zrovna my !! NOT IMPLEMENTED !!
-  get 'pricing', to: 'pages#pricing' # ceník !! NOT IMPLEMENTED !!
-  get 'for_owners', to: 'pages#for_owners' # pro majitele !! NOT IMPLEMENTED !!
-  get 'free_trial_info', to: 'pages#free_trial_info' # Free trial why us page !! NOT IMPLEMENTED !!
+
+  # ⬇️⬇️⬇️⬇️⬇️ NEEDS CONTENT ⬇️⬇️⬇️⬇️⬇️
+  get 'why_us', to: 'pages#why_us'
+  get 'pricing', to: 'pages#pricing'
+  get 'for_owners', to: 'pages#for_owners'
+  get 'free_trial_info', to: 'pages#free_trial_info'
+  get 'privacy_policy', to: 'pages#privacy_policy'
+  get 'terms_service', to: 'pages#terms_service'
+  get 'cookie_consent', to: 'pages#cookie_consent'
 
   post 'contact', to: 'pages#contact'
   post 'create_bulk_order', to: 'pages#create_bulk_order'

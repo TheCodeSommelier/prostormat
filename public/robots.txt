@@ -1,5 +1,17 @@
 User-agent: *
-Disallow: /
+Disallow: /users/
+Disallow: /admin/
+Disallow: /sidekiq/
+Disallow: /stripe/
+Disallow: /rails/
+Disallow: /admin_places
+Allow: /
+Allow: /free_trial
+Allow: /about_us
+Allow: /pricing
+Allow: /why_us
+Allow: /for_owners
+Allow: /faq_contact_us
 
 User-agent: Googlebot
 Disallow: /users/
@@ -9,3 +21,9 @@ Disallow: /stripe/
 Disallow: /rails/
 Disallow: /admin_places
 Allow: /
+Allow: /free_trial
+Allow: /about_us
+Allow: /pricing
+Allow: /why_us
+Allow: /for_owners
+Allow: /faq_contact_us

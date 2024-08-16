@@ -14,10 +14,6 @@ class PagesController < ApplicationController
     end
   end
 
-  def about_us; end
-
-  def faq_contact_us; end
-
   # Sends the email from contact us form
   def contact
     if turnstile_passed?
@@ -71,13 +67,16 @@ class PagesController < ApplicationController
     end
   end
 
+  # 🤮 Politics and SEO 🤮
+  def about_us; end
+  def faq_contact_us; end
   def free_trial_info; end
-
   def why_us; end
-
   def pricing; end
-
   def for_owners; end
+  def privacy_policy; end
+  def terms_service; end
+  def cookie_consent; end
 
   private
 
