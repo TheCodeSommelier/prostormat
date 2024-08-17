@@ -145,7 +145,7 @@ class PlacesController < ApplicationController
   # Renders out all of the places for the admin to be able to change them
   def admin_places
     authorize :place
-    @places = policy_scope(Place.joins(:user).select('places.user_id, places.slug, places.place_name, users.email, places.primary, users.premium'))
+    @places = policy_scope(Place.joins(:user).select('places.user_id, places.slug, places.place_name, places.free_trial_end, users.email, places.primary, users.premium'))
 
     if params[:query].present?
       query = "%#{params[:query].downcase}%"

@@ -20,6 +20,7 @@
   }
 
   .admin-places-card {
+    position: relative;
     border: 1px solid lightgrey;
     border-radius: 40px;
     background-color: #FFF;
@@ -37,6 +38,15 @@
   .place-owner {
     margin-bottom: 15px;
     font-size: 17px;
+  }
+
+  .place-free-trial {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 14px;
+    color: #888888;
+    font-style: italic;
   }
 
   .prim-paid-container {

@@ -8,10 +8,19 @@
     <% @places.each do |place| %>
       <div class="admin-places-card">
         <%= link_to place.place_name, place_path(place.slug), class: 'my-3' %>
+
+        <% if place.free_trial_end && place.free_trial_end > Time.current %>
+          <p class="place-free-trial">
+            Free trial ends:
+            <%= place.free_trial_end.strftime('%d.%m.%Y') %>
+          </p>
+        <% end %>
+
         <p class="place-owner">
           <i class="fa-solid fa-user"></i>
           <%= place.user.email %>
         </p>
+
 
         <div class="prim-paid-container">
           <div class="labels-column">
