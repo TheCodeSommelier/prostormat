@@ -17,10 +17,18 @@
     <li class="service"><span>Item 1</span></li>
     <li class="service"><span>Item 1</span></li>
   </ul>
-  <%= link_to new_user_session_path, class: "button-secondary" do %>
-  <div>
-    <i class="fa-solid fa-right-to-bracket"></i>
-    Přihlásit se
+  <div class="account-buttons-container">
+    <%= link_to new_user_session_path, class: "button-primary" do %>
+      <div>
+        <i class="fa-solid fa-right-to-bracket"></i>
+        Přihlásit se
+      </div>
+    <% end %>
+    <%= link_to new_user_registration_path, class: "button-secondary" do %>
+      <div>
+        <i class="fa-solid fa-address-card" aria-label="Registration card"></i>
+        Registrace
+      </div>
+    <% end %>
   </div>
-<% end %>
 </div>

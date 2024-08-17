@@ -1,4 +1,4 @@
-<div id="cookie-consent-container" data-controller="cookies">
+<div id="cookie-consent-banner-container" data-controller="cookies" data-cookies-target="cookieBanner" style="display: none;">
   <%= form_tag do |f| %>
     <div class="checkboxes-container">
       <div class="checkbox-container">
@@ -19,7 +19,7 @@
 
     <div class="button-container">
       <%= button_tag 'Přijmout všechny', class: "button-primary", data: { action: "click->cookies#acceptAllCookies"} %>
-      <%= button_tag 'Přijmout vybrané všechny', class: "button-secondary", data: { action: "click->cookies#acceptPickedCookies"} %>
+      <%= button_tag 'Přijmout vybrané', class: "button-secondary", data: { action: "click->cookies#acceptPickedCookies"} %>
       <%= button_tag 'Odmítnout všechny', class: "button-secondary", data: { action: "click->cookies#denyAllCookies"} %>
     </div>
   <% end %>
