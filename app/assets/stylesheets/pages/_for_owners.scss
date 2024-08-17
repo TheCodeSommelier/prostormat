@@ -1,0 +1,11 @@
+#for-owners-container {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+
+  .account-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+}

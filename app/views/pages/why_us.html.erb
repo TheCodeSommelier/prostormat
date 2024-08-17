@@ -1,0 +1,20 @@
+<% set_meta_tags title: "Proč my?",
+                  reverse: true,
+                  description: "Chcete pronajímat svůj prostor? Prostormat nabízí snadnou a transparentní platformu pro pronájem prostorů pro eventy.",
+                  og: {
+                    title: "Proč my?",
+                    reverse: true, "Chcete pronajímat svůj prostor? Prostormat nabízí snadnou a transparentní platformu pro pronájem prostorů pro eventy.",
+                    type: 'website',
+                    url: why_us_url,
+                  } %>
+<div id="why-us-container" class="content-container">
+  <h1><%= title 'Proč zrovna my?' %></h1>
+  <ul id="features">
+    <li class="feature"><span>Item 1</span></li>
+    <li class="feature"><span>Item 1</span></li>
+    <li class="feature"><span>Item 1</span></li>
+    <li class="feature"><span>Item 1</span></li>
+    <li class="feature"><span>Item 1</span></li>
+  </ul>
+  <%= link_to 'Založit účet', new_user_registration_url(free_trial: true), class: "button-primary" %>
+</div>

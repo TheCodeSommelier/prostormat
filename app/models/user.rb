@@ -15,10 +15,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  validates :first_name, :last_name, :company_name, :phone_number, :company_address, :ico, presence: true
-  validates :phone_number,
-            format: { with: /\A\+?(\d{1,3})?[-. ]?\(?\d{1,3}\)?[-. ]?\d{1,4}[-. ]?\d{1,4}[-. ]?\d{1,9}\z/,
-                      message: 'Zadejte své telefonní číslo ve standardním mezinárodním formátu, s možným předčíslím (+), kódem oblasti a číslem. Oddělte části čísla mezerami. Například: +420 123 456 789.' }
+  validates :first_name, :last_name, :company_name, :company_address, :ico, presence: true
+  validates :phone_number, allow_blank: true, format: {
+    with: /\A\+?(\d{1,3})?[-. ]?\(?\d{1,3}\)?[-. ]?\d{1,4}[-. ]?\d{1,4}[-. ]?\d{1,9}\z/,
+    message: 'Zadejte své telefonní číslo ve standardním mezinárodním formátu, s možným předčíslím (+), kódem oblasti a číslem. Oddělte části čísla mezerami. Například: +420 123 456 789.'
+  }
   validates :ico, format: { with: /\d+/, message: 'IČO musí být pouze čísla' }
   validates :company_address,
             format: { with: /\A[\p{L}\s]+\s\d+,\s?\d{3}\s?\d{2},\s?[\p{L}\s\d]+\z/u,
@@ -29,7 +30,7 @@ class User < ApplicationRecord
   private
 
   def transfer_place_to_admin
-    places.first.update(user_id: User.find_by(admin: true).id)
+    places.first.update(user_id: User.find_by(admin: true).id) if places.any?
   end
 
   def create_stripe_customer

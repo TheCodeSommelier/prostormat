@@ -5,9 +5,9 @@ module Stripe
     skip_after_action :verify_authorized
 
     def checkout
-      return unless session[:free_trial_end].present?
-
       @place = current_user.places.first
+      return if @place.free_trial_end.nil?
+
       @is_free_trial = @place.free_trial_end > Time.current
       @time_to_pay = @place.free_trial_end.strftime('%d.%m.%Y')
     end
@@ -29,8 +29,9 @@ module Stripe
 
     def create_subscription
       customer_id = current_user.stripe_customer_id
+      place = current_user.places.first
       payment_method_id = params[:payment_method_id]
-      trial_end = session[:free_trial_end].present? ? Time.parse(session[:free_trial_end]).to_i : 'now'
+      trial_end = place.free_trial_end.nil? ? 'now' : place.free_trial_end.to_i
 
       Stripe::PaymentMethod.attach(
         payment_method_id,

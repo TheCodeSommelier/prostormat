@@ -2,7 +2,7 @@
 
 # Pages controller handles static and DB related pages.
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: %i[landing_page about_us faq_contact_us contact overload new_bulk_order create_bulk_order] # Skip authentication for index
+  skip_before_action :authenticate_user!
 
   # The landing_page action renders the application's landing page, which is used to explain
   # how it works, sample places/venues and a footer
@@ -13,10 +13,6 @@ class PagesController < ApplicationController
            .includes(:filters).group(:id).sample(4)
     end
   end
-
-  def about_us; end
-
-  def faq_contact_us; end
 
   # Sends the email from contact us form
   def contact
@@ -70,6 +66,17 @@ class PagesController < ApplicationController
       render :new_bulk_order, status: :unprocessable_entity
     end
   end
+
+  # 🤮 Politics and SEO 🤮
+  def about_us; end
+  def faq_contact_us; end
+  def free_trial_info; end
+  def why_us; end
+  def pricing; end
+  def for_owners; end
+  def privacy_policy; end
+  def terms_service; end
+  def cookie_consent; end
 
   private
 

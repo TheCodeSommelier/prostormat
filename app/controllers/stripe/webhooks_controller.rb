@@ -85,7 +85,7 @@ module Stripe
         UserMailer.registered_user_trial_ending(user.id, place.id).deliver_later
       end
 
-      if event.type == 'invoice.paid'
+      if event.type == 'invoice.paid' && subscription_data.amount_due.to_i.positive?
         UserMailer.monthly_invoice(subscription_data.customer, subscription_data.id).deliver_later
       end
 

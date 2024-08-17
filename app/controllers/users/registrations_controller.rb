@@ -93,22 +93,20 @@ module Users
     # The path used after sign up.
     def after_sign_up_path_for(_resource)
       # super(resource)
-      is_free_trial_email = params[:free_trial_email] == 'true'
-      p "🔥 conditions >> place_id: #{params[:place_slug]} --- is_free_trial_email: #{is_free_trial_email} --- place exists?: #{Place.exists?(slug: params[:place_slug])}"
-      if params[:place_slug].present? && is_free_trial_email && Place.exists?(slug: params[:place_slug])
+      is_free_trial = params[:free_trial_email] == 'true' || params[:free_trial] == 'true'
+      if params[:place_slug].present? && is_free_trial && Place.exists?(slug: params[:place_slug])
         @place = Place.find_by(slug: params[:place_slug])
 
         if transfer_place?
-          if @place.free_trial_end.present? && @place.free_trial_end > Time.current
-            session[:free_trial_end] =
-              @place.free_trial_end
-          end
           flash[:notice] = "Prostor #{@place.place_name} je převedený #{@place.user.email}"
           stripe_checkout_path
         else
           flash.now[:alert] = 'Prostor se nepodařilo převést. Zkuste to prosím znovu...'
           new_user_registration_path
         end
+      elsif is_free_trial
+        session[:free_trial_end] = Time.current + 2.months
+        new_place_path
       else
         new_place_path
       end

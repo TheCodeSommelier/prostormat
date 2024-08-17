@@ -11,97 +11,36 @@
     <div class="collapse navbar-collapse" id="navbarMenu">
       <div class="navbar-nav ms-auto d-flex align-items-center">
 
-        <% if user_signed_in? && current_user.places && current_user.admin? %>
-          <div class="nav-item active d-flex justify-content-center me-2">
-            <%= link_to "Domů", root_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to "Upravit prostory", admin_places_path, class: "nav-link me-2" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to "Prostory", places_path, class: "nav-link me-2" %>
-          </div>
-          <div class="nav-link">
-            <%= link_to destroy_user_session_path, class: "button-secondary button-margin", data: {turbo_method: :delete} do %>
-              <div>
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Odhlásit se
-              </div>
-            <% end %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to new_place_path, class: "button-primary button-margin" do %>
-              <div>
-                <i class="fa-solid fa-sign-hanging"></i>
-                Nový prostor
-              </div>
-            <% end %>
-          </div>
+        <%# Common Navigation Items %>
+        <div class="nav-item d-flex justify-content-center me-2">
+          <%= link_to "Domů", root_path, class: "nav-link" %>
+        </div>
+        <div class="nav-item d-flex justify-content-center me-2">
+          <%= link_to "Hromadná poptávka", new_bulk_order_path, class: "nav-link" %>
+        </div>
+        <div class="nav-item d-flex justify-content-center me-2">
+          <%= link_to "Proč my?", why_us_path, class: "nav-link" %>
+        </div>
+        <div class="nav-item d-flex justify-content-center me-2">
+          <%= link_to "Ceník", pricing_path, class: "nav-link" %>
+        </div>
+        <div class="nav-item d-flex justify-content-center me-2">
+          <%= link_to "O nás", about_us_path, class: "nav-link" %>
+        </div>
 
-        <% elsif user_signed_in? && current_user.places.empty? %>
-          <div class="nav-item active d-flex justify-content-center me-2">
-            <%= link_to "Domů", root_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center me-2">
-            <%= link_to "Hromadná poptávka", new_bulk_order_path, class: "nav-link" %>
-          </div>
+        <% if user_signed_in? %>
           <div class="nav-item d-flex justify-content-center">
             <%= link_to "Prostory", places_path, class: "nav-link me-2" %>
           </div>
-          <div class="nav-link">
-            <%= link_to destroy_user_session_path, class: "button-secondary button-margin", data: {turbo_method: :delete} do %>
-              <div>
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Odhlásit se
-              </div>
-            <% end %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to new_place_path, class: "button-primary button-margin" do %>
-              <div>
-                <i class="fa-solid fa-sign-hanging"></i>
-                Nový prostor
-              </div>
-            <% end %>
-          </div>
+        <% end %>
 
-        <% elsif user_signed_in? && current_user.places.first.hidden %>
-          <div class="nav-item active d-flex justify-content-center me-2">
-            <%= link_to "Domů", root_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center me-2">
-            <%= link_to "Hromadná poptávka", new_bulk_order_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to "Prostory", places_path, class: "nav-link me-2" %>
-          </div>
-          <div class="nav-link">
-            <%= link_to destroy_user_session_path, class: "button-secondary button-margin", data: {turbo_method: :delete} do %>
-              <div>
-                <i class="fa-solid fa-right-from-bracket"></i>
-                Odhlásit se
-              </div>
-            <% end %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to stripe_checkout_path, class: "button-primary button-margin" do %>
-              <div>
-                <i class="fa-regular fa-credit-card"></i>
-                Zaplatit za prostor
-              </div>
-            <% end %>
-          </div>
+        <% if user_signed_in? %>
+          <% if current_user.admin? && current_user.places %>
+            <div class="nav-item d-flex justify-content-center">
+              <%= link_to "Upravit prostory", admin_places_path, class: "nav-link me-2" %>
+            </div>
+          <% end %>
 
-        <% elsif user_signed_in? && !current_user.places.first.hidden %>
-          <div class="nav-item active d-flex justify-content-center me-2">
-            <%= link_to "Domů", root_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center me-2">
-            <%= link_to "Hromadná poptávka", new_bulk_order_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to "Prostory", places_path, class: "nav-link me-2" %>
-          </div>
           <div class="nav-link">
             <%= link_to destroy_user_session_path, class: "button-secondary button-margin", data: { turbo_method: :delete } do %>
               <div>
@@ -110,32 +49,39 @@
               </div>
             <% end %>
           </div>
-          <div class="nav-item d-flex justify-content-center">
-            <%= link_to place_path(current_user.places.first.slug), class: "button-primary button-margin" do %>
-              <div>
-                <i class="fa-solid fa-sign-hanging"></i>
-                Můj prostor
-              </div>
-            <% end %>
-          </div>
+
+          <% if current_user.places.empty? %>
+            <div class="nav-item d-flex justify-content-center">
+              <%= link_to new_place_path, class: "button-primary button-margin" do %>
+                <div>
+                  <i class="fa-solid fa-sign-hanging"></i>
+                  Nový prostor
+                </div>
+              <% end %>
+            </div>
+          <% elsif current_user.places.first.hidden %>
+            <div class="nav-item d-flex justify-content-center">
+              <%= link_to stripe_checkout_path, class: "button-primary button-margin" do %>
+                <div>
+                  <i class="fa-regular fa-credit-card"></i>
+                  Zaplatit za prostor
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="nav-item d-flex justify-content-center">
+              <%= link_to place_path(current_user.places.first.slug), class: "button-primary button-margin" do %>
+                <div>
+                  <i class="fa-solid fa-sign-hanging"></i>
+                  Můj prostor
+                </div>
+              <% end %>
+            </div>
+          <% end %>
 
         <% else %>
-          <div class="nav-item d-flex justify-content-center me-2">
-            <%= link_to "Domů", root_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center me-2">
-            <%= link_to "Hromadná poptávka", new_bulk_order_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center me-2">
-            <%= link_to 'Prostory', places_path, class: "nav-link" %>
-          </div>
-          <div class="nav-item d-flex justify-content-center me-2">
-            <%= link_to new_user_session_path, class: "button-secondary button-margin" do %>
-              <div>
-                <i class="fa-solid fa-right-to-bracket"></i>
-                Přihlásit se
-              </div>
-            <% end %>
+          <div class="nav-item d-flex justify-content-center">
+            <%= link_to "Prostory", places_path, class: "button-secondary me-2" %>
           </div>
           <div class="nav-item d-flex justify-content-center me-2">
             <%= link_to new_user_registration_path, class: "button-primary" do %>

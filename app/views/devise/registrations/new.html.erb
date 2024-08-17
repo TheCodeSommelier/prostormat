@@ -31,6 +31,10 @@
       <%= hidden_field_tag :place_slug, params[:place_slug] %>
       <%= hidden_field_tag :free_trial_email, params[:free_trial_email] %>
     <% end %>
+
+    <% if params[:free_trial] %>
+      <%= hidden_field_tag :free_trial, params[:free_trial] %>
+    <% end %>
   <% end %>
 
 </div>
